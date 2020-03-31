@@ -1,0 +1,2 @@
+rootProject.name='Applicazione_Lista_Regali'
+include ':app'
