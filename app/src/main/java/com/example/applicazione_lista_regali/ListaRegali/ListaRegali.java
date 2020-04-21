@@ -1,6 +1,4 @@
-package ListaRegali;
-
-import java.util.ArrayList;
+package com.example.applicazione_lista_regali.ListaRegali;
 
 public class ListaRegali {
     private String nome;

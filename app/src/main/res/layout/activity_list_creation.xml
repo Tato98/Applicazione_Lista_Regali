@@ -12,8 +12,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crea una nuova lista"
-        android:textSize="@android:dimen/app_icon_size"
+        android:text="@string/textCreate"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:textAlignment="center">
     </TextView>
@@ -21,7 +21,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome"
+        android:hint="@string/name"
         android:layout_marginTop="20dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Descrizione"
+        android:hint="@string/description"
         android:layout_marginTop="20dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="end"
-        android:text="Crea"
+        android:text="@string/create"
         android:id="@+id/btn_create">
     </Button>
 
