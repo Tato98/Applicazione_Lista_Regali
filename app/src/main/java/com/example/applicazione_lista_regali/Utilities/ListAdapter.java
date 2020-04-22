@@ -16,9 +16,9 @@ import com.example.applicazione_lista_regali.ListaRegali.ListaRegali;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.CViewHolder> {
 
-    class CViewHolder extends RecyclerView.ViewHolder {
+    static class CViewHolder extends RecyclerView.ViewHolder {
         private TextView Titolo, Descrizione;
-        public CViewHolder(@NonNull View itemView) {
+        private CViewHolder(@NonNull View itemView) {
             super(itemView);
             Titolo = itemView.findViewById(R.id.text_title);
             Descrizione = itemView.findViewById(R.id.text_description);
@@ -31,6 +31,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.CViewHolder> {
         this.lista = lista;
     }
 
+    @NonNull
     @Override
     public CViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_view, parent, false);
@@ -39,8 +40,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.CViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CViewHolder holder, int position) {
-        holder.Titolo.setText(lista.get(position).getNome());
-        holder.Descrizione.setText(lista.get(position).getDescrizione());
+        try {
+            holder.Titolo.setText(lista.get(position).getNome());
+            holder.Descrizione.setText(lista.get(position).getDescrizione());
+        }
+        catch(NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
