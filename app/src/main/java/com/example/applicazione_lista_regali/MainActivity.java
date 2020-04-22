@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-//import com.example.applicazione_lista_regali.Fragments.MainFragment;
+import com.example.applicazione_lista_regali.Fragments.MainFragment;
 import com.example.applicazione_lista_regali.ListaRegali.ListaRegali;
 import com.example.applicazione_lista_regali.Utilities.ListAdapter;
 

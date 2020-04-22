@@ -5,4 +5,5 @@
     <string name="create">Crea</string>
     <string name="textCreate">Crea una nuova lista</string>
     <string name="inforequired">Inserisci tutte le informazioni richieste</string>
+    <string name="cancella">Cancella</string>
 </resources>

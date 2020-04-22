@@ -40,13 +40,27 @@
             android:id="@+id/text_description"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="end"
-        android:text="@string/create"
-        android:id="@+id/btn_create">
-    </Button>
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_cancel"
+            android:text="@string/cancella">
+        </Button>
+
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd='true'
+            android:text="@string/create">
+        </Button>
+
+    </RelativeLayout>
 
 </LinearLayout>

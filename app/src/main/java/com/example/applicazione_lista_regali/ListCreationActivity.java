@@ -11,10 +11,10 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
-public class ListCreationActivity extends AppCompatActivity {
+public class ListCreationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextInputEditText textName, textDescription;
-    private Button createButton;
+    private Button createButton, cancelBotton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +24,27 @@ public class ListCreationActivity extends AppCompatActivity {
         textName = findViewById(R.id.text_name);
         textDescription = findViewById(R.id.text_description);
         createButton = findViewById(R.id.btn_create);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        cancelBotton = findViewById(R.id.btn_cancel);
+
+        createButton.setOnClickListener(this);
+        cancelBotton.setOnClickListener(this);
+
+        getSupportActionBar().setTitle(R.string.textCreate);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_cancel: finish(); break;
+            case R.id.btn_create: {
                 Intent intent = new Intent();
                 intent.putExtra("nome", Objects.requireNonNull(textName.getText()).toString());
                 intent.putExtra("descrizione", Objects.requireNonNull(textDescription.getText()).toString());
                 setResult(RESULT_OK, intent);
                 finish();
+                break;
             }
-        });
-
-        getSupportActionBar().setTitle(R.string.textCreate);
-
+        }
     }
 }
