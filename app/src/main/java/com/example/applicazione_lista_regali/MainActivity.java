@@ -16,13 +16,13 @@ import com.example.applicazione_lista_regali.Utilities.ListAdapter;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener {
 
     public static final int CREATE_REQUEST = 101;
     private Button addList;
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
-    private ListaRegali lista_regali;
+    private ListaRegali listaRegali;
     private ArrayList<ListaRegali> lista = new ArrayList<>();
 
     @Override
@@ -51,15 +51,29 @@ public class MainActivity extends AppCompatActivity {
             String nome = Objects.requireNonNull(intent.getExtras()).getString("nome");
             String descrizione = intent.getExtras().getString("descrizione");
 
-            lista_regali = new ListaRegali(nome, descrizione);
-            lista.add(lista_regali);
+            listaRegali = new ListaRegali(nome, descrizione);
+            lista.add(listaRegali);
 
-            recyclerView = findViewById(R.id.list);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-            listAdapter = new ListAdapter(lista);
-            recyclerView.setAdapter(listAdapter);
+            initRecyclerView();
 
             listAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void initRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.list);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        listAdapter = new ListAdapter(lista, this);
+        recyclerView.setAdapter(listAdapter);
+    }
+
+    @Override
+    public void OnListClick(int position) {
+        lista.get(position);
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra("nome", lista.get(position).getNome());
+        intent.putExtra("descrizione", lista.get(position).getDescrizione());
+        startActivity(intent);
     }
 }
