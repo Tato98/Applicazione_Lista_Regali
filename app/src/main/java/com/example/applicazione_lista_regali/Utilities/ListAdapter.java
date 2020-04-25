@@ -7,14 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.R;
 
 import java.util.ArrayList;
 
-import com.example.applicazione_lista_regali.ListaRegali.ListaRegali;
+import com.example.applicazione_lista_regali.Models.ListaRegali;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.CViewHolder> {
 

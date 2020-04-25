@@ -7,16 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Fragment;
 
-import com.example.applicazione_lista_regali.ListaRegali.ListaRegali;
 import com.example.applicazione_lista_regali.R;
-import com.example.applicazione_lista_regali.Utilities.ListAdapter;
-
-import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
 

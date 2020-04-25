@@ -46,6 +46,35 @@
         android:orientation="horizontal"
         android:paddingTop="20dp">
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_person_add_black_24dp"
+            android:id="@+id/addContacts">
+        </ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view"
+            android:gravity="center">
+        </TextView>
+
+        <ListView
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/contactsList">
+        </ListView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
