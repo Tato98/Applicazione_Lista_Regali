@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class ListaRegali {
     private String nome;
     private String descrizione;
-    private ArrayList<String> contatti;
+    private ArrayList<Contatti> contatti;
 
-    public ListaRegali(String nome, String descrizione/*, ArrayList<String> contatti*/) {
+    public ListaRegali(String nome, String descrizione, ArrayList<Contatti> contatti) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.contatti = contatti;
@@ -21,7 +21,7 @@ public class ListaRegali {
         return descrizione;
     }
 
-    public ArrayList<String> getContatti() {
+    public ArrayList<Contatti> getContatti() {
         return contatti;
     }
 
@@ -33,7 +33,7 @@ public class ListaRegali {
         this.descrizione = descrizione;
     }
 
-    public void setContatti(ArrayList<String> contatti) {
+    public void setContatti(ArrayList<Contatti> contatti) {
         this.contatti = contatti;
     }
 }

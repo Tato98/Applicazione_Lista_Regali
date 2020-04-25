@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 import com.example.applicazione_lista_regali.Utilities.ListAdapter;
 
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private ListAdapter listAdapter;
     private ListaRegali listaRegali;
     private ArrayList<ListaRegali> lista = new ArrayList<>();
+    private ArrayList<String> contactName = new ArrayList<>();
+    private ArrayList<String> contactNumber = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,18 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
 
             String nome = Objects.requireNonNull(intent.getExtras()).getString("nome");
             String descrizione = intent.getExtras().getString("descrizione");
+            contactName = intent.getStringArrayListExtra("lista_nomi");
+            contactNumber = intent.getStringArrayListExtra("lista_numeri");
+            ArrayList<Contatti> contatti = new ArrayList<>();
 
-            listaRegali = new ListaRegali(nome, descrizione);
+            for (String name: contactName) {
+                for (String number: contactNumber) {
+                    Contatti cnt = new Contatti(name, number);
+                    contatti.add(cnt);
+                }
+            }
+
+            listaRegali = new ListaRegali(nome, descrizione, contatti);
             lista.add(listaRegali);
 
             initRecyclerView();
@@ -73,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("nome", lista.get(position).getNome());
         intent.putExtra("descrizione", lista.get(position).getDescrizione());
+        intent.putStringArrayListExtra("lista_nomi", contactName);
+        intent.putStringArrayListExtra("lista_numeri", contactNumber);
         startActivity(intent);
     }
 }
