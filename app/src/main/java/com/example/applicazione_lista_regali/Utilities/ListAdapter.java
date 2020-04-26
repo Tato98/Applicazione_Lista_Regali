@@ -15,18 +15,18 @@ import java.util.ArrayList;
 
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.CViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     private ArrayList<ListaRegali> lista;
     private OnListListener onListListener;
 
-    public class CViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView Titolo, Descrizione;
         ImageView Immagine;
         OnListListener onListListener;
 
-        public CViewHolder(@NonNull View itemView, OnListListener onListListener) {
+        public ListHolder(@NonNull View itemView, OnListListener onListListener) {
             super(itemView);
             Titolo = itemView.findViewById(R.id.text_title);
             Descrizione = itemView.findViewById(R.id.text_description);
@@ -49,13 +49,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.CViewHolder> {
 
     @NonNull
     @Override
-    public CViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_view, parent, false);
-        return new CViewHolder(view, onListListener);
+        return new ListHolder(view, onListListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListHolder holder, int position) {
         try {
             holder.Titolo.setText(lista.get(position).getNome());
             holder.Descrizione.setText(lista.get(position).getDescrizione());

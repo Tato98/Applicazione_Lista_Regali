@@ -6,4 +6,7 @@
     <string name="textCreate">Crea una nuova lista</string>
     <string name="inforequired">Inserisci tutte le informazioni richieste</string>
     <string name="cancella">Cancella</string>
+    <string name="lista">Lista</string>
+    <string name="budget">Budget</string>
+    <string name="cerca">Cerca</string>
 </resources>

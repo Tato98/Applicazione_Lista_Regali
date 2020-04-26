@@ -14,19 +14,19 @@ import com.example.applicazione_lista_regali.R;
 
 import java.util.ArrayList;
 
-public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsHolder> {
 
     private ArrayList<Contatti> contatti;
     public ArrayList<Contatti> checkedContact = new ArrayList<>();
     private OnContactListener onContactListener;
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ContactsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nome, numero;
         CheckBox checkBox;
         OnContactListener onContactListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ContactsHolder(@NonNull View itemView) {
             super(itemView);
             nome = itemView.findViewById(R.id.name);
             numero = itemView.findViewById(R.id.number);
@@ -51,13 +51,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     @NonNull
     @Override
-    public ContactsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ContactsAdapter.ContactsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_view, parent, false);
-        return new ViewHolder(view);
+        return new ContactsHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContactsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ContactsAdapter.ContactsHolder holder, int position) {
         try {
             holder.nome.setText(contatti.get(position).getNome());
             holder.numero.setText(contatti.get(position).getNumero());

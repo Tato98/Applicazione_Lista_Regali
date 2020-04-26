@@ -58,8 +58,10 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
 
             for (String name: contactName) {
                 for (String number: contactNumber) {
-                    Contatti cnt = new Contatti(name, number);
-                    contatti.add(cnt);
+                    if(contactName.indexOf(name.toString()) == contactNumber.indexOf(number.toString())) {
+                        Contatti cnt = new Contatti(name, number);
+                        contatti.add(cnt);
+                    }
                 }
             }
 

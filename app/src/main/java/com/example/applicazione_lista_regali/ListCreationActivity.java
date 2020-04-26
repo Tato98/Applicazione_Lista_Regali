@@ -1,21 +1,19 @@
 package com.example.applicazione_lista_regali;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.example.applicazione_lista_regali.Utilities.ListAdapter;
+import com.example.applicazione_lista_regali.Models.Contatti;
+import com.example.applicazione_lista_regali.Utilities.CheckedContactsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -27,9 +25,11 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
     private TextInputEditText textName, textDescription;
     private Button createButton, cancelButton;
     private ImageButton addContactsButton;
-    private TextView textView;
+    private RecyclerView recyclerView;
+    private CheckedContactsAdapter checkedContactsAdapter;
     private ArrayList<String> contactNameList = new ArrayList<>();
     private ArrayList<String> contactNumberList = new ArrayList<>();
+    private ArrayList<Contatti> checkedContact = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,6 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
         textName = findViewById(R.id.text_name);
         textDescription = findViewById(R.id.text_description);
-
-        textView = findViewById(R.id.text_view);
 
         createButton = findViewById(R.id.btn_create);
         cancelButton = findViewById(R.id.btn_cancel);
@@ -86,8 +84,25 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 contactNameList = intent.getStringArrayListExtra("lista_nomi");
                 contactNumberList = intent.getStringArrayListExtra("lista_numeri");
 
-                textView.setText(contactNameList.get(0));
+                for (String name: contactNameList) {
+                    for (String number: contactNumberList) {
+                        if(contactNameList.indexOf(name.toString()) == contactNumberList.indexOf(number.toString())) {
+                            Contatti cnt = new Contatti(name, number);
+                            checkedContact.add(cnt);
+                        }
+                    }
+                }
+
+                initRecyclerView();
             }
         }
+    }
+
+    public void initRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.contactsList);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        checkedContactsAdapter = new CheckedContactsAdapter(checkedContact);
+        recyclerView.setAdapter(checkedContactsAdapter);
     }
 }
