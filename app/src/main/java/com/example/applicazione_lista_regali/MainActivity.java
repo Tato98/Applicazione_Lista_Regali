@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private ArrayList<ListaRegali> lista = new ArrayList<>();
     private ArrayList<String> contactName = new ArrayList<>();
     private ArrayList<String> contactNumber = new ArrayList<>();
+    private ArrayList<Contatti> contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +55,8 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             String descrizione = intent.getExtras().getString("descrizione");
             contactName = intent.getStringArrayListExtra("lista_nomi");
             contactNumber = intent.getStringArrayListExtra("lista_numeri");
-            ArrayList<Contatti> contatti = new ArrayList<>();
 
-            for (String name: contactName) {
-                for (String number: contactNumber) {
-                    if(contactName.indexOf(name.toString()) == contactNumber.indexOf(number.toString())) {
-                        Contatti cnt = new Contatti(name, number);
-                        contatti.add(cnt);
-                    }
-                }
-            }
-
-            listaRegali = new ListaRegali(nome, descrizione, contatti);
+            listaRegali = new ListaRegali(nome, descrizione, createContactsList(new ArrayList<Contatti>(), contactName, contactNumber));
             lista.add(listaRegali);
 
             initRecyclerView();
@@ -82,14 +73,28 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         recyclerView.setAdapter(listAdapter);
     }
 
+    //crea una lista di contatti con i valori contenuti nelle due liste di stringhe
+    public ArrayList<Contatti> createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
+        for (String name: nameList) {
+            for (String number: numberList) {
+                if(nameList.indexOf(name.toString()) == numberList.indexOf(number.toString())) {
+                    Contatti cnt = new Contatti(name, number);
+                    contacts.add(cnt);
+                }
+            }
+        }
+        return contacts;
+    }
+
     @Override
     public void OnListClick(int position) {
         lista.get(position);
+        contact = lista.get(position).getContatti();
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("nome", lista.get(position).getNome());
         intent.putExtra("descrizione", lista.get(position).getDescrizione());
-        intent.putStringArrayListExtra("lista_nomi", contactName);
-        intent.putStringArrayListExtra("lista_numeri", contactNumber);
+        intent.putStringArrayListExtra("lista_nomi", lista.get(position).getContactsName(contact));
+        intent.putStringArrayListExtra("lista_numeri", lista.get(position).getContactsNumber(contact));
         startActivity(intent);
     }
 }

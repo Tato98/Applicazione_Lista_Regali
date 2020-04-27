@@ -18,7 +18,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/addList"
-        android:background="@drawable/ic_add_circle_black_24dp"
+        android:background="@drawable/ic_add_circle"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true">
     </Button>

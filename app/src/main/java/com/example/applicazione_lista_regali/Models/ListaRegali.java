@@ -13,6 +13,24 @@ public class ListaRegali {
         this.contatti = contatti;
     }
 
+    //Restituisce la lista dei nomi dei contatti presenti nell'ArrayList<Contatti> contatti
+    public ArrayList<String> getContactsName(ArrayList<Contatti> contatti) {
+        ArrayList<String> nameList = new ArrayList<>();
+        for (Contatti contactName: contatti) {
+            nameList.add(contactName.getNome());
+        }
+        return nameList;
+    }
+
+    //Restituisce la lista dei numeri dei contatti presenti nell'ArrayList<Contatti> contatti
+    public ArrayList<String> getContactsNumber(ArrayList<Contatti> contatti) {
+        ArrayList<String> numberList = new ArrayList<>();
+        for (Contatti contactNumber: contatti) {
+            numberList.add(contactNumber.getNumero());
+        }
+        return numberList;
+    }
+
     public String getNome() {
         return nome;
     }

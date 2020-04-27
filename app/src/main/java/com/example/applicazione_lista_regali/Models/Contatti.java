@@ -1,5 +1,7 @@
 package com.example.applicazione_lista_regali.Models;
 
+import java.util.ArrayList;
+
 public class Contatti {
 
     private String nome;
