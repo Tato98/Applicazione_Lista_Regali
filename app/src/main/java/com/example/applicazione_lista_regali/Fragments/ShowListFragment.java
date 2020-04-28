@@ -39,20 +39,30 @@ public class ShowListFragment extends Fragment {
         ArrayList<String> listaNumeri = getActivity().getIntent().getStringArrayListExtra("lista_numeri");
         contacts = new ArrayList<>();
 
-        for (String name: listaNomi) {
-            for (String number: listaNumeri) {
-                if(listaNomi.indexOf(name.toString()) == listaNumeri.indexOf(number.toString())) {
+        createContactsList(contacts, listaNomi, listaNumeri);
+
+        initRecyclerView(view);
+
+        return view;
+    }
+
+    //crea una lista di contatti con i valori contenuti nelle due liste di stringhe
+    public ArrayList<Contatti> createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
+        for (String name: nameList) {
+            for (String number: numberList) {
+                if(nameList.indexOf(name.toString()) == numberList.indexOf(number.toString())) {
                     Contatti cnt = new Contatti(name, number);
                     contacts.add(cnt);
                 }
             }
         }
+        return contacts;
+    }
 
+    public void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.lista_regali);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         checkedContactsAdapter = new CheckedContactsAdapter(contacts);
         recyclerView.setAdapter(checkedContactsAdapter);
-
-        return view;
     }
 }

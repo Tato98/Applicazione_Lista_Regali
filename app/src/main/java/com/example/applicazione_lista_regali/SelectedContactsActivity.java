@@ -23,7 +23,8 @@ public class SelectedContactsActivity extends AppCompatActivity {
 
     private Contatti contatti;
     private ArrayList<Contatti> listaContatti;
-    private ArrayList<String> checkedNameList, checkedNumberList;
+    private ArrayList<String> checkedNameList = new ArrayList<>();
+    private ArrayList<String> checkedNumberList = new ArrayList<>();
     private Button doneButton;
     private RecyclerView recyclerView;
     private ContactsAdapter contactsAdapter;
@@ -43,8 +44,6 @@ public class SelectedContactsActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkedNameList = new ArrayList<>();
-                checkedNumberList = new ArrayList<>();
                 Intent intent = new Intent();
 
                 for (Contatti contatti: contactsAdapter.checkedContact) {

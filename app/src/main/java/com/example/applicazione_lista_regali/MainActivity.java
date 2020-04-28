@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private ListAdapter listAdapter;
     private ListaRegali listaRegali;
     private ArrayList<ListaRegali> lista = new ArrayList<>();
+    private ArrayList<String> nomiListe = new ArrayList<>();
     private ArrayList<String> contactName = new ArrayList<>();
     private ArrayList<String> contactNumber = new ArrayList<>();
     private ArrayList<Contatti> contact;
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListCreationActivity.class);
+                for (ListaRegali lr: lista) {
+                    nomiListe.add(lr.getNome());
+                }
+                intent.putStringArrayListExtra("nomi", nomiListe);
                 startActivityForResult(intent, CREATE_REQUEST);
             }
         });
