@@ -2,6 +2,7 @@ package com.example.applicazione_lista_regali;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,8 +30,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
     private ImageButton addContactsButton;
     private RecyclerView recyclerView;
     private CheckedContactsAdapter checkedContactsAdapter;
-    private ArrayList<String> resultName, resultNumber;
-    private ArrayList<String> contactNameList = new ArrayList<>(), contactNumberList = new ArrayList<>();
+    private ArrayList<String> resultName, resultNumber, contactNameList, contactNumberList;
     private ArrayList<Contatti> checkedContact = new ArrayList<>();
 
     @Override
@@ -60,6 +60,16 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
             case R.id.addContacts: {
                 Intent intent = new Intent(ListCreationActivity.this, SelectedContactsActivity.class);
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+
+                contactNameList = new ArrayList<>();
+                contactNumberList = new ArrayList<>();
+                for (Contatti cnt: checkedContact) {
+                    if(!contactNameList.contains(cnt.getNome()) && !contactNumberList.contains(cnt.getNumero())) {
+                        contactNameList.add(cnt.getNome());
+                        contactNumberList.add(cnt.getNumero());
+                    }
+                }
+                intent.putStringArrayListExtra("nomi", contactNameList);
                 startActivityForResult(intent, PICK_CONTACT);
                 break;
             }
@@ -67,25 +77,34 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 Intent intent = new Intent();
 
                 //CONTROLLO SUL NOME DELLA LISTA
-                if(!getIntent().getStringArrayListExtra("nomi").contains(textName.getText().toString())) {
-                    if(textName.getText().length() == 0) {
+                if(textName.getText().toString().isEmpty()) {
+                    if(getIntent().getStringArrayListExtra("nomi").contains("Lista" + (getCount() + 1))) {
+                        setCount(getCount() + 2);
+                    } else
                         setCount(getCount() + 1);
-                        intent.putExtra("nome", "Lista" + getCount());
-                    } else if(textName.getText().toString().equals("Lista" + (getCount() + 1))) {
-                        intent.putExtra("nome", Objects.requireNonNull(textName.getText()).toString());
-                        setCount(getCount() + 1);
-                    } else {
-                        intent.putExtra("nome", Objects.requireNonNull(textName.getText()).toString());
-                    }
+                    intent.putExtra("nome", "Lista" + getCount());
+                } else {
+                    intent.putExtra("nome", Objects.requireNonNull(textName.getText()).toString());
+                }
 
-                    //CONTROLLO SULLA DESCRIZIONE DELLA LISTA
-                    if(textDescription.getText().length() == 0) {
-                        intent.putExtra("descrizione", "Nessuna Descrizione");
-                    } else {
-                        intent.putExtra("descrizione", Objects.requireNonNull(textDescription.getText()).toString());
-                    }
-                    intent.putStringArrayListExtra("lista_nomi", contactNameList);
-                    intent.putStringArrayListExtra("lista_numeri", contactNumberList);
+                //CONTROLLO SULLA DESCRIZIONE DELLA LISTA
+                if(textDescription.getText().toString().isEmpty()) {
+                    intent.putExtra("descrizione", "Nessuna Descrizione");
+                } else {
+                    intent.putExtra("descrizione", Objects.requireNonNull(textDescription.getText()).toString());
+                }
+
+                contactNameList = new ArrayList<>();
+                contactNumberList = new ArrayList<>();
+                for (Contatti cnt: checkedContact) {
+                    contactNameList.add(cnt.getNome());
+                    contactNumberList.add(cnt.getNumero());
+                }
+                intent.putStringArrayListExtra("lista_nomi", contactNameList);
+                intent.putStringArrayListExtra("lista_numeri", contactNumberList);
+
+                //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
+                if(!getIntent().getStringArrayListExtra("nomi").contains(textName.getText().toString())) {
                     setResult(RESULT_OK, intent);
                     finish();
                 } else {
@@ -109,13 +128,6 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 createContactsList(checkedContact, resultName, resultNumber);
 
                 initRecyclerView();
-
-                for (Contatti cnt: checkedContact) {
-                    if(!contactNameList.contains(cnt.getNome()) && !contactNumberList.contains(cnt.getNumero())) {
-                        contactNameList.add(cnt.getNome());
-                        contactNumberList.add(cnt.getNumero());
-                    }
-                }
             }
         }
     }
@@ -124,6 +136,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.contactsList);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         checkedContactsAdapter = new CheckedContactsAdapter(checkedContact);
         recyclerView.setAdapter(checkedContactsAdapter);
     }
@@ -132,7 +145,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
     public void createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
         for (String name: nameList) {
             for (String number: numberList) {
-                if(nameList.indexOf(name.toString()) == numberList.indexOf(number.toString())) {
+                if(nameList.indexOf(name) == numberList.indexOf(number)) {
                     Contatti cnt = new Contatti(name, number);
                     contacts.add(cnt);
                 }

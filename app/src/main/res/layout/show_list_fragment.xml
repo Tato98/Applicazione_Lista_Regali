@@ -5,17 +5,17 @@
     android:layout_height="match_parent"
     android:padding="15dp">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/lista_regali">
-    </androidx.recyclerview.widget.RecyclerView>
+    </com.baoyz.swipemenulistview.SwipeMenuListView>
 
     <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/round_button_shape"
-        android:src="@drawable/ic_person_add"
+        android:src="@drawable/ic_group_add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/add_person">

@@ -74,6 +74,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     }
                 }
             });
+
+            holder.nome.setEnabled(contatti.get(position).getIsEnable());
+            holder.numero.setEnabled(contatti.get(position).getIsEnable());
+            holder.checkBox.setEnabled(contatti.get(position).getIsEnable());
         }
         catch(NullPointerException e) {
             e.printStackTrace();
@@ -87,5 +91,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     public interface OnContactListener {
         void OnContactClick(View view, int position);
+    }
+
+    public ArrayList<Contatti> getContatti() {
+        return contatti;
     }
 }

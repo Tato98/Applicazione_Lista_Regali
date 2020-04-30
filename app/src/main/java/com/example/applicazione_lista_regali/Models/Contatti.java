@@ -5,10 +5,17 @@ public class Contatti {
     private String nome;
     private String numero;
     private String id;
+    private boolean isEnable;
 
     public Contatti(String nome, String numero) {
         this.nome = nome;
         this.numero = numero;
+    }
+
+    public Contatti(String nome, String numero, boolean isEnable) {
+        this.nome = nome;
+        this.numero = numero;
+        this.isEnable = isEnable;
     }
 
     public Contatti(String nome, String numero, String id) {
@@ -39,5 +46,13 @@ public class Contatti {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean getIsEnable() {
+        return isEnable;
+    }
+
+    public void setIsEnable(boolean enable) {
+        isEnable = enable;
     }
 }
