@@ -62,12 +62,8 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
 
                 contactNameList = new ArrayList<>();
-                contactNumberList = new ArrayList<>();
                 for (Contatti cnt: checkedContact) {
-                    if(!contactNameList.contains(cnt.getNome()) && !contactNumberList.contains(cnt.getNumero())) {
-                        contactNameList.add(cnt.getNome());
-                        contactNumberList.add(cnt.getNumero());
-                    }
+                    contactNameList.add(cnt.getNome());
                 }
                 intent.putStringArrayListExtra("nomi", contactNameList);
                 startActivityForResult(intent, PICK_CONTACT);

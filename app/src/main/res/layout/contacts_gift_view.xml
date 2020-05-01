@@ -2,23 +2,37 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="15dp">
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contact_name"
-        android:textStyle="bold"
-        android:textSize="20sp">
-    </TextView>
+        android:theme="@style/Theme.MaterialComponents.Light">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/contact_number"
-        android:layout_below="@id/contact_name"
-        android:textStyle="italic">
-    </TextView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/contact_name"
+                android:textStyle="bold"
+                android:textSize="20sp">
+            </TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/contact_number"
+                android:layout_below="@id/contact_name"
+                android:textStyle="italic">
+            </TextView>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>
