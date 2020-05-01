@@ -4,9 +4,12 @@
     <string name="description">Descrizione</string>
     <string name="create">Crea</string>
     <string name="textCreate">Crea una nuova lista</string>
-    <string name="inforequired">Inserisci tutte le informazioni richieste</string>
+    <string name="inforequired">Il nome assegnato alla lista è già esistente</string>
     <string name="cancella">Cancella</string>
     <string name="lista">Lista</string>
     <string name="budget">Budget</string>
     <string name="cerca">Cerca</string>
+    <string name="fatto">fatto</string>
+    <string name="back">back</string>
+    <string name="phonebook">Rubrica</string>
 </resources>

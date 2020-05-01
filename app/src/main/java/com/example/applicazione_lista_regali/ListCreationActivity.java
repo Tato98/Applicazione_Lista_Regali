@@ -2,6 +2,7 @@ package com.example.applicazione_lista_regali;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Utilities.CheckedContactsAdapter;
@@ -22,13 +24,13 @@ import java.util.Objects;
 public class ListCreationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int PICK_CONTACT = 102;
+    private static int count = 0;
     private TextInputEditText textName, textDescription;
     private Button createButton, cancelButton;
     private ImageButton addContactsButton;
     private RecyclerView recyclerView;
     private CheckedContactsAdapter checkedContactsAdapter;
-    private ArrayList<String> contactNameList = new ArrayList<>();
-    private ArrayList<String> contactNumberList = new ArrayList<>();
+    private ArrayList<String> resultName, resultNumber, contactNameList, contactNumberList;
     private ArrayList<Contatti> checkedContact = new ArrayList<>();
 
     @Override
@@ -58,17 +60,56 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
             case R.id.addContacts: {
                 Intent intent = new Intent(ListCreationActivity.this, SelectedContactsActivity.class);
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+
+                contactNameList = new ArrayList<>();
+                contactNumberList = new ArrayList<>();
+                for (Contatti cnt: checkedContact) {
+                    if(!contactNameList.contains(cnt.getNome()) && !contactNumberList.contains(cnt.getNumero())) {
+                        contactNameList.add(cnt.getNome());
+                        contactNumberList.add(cnt.getNumero());
+                    }
+                }
+                intent.putStringArrayListExtra("nomi", contactNameList);
                 startActivityForResult(intent, PICK_CONTACT);
                 break;
             }
             case R.id.btn_create: {
                 Intent intent = new Intent();
-                intent.putExtra("nome", Objects.requireNonNull(textName.getText()).toString());
-                intent.putExtra("descrizione", Objects.requireNonNull(textDescription.getText()).toString());
+
+                //CONTROLLO SUL NOME DELLA LISTA
+                if(textName.getText().toString().isEmpty()) {
+                    if(getIntent().getStringArrayListExtra("nomi").contains("Lista" + (getCount() + 1))) {
+                        setCount(getCount() + 2);
+                    } else
+                        setCount(getCount() + 1);
+                    intent.putExtra("nome", "Lista" + getCount());
+                } else {
+                    intent.putExtra("nome", Objects.requireNonNull(textName.getText()).toString());
+                }
+
+                //CONTROLLO SULLA DESCRIZIONE DELLA LISTA
+                if(textDescription.getText().toString().isEmpty()) {
+                    intent.putExtra("descrizione", "Nessuna Descrizione");
+                } else {
+                    intent.putExtra("descrizione", Objects.requireNonNull(textDescription.getText()).toString());
+                }
+
+                contactNameList = new ArrayList<>();
+                contactNumberList = new ArrayList<>();
+                for (Contatti cnt: checkedContact) {
+                    contactNameList.add(cnt.getNome());
+                    contactNumberList.add(cnt.getNumero());
+                }
                 intent.putStringArrayListExtra("lista_nomi", contactNameList);
                 intent.putStringArrayListExtra("lista_numeri", contactNumberList);
-                setResult(RESULT_OK, intent);
-                finish();
+
+                //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
+                if(!getIntent().getStringArrayListExtra("nomi").contains(textName.getText().toString())) {
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    Toast.makeText(ListCreationActivity.this, getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
+                }
                 break;
             }
             case R.id.btn_cancel: finish(); break;
@@ -81,17 +122,10 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
         if(requestCode == PICK_CONTACT) {
             if(resultCode == RESULT_OK) {
-                contactNameList = intent.getStringArrayListExtra("lista_nomi");
-                contactNumberList = intent.getStringArrayListExtra("lista_numeri");
+                resultName = intent.getStringArrayListExtra("lista_nomi");
+                resultNumber = intent.getStringArrayListExtra("lista_numeri");
 
-                for (String name: contactNameList) {
-                    for (String number: contactNumberList) {
-                        if(contactNameList.indexOf(name.toString()) == contactNumberList.indexOf(number.toString())) {
-                            Contatti cnt = new Contatti(name, number);
-                            checkedContact.add(cnt);
-                        }
-                    }
-                }
+                createContactsList(checkedContact, resultName, resultNumber);
 
                 initRecyclerView();
             }
@@ -102,7 +136,28 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.contactsList);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         checkedContactsAdapter = new CheckedContactsAdapter(checkedContact);
         recyclerView.setAdapter(checkedContactsAdapter);
+    }
+
+    //crea una lista di contatti con i valori contenuti nelle due liste di stringhe
+    public void createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
+        for (String name: nameList) {
+            for (String number: numberList) {
+                if(nameList.indexOf(name) == numberList.indexOf(number)) {
+                    Contatti cnt = new Contatti(name, number);
+                    contacts.add(cnt);
+                }
+            }
+        }
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        ListCreationActivity.count = count;
     }
 }
