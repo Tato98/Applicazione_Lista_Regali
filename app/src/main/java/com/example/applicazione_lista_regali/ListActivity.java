@@ -54,6 +54,16 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-        getSupportActionBar().setTitle(getIntent().getExtras().getString("nome"));
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

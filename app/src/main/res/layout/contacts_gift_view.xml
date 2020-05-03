@@ -9,13 +9,14 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="30dp"
         android:backgroundTint="@color/colorPrimaryTrasparent"
-        app:cardCornerRadius="5dp"
         android:theme="@style/Theme.MaterialComponents.Light">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="match_parent"

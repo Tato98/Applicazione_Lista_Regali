@@ -1,17 +1,21 @@
 package com.example.applicazione_lista_regali;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 import com.example.applicazione_lista_regali.Utilities.ListAdapter;
+import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private ArrayList<String> contactName = new ArrayList<>();
     private ArrayList<String> contactNumber = new ArrayList<>();
     private ArrayList<Contatti> contact;
+    private Tooltip hintListCreation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         setContentView(R.layout.activity_main);
 
         addList = findViewById(R.id.addList);
+        tooltipBuild();
+        hintListCreation.show();
+
         addList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             initRecyclerView();
 
             listAdapter.notifyDataSetChanged();
+
+            if(lista.isEmpty())
+                hintListCreation.show();
+            else
+                hintListCreation.dismiss();
         }
     }
 
@@ -98,5 +111,19 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         intent.putStringArrayListExtra("lista_nomi", lista.get(position).getContactsName(contact));
         intent.putStringArrayListExtra("lista_numeri", lista.get(position).getContactsNumber(contact));
         startActivity(intent);
+    }
+
+    public void tooltipBuild() {
+        hintListCreation = new Tooltip.Builder(addList)
+                .setText(R.string.hint_list_creation)
+                .setCornerRadius(50f)
+                .setGravity(Gravity.TOP)
+                .setTextSize(15f)
+                .setArrowHeight(100f)
+                .setPadding(40f)
+                .setArrowWidth(50f)
+                .setTypeface(Typeface.DEFAULT)
+                .setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryTrasparent))
+                .build();
     }
 }

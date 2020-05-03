@@ -14,4 +14,6 @@
     <string name="text_1">Inserisci il nome della lista:</string>
     <string name="text_2">Inserisci una descrizione:</string>
     <string name="phonebook">Rubrica</string>
+    <string name="hint_list_creation">Clicca qui per creare una nuova lista regali</string>
+    <string name="hint_insert_contact">Clicca qui per scegliere i contatti dalla tua rubrica</string>
 </resources>

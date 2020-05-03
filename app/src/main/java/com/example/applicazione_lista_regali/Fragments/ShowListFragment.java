@@ -1,7 +1,9 @@
 package com.example.applicazione_lista_regali.Fragments;
 
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.R;
 import com.example.applicazione_lista_regali.Utilities.ContactGiftAdapter;
 import com.google.android.material.snackbar.Snackbar;
+import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 
@@ -30,6 +33,7 @@ public class ShowListFragment extends Fragment {
     private ContactGiftAdapter contactGiftAdapter;
     private ArrayList<Contatti> contacts;
     private ImageButton addPerson;
+    private Tooltip hintImportContacts;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class ShowListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.show_list_fragment, container, false);
 
+        addPerson = view.findViewById(R.id.add_person);
+
         ArrayList<String> listaNomi = getActivity().getIntent().getStringArrayListExtra("lista_nomi");
         ArrayList<String> listaNumeri = getActivity().getIntent().getStringArrayListExtra("lista_numeri");
         contacts = new ArrayList<>();
@@ -48,6 +54,12 @@ public class ShowListFragment extends Fragment {
         createContactsList(contacts, listaNomi, listaNumeri);
 
         initRecyclerView(view);
+
+        tooltipBuild();
+        if(contacts.isEmpty())
+            hintImportContacts.show();
+        else
+            hintImportContacts.dismiss();
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -57,7 +69,7 @@ public class ShowListFragment extends Fragment {
 
     Contatti deleteContact = null;
 
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -67,17 +79,23 @@ public class ShowListFragment extends Fragment {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
 
-            if(direction == ItemTouchHelper.LEFT) {
-                deleteContact = contacts.get(position);
-                contacts.remove(position);
-                contactGiftAdapter.notifyItemRemoved(position);
-                Snackbar.make(recyclerView, deleteContact.getNome(), Snackbar.LENGTH_LONG).setAction("Indietro", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        contacts.add(position, deleteContact);
-                        contactGiftAdapter.notifyItemInserted(position);
-                    }
-                }).show();
+            switch(direction) {
+                case ItemTouchHelper.LEFT: {
+                    deleteContact = contacts.get(position);
+                    contacts.remove(position);
+                    contactGiftAdapter.notifyItemRemoved(position);
+                    Snackbar.make(recyclerView, deleteContact.getNome(), Snackbar.LENGTH_LONG).setAction("Indietro", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            contacts.add(position, deleteContact);
+                            contactGiftAdapter.notifyItemInserted(position);
+                        }
+                    }).show();
+                    break;
+                }
+                case ItemTouchHelper.RIGHT: {
+
+                }
             }
         }
 
@@ -87,7 +105,9 @@ public class ShowListFragment extends Fragment {
 
             new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.remove_color))
-                    .addSwipeLeftActionIcon(R.drawable.ic_delete)
+                    .addSwipeLeftActionIcon(R.drawable.ic_delete_sweep)
+                    .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.edit_color))
+                    .addSwipeRightActionIcon(R.drawable.ic_edit)
                     .create()
                     .decorate();
         }
@@ -113,5 +133,20 @@ public class ShowListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         contactGiftAdapter = new ContactGiftAdapter(contacts);
         recyclerView.setAdapter(contactGiftAdapter);
+        contactGiftAdapter.notifyDataSetChanged();
+    }
+
+    public void tooltipBuild() {
+        hintImportContacts = new Tooltip.Builder(addPerson)
+                .setText(R.string.hint_insert_contact)
+                .setCornerRadius(50f)
+                .setGravity(Gravity.TOP)
+                .setTextSize(15f)
+                .setArrowHeight(80f)
+                .setPadding(20f)
+                .setArrowWidth(30f)
+                .setTypeface(Typeface.DEFAULT)
+                .setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryTrasparent))
+                .build();
     }
 }

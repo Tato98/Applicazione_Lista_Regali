@@ -41,6 +41,8 @@ public class SelectedContactsActivity extends AppCompatActivity {
         initRecyclerView();
 
         getSupportActionBar().setTitle(R.string.phonebook);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void getAllContacts() {
@@ -83,19 +85,26 @@ public class SelectedContactsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.done) {
-            Intent intent = new Intent();
+        switch(item.getItemId()) {
+            case R.id.done: {
+                Intent intent = new Intent();
 
-            for (Contatti contatti: contactsAdapter.checkedContact) {
-                checkedNameList.add(contatti.getNome());
-                checkedNumberList.add(contatti.getNumero());
+                for (Contatti contatti: contactsAdapter.checkedContact) {
+                    checkedNameList.add(contatti.getNome());
+                    checkedNumberList.add(contatti.getNumero());
+                }
+
+                intent.putStringArrayListExtra("lista_nomi", checkedNameList);
+                intent.putStringArrayListExtra("lista_numeri", checkedNumberList);
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
             }
-
-            intent.putStringArrayListExtra("lista_nomi", checkedNameList);
-            intent.putStringArrayListExtra("lista_numeri", checkedNumberList);
-            setResult(RESULT_OK, intent);
-            finish();
+            case android.R.id.home: {
+                this.finish();
+            }
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
