@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="15dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="3dp">
 
-    <TextView
-        android:id="@+id/nome"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_toLeftOf="@id/remove">
-    </TextView>
+        app:cardCornerRadius="5dp"
+        android:backgroundTint="@color/colorPrimaryTrasparent"
+        android:theme="@style/Theme.MaterialComponents.Light">
 
-    <TextView
-        android:id="@+id/numero"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="italic"
-        android:layout_below="@id/nome"
-        android:layout_toLeftOf="@id/remove">
-    </TextView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_remove"
-        android:backgroundTint="@android:color/transparent"
-        android:id="@+id/remove">
-    </ImageButton>
+            <TextView
+                android:id="@+id/nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_toLeftOf="@id/remove">
+            </TextView>
 
+            <TextView
+                android:id="@+id/numero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:layout_below="@id/nome"
+                android:layout_toLeftOf="@id/remove">
+            </TextView>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_remove"
+                android:backgroundTint="@android:color/transparent"
+                android:id="@+id/remove">
+            </ImageButton>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

@@ -133,7 +133,6 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.contactsList);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         checkedContactsAdapter = new CheckedContactsAdapter(checkedContact);
         recyclerView.setAdapter(checkedContactsAdapter);
     }
