@@ -13,4 +13,5 @@
     <string name="back">back</string>
     <string name="text_1">Inserisci il nome della lista:</string>
     <string name="text_2">Inserisci una descrizione:</string>
+    <string name="phonebook">Rubrica</string>
 </resources>

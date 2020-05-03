@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     public ArrayList<Contatti> createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
         for (String name: nameList) {
             for (String number: numberList) {
-                if(nameList.indexOf(name.toString()) == numberList.indexOf(number.toString())) {
+                if(nameList.indexOf(name) == numberList.indexOf(number)) {
                     Contatti cnt = new Contatti(name, number);
                     contacts.add(cnt);
                 }

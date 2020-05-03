@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:padding="15dp">
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lista_regali">
-    </com.baoyz.swipemenulistview.SwipeMenuListView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <ImageButton
         android:layout_width="50dp"
