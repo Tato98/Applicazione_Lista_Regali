@@ -31,7 +31,6 @@ public class SelectedContactsActivity extends AppCompatActivity {
     private ArrayList<String> checkedNumberList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ContactsAdapter contactsAdapter;
-    private CheckBox checkBox;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class SelectedContactsActivity extends AppCompatActivity {
 
         getAllContacts();
         initRecyclerView();
-        //checkBox = findViewById(R.id.check);
+
         getSupportActionBar().setTitle(R.string.phonebook);
     }
 

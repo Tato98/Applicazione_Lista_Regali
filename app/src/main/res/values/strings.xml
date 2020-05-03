@@ -11,5 +11,6 @@
     <string name="cerca">Cerca</string>
     <string name="fatto">fatto</string>
     <string name="back">back</string>
-    <string name="phonebook">Rubrica</string>
+    <string name="text_1">Inserisci il nome della lista:</string>
+    <string name="text_2">Inserisci una descrizione:</string>
 </resources>

@@ -34,9 +34,6 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //MainFragment fragment = new MainFragment();
-        //getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-
         addList = findViewById(R.id.addList);
         addList.setOnClickListener(new View.OnClickListener() {
             @Override

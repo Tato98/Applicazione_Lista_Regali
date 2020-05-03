@@ -1,6 +1,5 @@
 package com.example.applicazione_lista_regali.Fragments;
 
-import android.content.ClipData;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -87,7 +86,7 @@ public class ShowListFragment extends Fragment {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
             new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.remove_color))
                     .addSwipeLeftActionIcon(R.drawable.ic_delete)
                     .create()
                     .decorate();
