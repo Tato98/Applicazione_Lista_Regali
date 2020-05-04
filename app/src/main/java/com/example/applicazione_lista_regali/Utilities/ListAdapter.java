@@ -3,6 +3,7 @@ package com.example.applicazione_lista_regali.Utilities;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
         TextView Titolo, Descrizione;
         ImageView Immagine;
+        Button bottone;
         OnListListener onListListener;
 
         public ListHolder(@NonNull View itemView, OnListListener onListListener) {
@@ -31,10 +33,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             Titolo = itemView.findViewById(R.id.text_title);
             Descrizione = itemView.findViewById(R.id.text_description);
             Immagine = itemView.findViewById(R.id.image_view);
-            this.onListListener = onListListener;
+            bottone = itemView.findViewById(R.id.choose_image_btn);
+
+
+           this.onListListener = onListListener;
 
             itemView.setOnClickListener(this);
         }
+
+
+
+
 
         @Override
         public void onClick(View v) {
