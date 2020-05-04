@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="20dp"
     tools:context=".ListCreationActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/textCreate"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textAlignment="center">
-    </TextView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/name_container"
         android:hint="@string/name"
-        android:layout_marginTop="20dp">
+        app:hintTextColor="@color/colorPrimary">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,9 +21,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/description_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/name_container"
         android:hint="@string/description"
+        app:hintTextColor="@color/colorPrimary"
         android:layout_marginTop="20dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -43,8 +37,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/description_container"
         android:orientation="horizontal"
-        android:paddingTop="20dp">
+        android:layout_marginTop="20dp"
+        android:padding="10dp">
 
         <ImageButton
             android:id="@+id/addContacts"
@@ -68,31 +64,23 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="20dp">
+        android:id="@+id/btn_cancel"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:text="@string/cancella">
+    </Button>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_cancel"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_alignParentBottom="true"
-            android:text="@string/cancella">
-        </Button>
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_alignParentEnd='true'
+        android:layout_alignParentBottom="true"
+        android:text="@string/create">
+    </Button>
 
-        <Button
-            android:id="@+id/btn_create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_alignParentEnd='true'
-            android:layout_alignParentBottom="true"
-            android:text="@string/create">
-        </Button>
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

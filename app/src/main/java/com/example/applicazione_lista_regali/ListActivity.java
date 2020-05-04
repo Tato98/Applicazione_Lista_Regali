@@ -54,6 +54,7 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().setTitle(getIntent().getStringExtra("nome"));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

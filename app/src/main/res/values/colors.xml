@@ -3,7 +3,7 @@
     <color name="colorPrimary">#FF5722</color>
     <color name="colorPrimaryTrasparent">#FFE6DE</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#0ACC95</color>
+    <color name="colorAccent">#FF5722</color>
     <color name="bottom_nav_color">#FFFFFF</color>
     <color name="remove_color">#E61414</color>
     <color name="edit_color">#FFC107</color>
