@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment;
 import com.example.applicazione_lista_regali.Fragments.BudgetFragment;
 import com.example.applicazione_lista_regali.Fragments.SearchFragment;
 import com.example.applicazione_lista_regali.Fragments.ShowListFragment;
+import com.example.applicazione_lista_regali.Models.Contatti;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -19,13 +22,21 @@ public class ListActivity extends AppCompatActivity {
     private ShowListFragment showListFragment;
     private BudgetFragment budgetFragment;
     private SearchFragment searchFragment;
+    private ArrayList<String> listaNomi, listaNumeri;
+    private ArrayList<Contatti> contatti = new ArrayList<>();
+    private int posizione;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_activity);
 
-        showListFragment = new ShowListFragment();
+        listaNomi = getIntent().getStringArrayListExtra("lista_nomi");
+        listaNumeri = getIntent().getStringArrayListExtra("lista_numeri");
+        posizione = getIntent().getIntExtra("posizione", 0);
+        contatti = createContactsList(contatti, listaNomi, listaNumeri);
+
+        showListFragment = new ShowListFragment(contatti, posizione);
         budgetFragment = new BudgetFragment();
         searchFragment = new SearchFragment();
 
@@ -66,5 +77,17 @@ public class ListActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public ArrayList<Contatti> createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
+        for (String name: nameList) {
+            for (String number: numberList) {
+                if(nameList.indexOf(name) == numberList.indexOf(number)) {
+                    Contatti cnt = new Contatti(name, number);
+                    contacts.add(cnt);
+                }
+            }
+        }
+        return contacts;
     }
 }

@@ -21,7 +21,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     private ArrayList<ListaRegali> lista;
     private OnListListener onListListener;
 
-    public class ListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ListHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView Titolo, Descrizione;
         ImageView Immagine;
@@ -35,19 +35,21 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             Immagine = itemView.findViewById(R.id.image_view);
             bottone = itemView.findViewById(R.id.choose_image_btn);
 
-
-           this.onListListener = onListListener;
+            this.onListListener = onListListener;
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
-
-
-
-
 
         @Override
         public void onClick(View v) {
             onListListener.OnListClick(getAdapterPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            onListListener.OnListLongClick(getAdapterPosition(), v);
+            return false;
         }
     }
 
@@ -83,5 +85,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     //Serve a determinare quale lista si è cliccato
     public interface OnListListener {
         void OnListClick(int position);
+        void OnListLongClick(int position, View view);
     }
 }

@@ -9,15 +9,34 @@
     tools:context=".ListCreationActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/budeget_container"
         android:id="@+id/name_container"
         android:hint="@string/name"
         app:hintTextColor="@color/colorPrimary">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLength="@android:integer/config_shortAnimTime"
             android:id="@+id/text_name"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/budeget_container"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/budget"
+        android:layout_alignParentEnd="true"
+        app:hintTextColor="@color/colorPrimary">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLength="@android:integer/config_shortAnimTime"
+            android:id="@+id/text_budget"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -31,12 +50,16 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLength="@android:integer/config_mediumAnimTime"
             android:id="@+id/text_description"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <RelativeLayout
+        android:id="@+id/contacts_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/btn_container"
         android:layout_below="@id/description_container"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
@@ -48,15 +71,23 @@
             android:layout_height="40dp"
             android:background="@drawable/square_button_shape"
             android:src="@drawable/ic_import_contacts"
-            android:layout_centerInParent="true"
             android:layout_alignParentStart="true">
         </ImageButton>
 
+        <ImageView
+            android:id="@+id/list_image"
+            android:clickable="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/addContacts"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_image_black_24dp">
+        </ImageView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:id="@+id/contactsList"
-            android:layout_centerInParent="true"
             android:layout_toRightOf="@id/addContacts"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
@@ -64,23 +95,29 @@
 
     </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/btn_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_cancel"
-        android:backgroundTint="@color/colorPrimary"
-        android:layout_alignParentBottom="true"
-        android:text="@string/cancella">
-    </Button>
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:id="@+id/btn_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:layout_alignParentEnd='true'
-        android:layout_alignParentBottom="true"
-        android:text="@string/create">
-    </Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_cancel"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/cancella">
+        </Button>
+
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_alignParentEnd='true'
+            android:text="@string/create">
+        </Button>
+
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -23,6 +25,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener {
 
     public static final int CREATE_REQUEST = 101;
+    public static final int OPEN_REQUEST = 102;
     private Button addList;
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 startActivityForResult(intent, CREATE_REQUEST);
             }
         });
+
+
     }
 
     @Override
@@ -63,10 +68,11 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
 
             String nome = Objects.requireNonNull(intent.getExtras()).getString("nome");
             String descrizione = intent.getExtras().getString("descrizione");
+            String budget = intent.getStringExtra("budget");
             contactName = intent.getStringArrayListExtra("lista_nomi");
             contactNumber = intent.getStringArrayListExtra("lista_numeri");
 
-            listaRegali = new ListaRegali(nome, descrizione, createContactsList(new ArrayList<Contatti>(), contactName, contactNumber));
+            listaRegali = new ListaRegali(nome, descrizione, createContactsList(new ArrayList<Contatti>(), contactName, contactNumber), budget);
             lista.add(listaRegali);
 
             initRecyclerView();
@@ -77,6 +83,16 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 hintListCreation.show();
             else
                 hintListCreation.dismiss();
+        }
+
+        if(requestCode == OPEN_REQUEST && resultCode == RESULT_OK) {
+
+            ArrayList<String> name = intent.getStringArrayListExtra("nomi_aggiornati");
+            ArrayList<String> number = intent.getStringArrayListExtra("numeri_aggiornati");
+            int posizione = intent.getIntExtra("posizione", 0);
+            ArrayList<Contatti> contatti_aggiornati = new ArrayList<>();
+            createContactsList(contatti_aggiornati, name, number);
+            lista.get(posizione).setContatti(contatti_aggiornati);
         }
     }
 
@@ -110,7 +126,32 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         intent.putExtra("descrizione", lista.get(position).getDescrizione());
         intent.putStringArrayListExtra("lista_nomi", lista.get(position).getContactsName(contact));
         intent.putStringArrayListExtra("lista_numeri", lista.get(position).getContactsNumber(contact));
-        startActivity(intent);
+        intent.putExtra("budget", lista.get(position).getBudget());
+        intent.putExtra("posizione", position);
+        startActivityForResult(intent, OPEN_REQUEST);
+    }
+
+    @Override
+    public void OnListLongClick(final int position, View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.getMenuInflater().inflate(R.menu.list_option_menu, popup.getMenu());
+        popup.setGravity(Gravity.END);
+        popup.show();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.option1:
+                        //do something
+                        return true;
+                    case R.id.option2:
+                        lista.remove(lista.get(position));
+                        listAdapter.notifyItemRemoved(position);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void tooltipBuild() {

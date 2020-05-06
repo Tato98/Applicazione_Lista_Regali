@@ -5,12 +5,14 @@ import java.util.ArrayList;
 public class ListaRegali {
     private String nome;
     private String descrizione;
+    private String budget;
     private ArrayList<Contatti> contatti;
 
-    public ListaRegali(String nome, String descrizione, ArrayList<Contatti> contatti) {
+    public ListaRegali(String nome, String descrizione, ArrayList<Contatti> contatti, String budget) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.contatti = contatti;
+        this.budget = budget;
     }
 
     //Restituisce la lista dei nomi dei contatti presenti nell'ArrayList<Contatti> contatti
@@ -43,6 +45,10 @@ public class ListaRegali {
         return contatti;
     }
 
+    public String getBudget() {
+        return budget;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -53,5 +59,9 @@ public class ListaRegali {
 
     public void setContatti(ArrayList<Contatti> contatti) {
         this.contatti = contatti;
+    }
+
+    public void setBudget(String budget) {
+        this.budget = budget;
     }
 }

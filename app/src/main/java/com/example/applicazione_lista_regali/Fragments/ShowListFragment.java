@@ -1,8 +1,10 @@
 package com.example.applicazione_lista_regali.Fragments;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.R;
+import com.example.applicazione_lista_regali.SelectedContactsActivity;
 import com.example.applicazione_lista_regali.Utilities.ContactGiftAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.tooltip.Tooltip;
@@ -27,13 +30,26 @@ import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+import static android.app.Activity.RESULT_OK;
+
 public class ShowListFragment extends Fragment {
 
+    private static final int PICK_CONTACT = 102;
     private RecyclerView recyclerView;
     private ContactGiftAdapter contactGiftAdapter;
-    private ArrayList<Contatti> contacts;
+    private ArrayList<Contatti> contacts = new ArrayList<>();
     private ImageButton addPerson;
     private Tooltip hintImportContacts;
+    private ArrayList<String> contactNameList;
+    private ArrayList<String> resultName, resultNumber;
+    private ArrayList<String> listaNomiAggiornata, listaNumeriAggiornata;
+    private Intent updateIntent = new Intent();
+    private int posizione;
+
+    public ShowListFragment(ArrayList<Contatti> contatti, int posizione) {
+        this.contacts = contatti;
+        this.posizione = posizione;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,12 +62,20 @@ public class ShowListFragment extends Fragment {
         View view = inflater.inflate(R.layout.show_list_fragment, container, false);
 
         addPerson = view.findViewById(R.id.add_person);
+        addPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SelectedContactsActivity.class);
+                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
 
-        ArrayList<String> listaNomi = getActivity().getIntent().getStringArrayListExtra("lista_nomi");
-        ArrayList<String> listaNumeri = getActivity().getIntent().getStringArrayListExtra("lista_numeri");
-        contacts = new ArrayList<>();
-
-        createContactsList(contacts, listaNomi, listaNumeri);
+                contactNameList = new ArrayList<>();
+                for (Contatti cnt: contacts) {
+                    contactNameList.add(cnt.getNome());
+                }
+                intent.putStringArrayListExtra("nomi", contactNameList);
+                startActivityForResult(intent, PICK_CONTACT);
+            }
+        });
 
         initRecyclerView(view);
 
@@ -65,6 +89,29 @@ public class ShowListFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if(requestCode == PICK_CONTACT) {
+            if(resultCode == RESULT_OK) {
+                resultName = intent.getStringArrayListExtra("lista_nomi");
+                resultNumber = intent.getStringArrayListExtra("lista_numeri");
+
+                createContactsList(contacts, resultName, resultNumber);
+
+                initRecyclerView();
+
+                Update();
+
+                if(contacts.isEmpty())
+                    hintImportContacts.show();
+                else
+                    hintImportContacts.dismiss();
+            }
+        }
     }
 
     Contatti deleteContact = null;
@@ -84,13 +131,16 @@ public class ShowListFragment extends Fragment {
                     deleteContact = contacts.get(position);
                     contacts.remove(position);
                     contactGiftAdapter.notifyItemRemoved(position);
+                    Update();
                     Snackbar.make(recyclerView, deleteContact.getNome(), Snackbar.LENGTH_LONG).setAction("Indietro", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             contacts.add(position, deleteContact);
                             contactGiftAdapter.notifyItemInserted(position);
+                            Update();
                         }
                     }).show();
+
                     break;
                 }
                 case ItemTouchHelper.RIGHT: {
@@ -136,6 +186,14 @@ public class ShowListFragment extends Fragment {
         contactGiftAdapter.notifyDataSetChanged();
     }
 
+    public void initRecyclerView() {
+        recyclerView = getView().findViewById(R.id.lista_regali);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        contactGiftAdapter = new ContactGiftAdapter(contacts);
+        recyclerView.setAdapter(contactGiftAdapter);
+        contactGiftAdapter.notifyDataSetChanged();
+    }
+
     public void tooltipBuild() {
         hintImportContacts = new Tooltip.Builder(addPerson)
                 .setText(R.string.hint_insert_contact)
@@ -148,5 +206,18 @@ public class ShowListFragment extends Fragment {
                 .setTypeface(Typeface.DEFAULT)
                 .setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryTrasparent))
                 .build();
+    }
+
+    public void Update() {
+        listaNomiAggiornata = new ArrayList<>();
+        listaNumeriAggiornata = new ArrayList<>();
+        for (Contatti cnt: contacts) {
+            listaNomiAggiornata.add(cnt.getNome());
+            listaNumeriAggiornata.add(cnt.getNumero());
+        }
+        updateIntent.putStringArrayListExtra("nomi_aggiornati", listaNomiAggiornata);
+        updateIntent.putStringArrayListExtra("numeri_aggiornati", listaNumeriAggiornata);
+        updateIntent.putExtra("posizione", posizione);
+        getActivity().setResult(RESULT_OK, updateIntent);
     }
 }

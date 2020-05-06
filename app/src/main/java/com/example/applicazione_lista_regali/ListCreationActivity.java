@@ -17,12 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Utilities.CheckedContactsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
-import com.tooltip.OnDismissListener;
 import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
@@ -30,9 +30,10 @@ import java.util.Objects;
 
 public class ListCreationActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int PICK_CONTACT = 102;
+    private static final int CONTACT_PICK = 102;
+    private static final int IMAGE_PICK = 103;
     private static int count = 0;
-    private TextInputEditText textName, textDescription;
+    private TextInputEditText textName, textDescription, textBudget;
     private Button createButton, cancelButton;
     private ImageButton addContactsButton;
     private RecyclerView recyclerView;
@@ -40,6 +41,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<String> resultName, resultNumber, contactNameList, contactNumberList;
     private ArrayList<Contatti> checkedContact = new ArrayList<>();
     private Tooltip hintImportContacts;
+    private ImageView listImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +50,19 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
         textName = findViewById(R.id.text_name);
         textDescription = findViewById(R.id.text_description);
+        textBudget = findViewById(R.id.text_budget);
 
         createButton = findViewById(R.id.btn_create);
         cancelButton = findViewById(R.id.btn_cancel);
         addContactsButton = findViewById(R.id.addContacts);
+        listImage = findViewById(R.id.list_image);
         tooltipBuild();
         hintImportContacts.show();
 
         createButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         addContactsButton.setOnClickListener(this);
+        listImage.setOnClickListener(this);
 
         getSupportActionBar().setTitle(R.string.textCreate);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -77,7 +82,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                     contactNameList.add(cnt.getNome());
                 }
                 intent.putStringArrayListExtra("nomi", contactNameList);
-                startActivityForResult(intent, PICK_CONTACT);
+                startActivityForResult(intent, CONTACT_PICK);
                 break;
             }
             case R.id.btn_create: {
@@ -110,6 +115,8 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 intent.putStringArrayListExtra("lista_nomi", contactNameList);
                 intent.putStringArrayListExtra("lista_numeri", contactNumberList);
 
+                intent.putExtra("budget", textBudget.getText().toString());
+
                 //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
                 if(!getIntent().getStringArrayListExtra("nomi").contains(textName.getText().toString())) {
                     setResult(RESULT_OK, intent);
@@ -119,6 +126,11 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
             }
+            case R.id.list_image: {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, IMAGE_PICK);
+            }
             case R.id.btn_cancel: finish(); break;
         }
     }
@@ -127,7 +139,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if(requestCode == PICK_CONTACT) {
+        if(requestCode == CONTACT_PICK) {
             if(resultCode == RESULT_OK) {
                 resultName = intent.getStringArrayListExtra("lista_nomi");
                 resultNumber = intent.getStringArrayListExtra("lista_numeri");
@@ -140,6 +152,12 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                     hintImportContacts.show();
                 else
                     hintImportContacts.dismiss();
+            }
+        }
+
+        if(requestCode == IMAGE_PICK) {
+            if(resultCode == RESULT_OK) {
+                listImage.setImageURI(intent.getData());
             }
         }
     }
@@ -185,7 +203,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         hintImportContacts = new Tooltip.Builder(addContactsButton)
                 .setText(R.string.hint_insert_contact)
                 .setCornerRadius(50f)
-                .setGravity(Gravity.TOP)
+                .setGravity(Gravity.END)
                 .setTextSize(15f)
                 .setArrowHeight(100f)
                 .setPadding(20f)
