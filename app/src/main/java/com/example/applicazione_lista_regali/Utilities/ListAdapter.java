@@ -70,7 +70,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         try {
             holder.Titolo.setText(lista.get(position).getNome());
             holder.Descrizione.setText(lista.get(position).getDescrizione());
-            holder.Immagine.setImageResource(R.drawable.ic_launcher_background);
+            holder.Immagine.setImageResource(R.drawable.ic_image_black_24dp);
         }
         catch(NullPointerException e) {
             e.printStackTrace();
