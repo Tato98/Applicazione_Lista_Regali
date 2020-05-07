@@ -18,10 +18,10 @@ import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNav;
+    //private BottomNavigationView bottomNav;
     private ShowListFragment showListFragment;
-    private BudgetFragment budgetFragment;
-    private SearchFragment searchFragment;
+    //private BudgetFragment budgetFragment;
+    //private SearchFragment searchFragment;
     private ArrayList<String> listaNomi, listaNumeri;
     private ArrayList<Contatti> contatti = new ArrayList<>();
     private int posizione;
@@ -37,11 +37,11 @@ public class ListActivity extends AppCompatActivity {
         contatti = createContactsList(contatti, listaNomi, listaNumeri);
 
         showListFragment = new ShowListFragment(contatti, posizione);
-        budgetFragment = new BudgetFragment();
-        searchFragment = new SearchFragment();
+       // budgetFragment = new BudgetFragment();
+        //searchFragment = new SearchFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, showListFragment).commit();
-
+/*-------------------------------------------------------------------------------------------------------------------
         bottomNav = findViewById(R.id.btn_nav);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -64,6 +64,8 @@ public class ListActivity extends AppCompatActivity {
                 return true;
             }
         });
+---------------------------------------------------------------------------------------------------------------------------------------
+ */
 
         getSupportActionBar().setTitle(getIntent().getStringExtra("nome"));
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -1,25 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".MainActivity"
+    app:umanoDragView="@id/dragView"
+
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    app:umanoPanelHeight="70dp"
+    app:umanoOverlay="false"
+    app:umanoParallaxOffset="100dp"
+    app:umanoShadowHeight="4dp"     >
+
+-----   questa è la parte da sostituire     ------------------------------------------------------
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_nav"
-        android:id="@+id/fragment_container">
-    </FrameLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/fragment_container"    ></FrameLayout>>
+------------------------------------------------------------------------------------------------
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_nav"
-        app:menu="@menu/bottom_menu"
-        android:layout_alignParentBottom="true"
-        app:backgroundTint="@color/colorPrimary"
-        app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextColor="@color/bottom_nav_color">
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        android:id="@+id/dragView"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="vertical"
+        android:background="@drawable/background_bottom_sheet">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"    >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:padding="15dp"
+                android:text="BUDGET"
+                android:layout_centerVertical="true"    />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"  >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Hai ancora a disposizione: "
+                android:padding="20dp"
+                android:gravity="center"    />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=" BUDGET - PREZZO TOTALE"
+                android:layout_gravity="end"
+                android:id="@+id/b_rimasto" />
+
+
+----questo relative layout serve per sovrapporre le immagini solamente della barra------
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"    >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/percentage_tot"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/percentage_used"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/b_usato"   />
+            </RelativeLayout>
+---------------------------------------------------------------------------------------
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="modifica Budget"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/btn"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/background_budget_btn"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"     />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="20dp"     />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
