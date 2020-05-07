@@ -35,9 +35,11 @@ import static android.app.Activity.RESULT_OK;
 public class ShowListFragment extends Fragment {
 
     private static final int PICK_CONTACT = 102;
+    public static final int DIALOG_FRAGMENT = 1;
+
     private RecyclerView recyclerView;
     private ContactGiftAdapter contactGiftAdapter;
-    private ArrayList<Contatti> contacts = new ArrayList<>();
+    private ArrayList<Contatti> contacts;
     private ImageButton addPerson;
     private Tooltip hintImportContacts;
     private ArrayList<String> contactNameList;
@@ -95,21 +97,33 @@ public class ShowListFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if(requestCode == PICK_CONTACT) {
-            if(resultCode == RESULT_OK) {
-                resultName = intent.getStringArrayListExtra("lista_nomi");
-                resultNumber = intent.getStringArrayListExtra("lista_numeri");
+        switch(requestCode) {
+            case PICK_CONTACT: {
+                if(resultCode == RESULT_OK) {
+                    resultName = intent.getStringArrayListExtra("lista_nomi");
+                    resultNumber = intent.getStringArrayListExtra("lista_numeri");
 
-                createContactsList(contacts, resultName, resultNumber);
+                    createContactsList(contacts, resultName, resultNumber);
 
-                initRecyclerView();
+                    contactGiftAdapter.notifyDataSetChanged();
 
-                Update();
+                    Update();
 
-                if(contacts.isEmpty())
-                    hintImportContacts.show();
-                else
-                    hintImportContacts.dismiss();
+                    if(contacts.isEmpty())
+                        hintImportContacts.show();
+                    else
+                        hintImportContacts.dismiss();
+                }
+                break;
+            }
+            case DIALOG_FRAGMENT: {
+                if(resultCode == RESULT_OK) {
+                    String nomeRegalo = intent.getStringExtra("nome_regalo");
+                    String prezzoRegalo = intent.getStringExtra("prezzo");
+                    contacts.get(0).setNomeRegalo(nomeRegalo);
+                    contacts.get(0).setPrezzoRegalo(prezzoRegalo);
+                }
+                break;
             }
         }
     }
@@ -144,7 +158,10 @@ public class ShowListFragment extends Fragment {
                     break;
                 }
                 case ItemTouchHelper.RIGHT: {
-
+                    InsertGiftDialog insertGiftDialog = new InsertGiftDialog();
+                    insertGiftDialog.setTargetFragment(ShowListFragment.this, DIALOG_FRAGMENT);
+                    insertGiftDialog.show(getFragmentManager(), "InsertGiftDialog");
+                    contactGiftAdapter.notifyItemChanged(position);
                 }
             }
         }
@@ -161,8 +178,6 @@ public class ShowListFragment extends Fragment {
                     .create()
                     .decorate();
         }
-
-
     };
 
     //crea una lista di contatti con i valori contenuti nelle due liste di stringhe
@@ -180,14 +195,6 @@ public class ShowListFragment extends Fragment {
 
     public void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.lista_regali);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        contactGiftAdapter = new ContactGiftAdapter(contacts);
-        recyclerView.setAdapter(contactGiftAdapter);
-        contactGiftAdapter.notifyDataSetChanged();
-    }
-
-    public void initRecyclerView() {
-        recyclerView = getView().findViewById(R.id.lista_regali);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         contactGiftAdapter = new ContactGiftAdapter(contacts);
         recyclerView.setAdapter(contactGiftAdapter);

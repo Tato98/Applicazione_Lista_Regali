@@ -5,6 +5,8 @@ public class Contatti {
     private String nome;
     private String numero;
     private String id;
+    private String nomeRegalo;
+    private String prezzoRegalo;
     private boolean isEnable;
 
     public Contatti(String nome, String numero) {
@@ -24,6 +26,13 @@ public class Contatti {
         this.id = id;
     }
 
+    public Contatti(String nome, String numero, String nomeRegalo, String prezzoRegalo) {
+        this.nome = nome;
+        this.numero = numero;
+        this.nomeRegalo = nomeRegalo;
+        this.prezzoRegalo = prezzoRegalo;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -34,6 +43,18 @@ public class Contatti {
 
     public String getId() {
         return id;
+    }
+
+    public boolean getIsEnable() {
+        return isEnable;
+    }
+
+    public String getNomeRegalo() {
+        return nomeRegalo;
+    }
+
+    public String getPrezzoRegalo() {
+        return prezzoRegalo;
     }
 
     public void setNome(String nome) {
@@ -48,11 +69,15 @@ public class Contatti {
         this.id = id;
     }
 
-    public boolean getIsEnable() {
-        return isEnable;
-    }
-
     public void setIsEnable(boolean enable) {
         isEnable = enable;
+    }
+
+    public void setNomeRegalo(String nomeRegalo) {
+        this.nomeRegalo = nomeRegalo;
+    }
+
+    public void setPrezzoRegalo(String prezzoRegalo) {
+        this.prezzoRegalo = prezzoRegalo;
     }
 }

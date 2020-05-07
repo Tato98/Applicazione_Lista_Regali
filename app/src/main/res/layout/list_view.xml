@@ -58,9 +58,6 @@
                 android:textStyle="italic" />
         </LinearLayout>
 
-
-
-
     </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

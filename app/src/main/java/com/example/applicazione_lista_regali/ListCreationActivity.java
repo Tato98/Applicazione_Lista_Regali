@@ -40,8 +40,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
     private CheckedContactsAdapter checkedContactsAdapter;
     private ArrayList<String> resultName, resultNumber, contactNameList, contactNumberList;
     private ArrayList<Contatti> checkedContact = new ArrayList<>();
-    private Tooltip hintImportContacts;
-    private ImageView listImage;
+    //private Tooltip hintImportContacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +54,12 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         createButton = findViewById(R.id.btn_create);
         cancelButton = findViewById(R.id.btn_cancel);
         addContactsButton = findViewById(R.id.addContacts);
-        listImage = findViewById(R.id.list_image);
-        tooltipBuild();
-        hintImportContacts.show();
+        //tooltipBuild();
+        //hintImportContacts.show();
 
         createButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         addContactsButton.setOnClickListener(this);
-        listImage.setOnClickListener(this);
 
         getSupportActionBar().setTitle(R.string.textCreate);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -126,11 +123,6 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
             }
-            case R.id.list_image: {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, IMAGE_PICK);
-            }
             case R.id.btn_cancel: finish(); break;
         }
     }
@@ -148,16 +140,10 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
                 initRecyclerView();
 
-                if(checkedContact.isEmpty())
+                /*if(checkedContact.isEmpty())
                     hintImportContacts.show();
                 else
-                    hintImportContacts.dismiss();
-            }
-        }
-
-        if(requestCode == IMAGE_PICK) {
-            if(resultCode == RESULT_OK) {
-                listImage.setImageURI(intent.getData());
+                    hintImportContacts.dismiss();*/
             }
         }
     }
@@ -199,7 +185,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         ListCreationActivity.count = count;
     }
 
-    public void tooltipBuild() {
+    /*public void tooltipBuild() {
         hintImportContacts = new Tooltip.Builder(addContactsButton)
                 .setText(R.string.hint_insert_contact)
                 .setCornerRadius(50f)
@@ -211,5 +197,5 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 .setTypeface(Typeface.DEFAULT)
                 .setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryTrasparent))
                 .build();
-    }
+    }*/
 }

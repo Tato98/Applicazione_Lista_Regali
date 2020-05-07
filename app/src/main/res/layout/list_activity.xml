@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.sothree.slidinguppanel.SlidingUpPanelLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,22 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     app:umanoDragView="@id/dragView"
-
     android:layout_gravity="bottom"
     android:gravity="bottom"
     app:umanoPanelHeight="70dp"
     app:umanoOverlay="false"
     app:umanoParallaxOffset="100dp"
-    app:umanoShadowHeight="4dp"     >
+    app:umanoShadowHeight="4dp">
 
------   questa è la parte da sostituire     ------------------------------------------------------
-
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="15dp">
 
-        android:id="@+id/fragment_container"    ></FrameLayout>>
-------------------------------------------------------------------------------------------------
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lista_regali">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_button_shape"
+            android:src="@drawable/ic_group_add"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/add_person">
+        </ImageButton>
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +48,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"    >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,33 +57,34 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:padding="15dp"
-                android:text="BUDGET"
-                android:layout_centerVertical="true"    />
+                android:text="@string/budgetCap"
+                android:layout_centerVertical="true"/>
+
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"  >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Hai ancora a disposizione: "
                 android:padding="20dp"
-                android:gravity="center"    />
+                android:gravity="center"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text=" BUDGET - PREZZO TOTALE"
                 android:layout_gravity="end"
-                android:id="@+id/b_rimasto" />
+                android:id="@+id/b_rimasto"/>
 
-
-----questo relative layout serve per sovrapporre le immagini solamente della barra------
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"    >
+                android:layout_height="wrap_content">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
@@ -78,7 +92,8 @@
                     android:layout_marginBottom="15dp"
                     android:background="@drawable/percentage_tot"
                     android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp" />
+                    android:layout_marginEnd="10dp"/>
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
@@ -87,26 +102,27 @@
                     android:background="@drawable/percentage_used"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:id="@+id/b_usato"   />
+                    android:id="@+id/b_usato"/>
+
             </RelativeLayout>
----------------------------------------------------------------------------------------
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="modifica Budget"
+                android:text="@string/modifica_budget"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/btn"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/background_budget_btn"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"     />
+                android:layout_marginEnd="10dp"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
-                android:layout_marginTop="20dp"     />
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
-    </LinearLayout>
 
+    </LinearLayout>
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

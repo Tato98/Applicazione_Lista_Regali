@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
 
     public static final int CREATE_REQUEST = 101;
     public static final int OPEN_REQUEST = 102;
+
     private Button addList;
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         tooltipBuild();
         hintListCreation.show();
 
+        initRecyclerView();
+
         addList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,35 +67,42 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if(requestCode == CREATE_REQUEST && resultCode == RESULT_OK) {
 
-            String nome = Objects.requireNonNull(intent.getExtras()).getString("nome");
-            String descrizione = intent.getExtras().getString("descrizione");
-            String budget = intent.getStringExtra("budget");
-            contactName = intent.getStringArrayListExtra("lista_nomi");
-            contactNumber = intent.getStringArrayListExtra("lista_numeri");
+        switch(requestCode) {
+            case CREATE_REQUEST: {
 
-            listaRegali = new ListaRegali(nome, descrizione, createContactsList(new ArrayList<Contatti>(), contactName, contactNumber), budget);
-            lista.add(listaRegali);
+                if(resultCode == RESULT_OK) {
+                    String nome = Objects.requireNonNull(intent.getExtras()).getString("nome");
+                    String descrizione = intent.getExtras().getString("descrizione");
+                    String budget = intent.getStringExtra("budget");
+                    contactName = intent.getStringArrayListExtra("lista_nomi");
+                    contactNumber = intent.getStringArrayListExtra("lista_numeri");
 
-            initRecyclerView();
+                    listaRegali = new ListaRegali(nome, descrizione, createContactsList(new ArrayList<Contatti>(), contactName, contactNumber), budget);
+                    lista.add(listaRegali);
 
-            listAdapter.notifyDataSetChanged();
+                    listAdapter.notifyDataSetChanged();
 
-            if(lista.isEmpty())
-                hintListCreation.show();
-            else
-                hintListCreation.dismiss();
-        }
+                    if(lista.isEmpty())
+                        hintListCreation.show();
+                    else
+                        hintListCreation.dismiss();
+                }
+                break;
+            }
 
-        if(requestCode == OPEN_REQUEST && resultCode == RESULT_OK) {
+            case OPEN_REQUEST: {
 
-            ArrayList<String> name = intent.getStringArrayListExtra("nomi_aggiornati");
-            ArrayList<String> number = intent.getStringArrayListExtra("numeri_aggiornati");
-            int posizione = intent.getIntExtra("posizione", 0);
-            ArrayList<Contatti> contatti_aggiornati = new ArrayList<>();
-            createContactsList(contatti_aggiornati, name, number);
-            lista.get(posizione).setContatti(contatti_aggiornati);
+                if(resultCode == RESULT_OK) {
+                    ArrayList<String> updateName = intent.getStringArrayListExtra("nomi_aggiornati");
+                    ArrayList<String> updateNumber = intent.getStringArrayListExtra("numeri_aggiornati");
+                    int posizione = intent.getIntExtra("posizione", 0);
+                    ArrayList<Contatti> contatti_aggiornati = new ArrayList<>();
+                    createContactsList(contatti_aggiornati, updateName, updateNumber);
+                    lista.get(posizione).setContatti(contatti_aggiornati);
+                }
+                break;
+            }
         }
     }
 

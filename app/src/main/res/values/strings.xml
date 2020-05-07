@@ -7,6 +7,7 @@
     <string name="inforequired">Il nome assegnato alla lista è già esistente</string>
     <string name="cancella">Cancella</string>
     <string name="lista">Lista</string>
+    <string name="budgetCap">BUDGET</string>
     <string name="budget">Budget</string>
     <string name="cerca">Cerca</string>
     <string name="fatto">fatto</string>
@@ -19,4 +20,8 @@
     <string name="elimina">Elimina</string>
     <string name="rinomina">Rinomina</string>
     <string name="modifica">Modifica</string>
+    <string name="dialog_text">Aggiungi il nome del regalo e il relativo prezzo</string>
+    <string name="prezzo">Prezzo</string>
+    <string name="ok">Ok</string>
+    <string name="modifica_budget">modifica Budget</string>
 </resources>

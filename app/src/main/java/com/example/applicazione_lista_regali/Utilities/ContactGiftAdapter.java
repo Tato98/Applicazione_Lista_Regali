@@ -3,6 +3,7 @@ package com.example.applicazione_lista_regali.Utilities;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,12 +20,16 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
 
     public class ContactGiftHolder extends RecyclerView.ViewHolder {
 
-        TextView nome, numero;
+        TextView nome, numero, nomeRegalo, prezzo;
+        ImageView immagineRegalo;
 
         public ContactGiftHolder(@NonNull View itemView) {
             super(itemView);
             nome = itemView.findViewById(R.id.contact_name);
             numero = itemView.findViewById(R.id.contact_number);
+            nomeRegalo = itemView.findViewById(R.id.gift_name);
+            prezzo = itemView.findViewById(R.id.gift_price);
+            immagineRegalo = itemView.findViewById(R.id.gift_image);
         }
     }
 
@@ -43,6 +48,8 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
     public void onBindViewHolder(@NonNull ContactGiftAdapter.ContactGiftHolder holder, int position) {
         holder.nome.setText(contatti.get(position).getNome());
         holder.numero.setText(contatti.get(position).getNumero());
+        holder.nomeRegalo.setText(contatti.get(position).getNomeRegalo());
+        holder.prezzo.setText(contatti.get(position).getPrezzoRegalo());
     }
 
     @Override
