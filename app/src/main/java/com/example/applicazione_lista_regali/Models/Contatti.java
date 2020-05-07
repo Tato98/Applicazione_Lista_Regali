@@ -1,12 +1,13 @@
 package com.example.applicazione_lista_regali.Models;
 
-public class Contatti {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Contatti implements Parcelable {
 
     private String nome;
     private String numero;
-    private String id;
-    private String nomeRegalo;
-    private String prezzoRegalo;
+    private Regalo regalo;
     private boolean isEnable;
 
     public Contatti(String nome, String numero) {
@@ -20,18 +21,30 @@ public class Contatti {
         this.isEnable = isEnable;
     }
 
-    public Contatti(String nome, String numero, String id) {
+    public Contatti(String nome, String numero, Regalo regalo, boolean isEnable) {
         this.nome = nome;
         this.numero = numero;
-        this.id = id;
+        this.regalo = regalo;
+        this.isEnable = isEnable;
     }
 
-    public Contatti(String nome, String numero, String nomeRegalo, String prezzoRegalo) {
-        this.nome = nome;
-        this.numero = numero;
-        this.nomeRegalo = nomeRegalo;
-        this.prezzoRegalo = prezzoRegalo;
+    protected Contatti(Parcel in) {
+        nome = in.readString();
+        numero = in.readString();
+        isEnable = in.readByte() != 0;
     }
+
+    public static final Creator<Contatti> CREATOR = new Creator<Contatti>() {
+        @Override
+        public Contatti createFromParcel(Parcel in) {
+            return new Contatti(in);
+        }
+
+        @Override
+        public Contatti[] newArray(int size) {
+            return new Contatti[size];
+        }
+    };
 
     public String getNome() {
         return nome;
@@ -41,20 +54,12 @@ public class Contatti {
         return numero;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public boolean getIsEnable() {
         return isEnable;
     }
 
-    public String getNomeRegalo() {
-        return nomeRegalo;
-    }
-
-    public String getPrezzoRegalo() {
-        return prezzoRegalo;
+    public Regalo getRegalo() {
+        return regalo;
     }
 
     public void setNome(String nome) {
@@ -65,19 +70,23 @@ public class Contatti {
         this.numero = numero;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public void setIsEnable(boolean enable) {
         isEnable = enable;
     }
 
-    public void setNomeRegalo(String nomeRegalo) {
-        this.nomeRegalo = nomeRegalo;
+    public void setRegalo(Regalo regalo) {
+        this.regalo = regalo;
     }
 
-    public void setPrezzoRegalo(String prezzoRegalo) {
-        this.prezzoRegalo = prezzoRegalo;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nome);
+        dest.writeString(numero);
+        dest.writeByte((byte) (isEnable ? 1 : 0));
     }
 }

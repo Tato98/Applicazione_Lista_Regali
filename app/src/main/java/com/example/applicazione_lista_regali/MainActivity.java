@@ -12,7 +12,6 @@ import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,9 +35,6 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private ListaRegali listaRegali;
     private ArrayList<ListaRegali> lista = new ArrayList<>();
     private ArrayList<String> nomiListe = new ArrayList<>();
-    private ArrayList<String> contactName = new ArrayList<>();
-    private ArrayList<String> contactNumber = new ArrayList<>();
-    private ArrayList<Contatti> contact;
     private Tooltip hintListCreation;
     private Fragment_modifica_dialog fragment_modifica_dialog;
 
@@ -48,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         setContentView(R.layout.activity_main);
 
         fragment_modifica_dialog = new Fragment_modifica_dialog();
-
-        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_modifica_dialog).commit();
 
         addList = findViewById(R.id.addList);
         tooltipBuild();
@@ -68,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 startActivityForResult(intent, CREATE_REQUEST);
             }
         });
-
-
     }
 
     @Override
@@ -83,10 +75,9 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                     String nome = Objects.requireNonNull(intent.getExtras()).getString("nome");
                     String descrizione = intent.getExtras().getString("descrizione");
                     String budget = intent.getStringExtra("budget");
-                    contactName = intent.getStringArrayListExtra("lista_nomi");
-                    contactNumber = intent.getStringArrayListExtra("lista_numeri");
+                    ArrayList<Contatti> contatti = intent.getParcelableArrayListExtra("contatti");
 
-                    listaRegali = new ListaRegali(nome, descrizione, createContactsList(new ArrayList<Contatti>(), contactName, contactNumber), budget);
+                    listaRegali = new ListaRegali(nome, descrizione, contatti, budget);
                     lista.add(listaRegali);
 
                     listAdapter.notifyDataSetChanged();
@@ -102,12 +93,9 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             case OPEN_REQUEST: {
 
                 if(resultCode == RESULT_OK) {
-                    ArrayList<String> updateName = intent.getStringArrayListExtra("nomi_aggiornati");
-                    ArrayList<String> updateNumber = intent.getStringArrayListExtra("numeri_aggiornati");
                     int posizione = intent.getIntExtra("posizione", 0);
-                    ArrayList<Contatti> contatti_aggiornati = new ArrayList<>();
-                    createContactsList(contatti_aggiornati, updateName, updateNumber);
-                    lista.get(posizione).setContatti(contatti_aggiornati);
+                    ArrayList<Contatti> contattiAggiornati = intent.getParcelableArrayListExtra("contatti_aggiornati");
+                    lista.get(posizione).setContatti(contattiAggiornati);
                 }
                 break;
             }
@@ -122,29 +110,10 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         recyclerView.setAdapter(listAdapter);
     }
 
-    //crea una lista di contatti con i valori contenuti nelle due liste di stringhe
-    public ArrayList<Contatti> createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
-        for (String name: nameList) {
-            for (String number: numberList) {
-                if(nameList.indexOf(name) == numberList.indexOf(number)) {
-                    Contatti cnt = new Contatti(name, number);
-                    contacts.add(cnt);
-                }
-            }
-        }
-        return contacts;
-    }
-
     @Override
     public void OnListClick(int position) {
-        lista.get(position);
-        contact = lista.get(position).getContatti();
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra("nome", lista.get(position).getNome());
-        intent.putExtra("descrizione", lista.get(position).getDescrizione());
-        intent.putStringArrayListExtra("lista_nomi", lista.get(position).getContactsName(contact));
-        intent.putStringArrayListExtra("lista_numeri", lista.get(position).getContactsNumber(contact));
-        intent.putExtra("budget", lista.get(position).getBudget());
+        intent.putExtra("Lista", lista.get(position));
         intent.putExtra("posizione", position);
         startActivityForResult(intent, OPEN_REQUEST);
     }
@@ -161,9 +130,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 switch (item.getItemId()) {
                     case R.id.option1:
                         Fragment_modifica_dialog fragment_modifica_dialog = new Fragment_modifica_dialog();
-                      fragment_modifica_dialog.show(getSupportFragmentManager(),"DialogFragment");
-
-
+                        fragment_modifica_dialog.show(getSupportFragmentManager(),"DialogFragment");
                         return true;
                     case R.id.option2:
                         lista.remove(lista.get(position));

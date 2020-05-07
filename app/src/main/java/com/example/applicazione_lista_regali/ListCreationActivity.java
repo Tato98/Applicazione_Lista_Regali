@@ -4,26 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Utilities.CheckedContactsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
-import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,16 +26,16 @@ import java.util.Objects;
 public class ListCreationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int CONTACT_PICK = 102;
-    private static final int IMAGE_PICK = 103;
+
     private static int count = 0;
+
     private TextInputEditText textName, textDescription, textBudget;
     private Button createButton, cancelButton;
     private ImageButton addContactsButton;
     private RecyclerView recyclerView;
     private CheckedContactsAdapter checkedContactsAdapter;
-    private ArrayList<String> resultName, resultNumber, contactNameList, contactNumberList;
+    private ArrayList<String> contactNameList;
     private ArrayList<Contatti> checkedContact = new ArrayList<>();
-    //private Tooltip hintImportContacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +49,6 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         createButton = findViewById(R.id.btn_create);
         cancelButton = findViewById(R.id.btn_cancel);
         addContactsButton = findViewById(R.id.addContacts);
-        //tooltipBuild();
-        //hintImportContacts.show();
 
         createButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -103,15 +96,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                     intent.putExtra("descrizione", Objects.requireNonNull(textDescription.getText()).toString());
                 }
 
-                contactNameList = new ArrayList<>();
-                contactNumberList = new ArrayList<>();
-                for (Contatti cnt: checkedContact) {
-                    contactNameList.add(cnt.getNome());
-                    contactNumberList.add(cnt.getNumero());
-                }
-                intent.putStringArrayListExtra("lista_nomi", contactNameList);
-                intent.putStringArrayListExtra("lista_numeri", contactNumberList);
-
+                intent.putExtra("contatti", checkedContact);
                 intent.putExtra("budget", textBudget.getText().toString());
 
                 //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
@@ -133,17 +118,9 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
         if(requestCode == CONTACT_PICK) {
             if(resultCode == RESULT_OK) {
-                resultName = intent.getStringArrayListExtra("lista_nomi");
-                resultNumber = intent.getStringArrayListExtra("lista_numeri");
-
-                createContactsList(checkedContact, resultName, resultNumber);
-
+                ArrayList<Contatti> resultContact = intent.getParcelableArrayListExtra("contatti_scelti");
+                checkedContact.addAll(resultContact);
                 initRecyclerView();
-
-                /*if(checkedContact.isEmpty())
-                    hintImportContacts.show();
-                else
-                    hintImportContacts.dismiss();*/
             }
         }
     }
@@ -165,18 +142,6 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         recyclerView.setAdapter(checkedContactsAdapter);
     }
 
-    //crea una lista di contatti con i valori contenuti nelle due liste di stringhe
-    public void createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
-        for (String name: nameList) {
-            for (String number: numberList) {
-                if(nameList.indexOf(name) == numberList.indexOf(number)) {
-                    Contatti cnt = new Contatti(name, number);
-                    contacts.add(cnt);
-                }
-            }
-        }
-    }
-
     public static int getCount() {
         return count;
     }
@@ -184,18 +149,4 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
     public static void setCount(int count) {
         ListCreationActivity.count = count;
     }
-
-    /*public void tooltipBuild() {
-        hintImportContacts = new Tooltip.Builder(addContactsButton)
-                .setText(R.string.hint_insert_contact)
-                .setCornerRadius(50f)
-                .setGravity(Gravity.END)
-                .setTextSize(15f)
-                .setArrowHeight(100f)
-                .setPadding(20f)
-                .setArrowWidth(30f)
-                .setTypeface(Typeface.DEFAULT)
-                .setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryTrasparent))
-                .build();
-    }*/
 }

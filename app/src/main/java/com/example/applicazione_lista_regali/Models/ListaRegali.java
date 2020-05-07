@@ -1,8 +1,11 @@
 package com.example.applicazione_lista_regali.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class ListaRegali {
+public class ListaRegali implements Parcelable {
     private String nome;
     private String descrizione;
     private String budget;
@@ -14,6 +17,25 @@ public class ListaRegali {
         this.contatti = contatti;
         this.budget = budget;
     }
+
+    protected ListaRegali(Parcel in) {
+        nome = in.readString();
+        descrizione = in.readString();
+        budget = in.readString();
+        contatti = in.createTypedArrayList(Contatti.CREATOR);
+    }
+
+    public static final Creator<ListaRegali> CREATOR = new Creator<ListaRegali>() {
+        @Override
+        public ListaRegali createFromParcel(Parcel in) {
+            return new ListaRegali(in);
+        }
+
+        @Override
+        public ListaRegali[] newArray(int size) {
+            return new ListaRegali[size];
+        }
+    };
 
     //Restituisce la lista dei nomi dei contatti presenti nell'ArrayList<Contatti> contatti
     public ArrayList<String> getContactsName(ArrayList<Contatti> contatti) {
@@ -63,5 +85,18 @@ public class ListaRegali {
 
     public void setBudget(String budget) {
         this.budget = budget;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nome);
+        dest.writeString(descrizione);
+        dest.writeString(budget);
+        dest.writeTypedList(contatti);
     }
 }

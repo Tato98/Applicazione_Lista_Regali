@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
@@ -46,10 +47,14 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ContactGiftAdapter.ContactGiftHolder holder, int position) {
-        holder.nome.setText(contatti.get(position).getNome());
-        holder.numero.setText(contatti.get(position).getNumero());
-        holder.nomeRegalo.setText(contatti.get(position).getNomeRegalo());
-        holder.prezzo.setText(contatti.get(position).getPrezzoRegalo());
+        try {
+            holder.nome.setText(contatti.get(position).getNome());
+            holder.numero.setText(contatti.get(position).getNumero());
+            holder.nomeRegalo.setText(contatti.get(position).getRegalo().getNome());
+            holder.prezzo.setText(contatti.get(position).getRegalo().getPrezzo());
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

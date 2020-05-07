@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
+import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.R;
 import com.example.applicazione_lista_regali.SelectedContactsActivity;
 import com.example.applicazione_lista_regali.Utilities.ContactGiftAdapter;
@@ -43,8 +44,6 @@ public class ShowListFragment extends Fragment {
     private ImageButton addPerson;
     private Tooltip hintImportContacts;
     private ArrayList<String> contactNameList;
-    private ArrayList<String> resultName, resultNumber;
-    private ArrayList<String> listaNomiAggiornata, listaNumeriAggiornata;
     private Intent updateIntent = new Intent();
     private int posizione;
 
@@ -69,7 +68,6 @@ public class ShowListFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectedContactsActivity.class);
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-
                 contactNameList = new ArrayList<>();
                 for (Contatti cnt: contacts) {
                     contactNameList.add(cnt.getNome());
@@ -100,10 +98,9 @@ public class ShowListFragment extends Fragment {
         switch(requestCode) {
             case PICK_CONTACT: {
                 if(resultCode == RESULT_OK) {
-                    resultName = intent.getStringArrayListExtra("lista_nomi");
-                    resultNumber = intent.getStringArrayListExtra("lista_numeri");
+                    ArrayList<Contatti> resultContacts = intent.getParcelableArrayListExtra("contatti_scelti");
 
-                    createContactsList(contacts, resultName, resultNumber);
+                    contacts.addAll(resultContacts);
 
                     contactGiftAdapter.notifyDataSetChanged();
 
@@ -120,8 +117,10 @@ public class ShowListFragment extends Fragment {
                 if(resultCode == RESULT_OK) {
                     String nomeRegalo = intent.getStringExtra("nome_regalo");
                     String prezzoRegalo = intent.getStringExtra("prezzo");
-                    contacts.get(0).setNomeRegalo(nomeRegalo);
-                    contacts.get(0).setPrezzoRegalo(prezzoRegalo);
+                    int posizione = intent.getIntExtra("posizione", 0);
+                    contacts.get(posizione).setRegalo(new Regalo(nomeRegalo, prezzoRegalo));
+                    contactGiftAdapter.notifyItemChanged(posizione);
+                    Update();
                 }
                 break;
             }
@@ -152,14 +151,18 @@ public class ShowListFragment extends Fragment {
                             contacts.add(position, deleteContact);
                             contactGiftAdapter.notifyItemInserted(position);
                             Update();
+
                         }
                     }).show();
 
                     break;
                 }
                 case ItemTouchHelper.RIGHT: {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("posizione", position);
                     InsertGiftDialog insertGiftDialog = new InsertGiftDialog();
                     insertGiftDialog.setTargetFragment(ShowListFragment.this, DIALOG_FRAGMENT);
+                    insertGiftDialog.setArguments(bundle);
                     insertGiftDialog.show(getFragmentManager(), "InsertGiftDialog");
                     contactGiftAdapter.notifyItemChanged(position);
                 }
@@ -180,25 +183,11 @@ public class ShowListFragment extends Fragment {
         }
     };
 
-    //crea una lista di contatti con i valori contenuti nelle due liste di stringhe
-    public ArrayList<Contatti> createContactsList(ArrayList<Contatti> contacts, ArrayList<String> nameList, ArrayList<String> numberList) {
-        for (String name: nameList) {
-            for (String number: numberList) {
-                if(nameList.indexOf(name) == numberList.indexOf(number)) {
-                    Contatti cnt = new Contatti(name, number);
-                    contacts.add(cnt);
-                }
-            }
-        }
-        return contacts;
-    }
-
     public void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.lista_regali);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         contactGiftAdapter = new ContactGiftAdapter(contacts);
         recyclerView.setAdapter(contactGiftAdapter);
-        contactGiftAdapter.notifyDataSetChanged();
     }
 
     public void tooltipBuild() {
@@ -216,14 +205,7 @@ public class ShowListFragment extends Fragment {
     }
 
     public void Update() {
-        listaNomiAggiornata = new ArrayList<>();
-        listaNumeriAggiornata = new ArrayList<>();
-        for (Contatti cnt: contacts) {
-            listaNomiAggiornata.add(cnt.getNome());
-            listaNumeriAggiornata.add(cnt.getNumero());
-        }
-        updateIntent.putStringArrayListExtra("nomi_aggiornati", listaNomiAggiornata);
-        updateIntent.putStringArrayListExtra("numeri_aggiornati", listaNumeriAggiornata);
+        updateIntent.putExtra("contatti_aggiornati", contacts);
         updateIntent.putExtra("posizione", posizione);
         getActivity().setResult(RESULT_OK, updateIntent);
     }

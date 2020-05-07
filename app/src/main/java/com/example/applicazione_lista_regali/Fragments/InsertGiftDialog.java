@@ -23,12 +23,13 @@ public class InsertGiftDialog extends DialogFragment {
 
     private TextInputEditText nome, prezzo;
     private Button cancellaButton, okButton;
-    private int pos;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.insert_gift_dialog, container, false);
+
+        final int position = getArguments().getInt("posizione");
 
         nome = view.findViewById(R.id.gift_input_name);
         prezzo = view.findViewById(R.id.gift_input_price);
@@ -48,18 +49,11 @@ public class InsertGiftDialog extends DialogFragment {
                 Intent intent = getActivity().getIntent();
                 intent.putExtra("nome_regalo", nome.getText().toString());
                 intent.putExtra("prezzo", prezzo.getText().toString());
-                intent.putExtra("pos", pos);
-                getActivity().setResult(RESULT_OK, intent);
+                intent.putExtra("posizione", position);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
                 getDialog().dismiss();
             }
         });
         return view;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        pos = data.getIntExtra("posizione", 0);
     }
 }

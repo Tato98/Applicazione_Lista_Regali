@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
+import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.Utilities.ContactsAdapter;
 
 import java.util.ArrayList;
@@ -56,9 +57,9 @@ public class SelectedContactsActivity extends AppCompatActivity {
                 String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
                 if(Objects.requireNonNull(getIntent().getStringArrayListExtra("nomi")).contains(name))
-                    contatti = new Contatti(name, number, false);
+                    contatti = new Contatti(name, number, new Regalo("vuoto", "vuoto"), false);
                 else
-                    contatti = new Contatti(name, number, true);
+                    contatti = new Contatti(name, number, new Regalo("vuoto", "vuoto"), true);
 
                 listaContatti.add(contatti);
             }
@@ -88,14 +89,7 @@ public class SelectedContactsActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.done: {
                 Intent intent = new Intent();
-
-                for (Contatti contatti: contactsAdapter.checkedContact) {
-                    checkedNameList.add(contatti.getNome());
-                    checkedNumberList.add(contatti.getNumero());
-                }
-
-                intent.putStringArrayListExtra("lista_nomi", checkedNameList);
-                intent.putStringArrayListExtra("lista_numeri", checkedNumberList);
+                intent.putExtra("contatti_scelti", contactsAdapter.checkedContact);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
