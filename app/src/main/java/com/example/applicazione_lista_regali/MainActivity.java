@@ -9,11 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.applicazione_lista_regali.Fragments.Fragment_modifica_dialog;
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 import com.example.applicazione_lista_regali.Utilities.ListAdapter;
@@ -36,11 +39,16 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private ArrayList<String> contactNumber = new ArrayList<>();
     private ArrayList<Contatti> contact;
     private Tooltip hintListCreation;
+    private Fragment_modifica_dialog fragment_modifica_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragment_modifica_dialog = new Fragment_modifica_dialog();
+
+        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_modifica_dialog).commit();
 
         addList = findViewById(R.id.addList);
         tooltipBuild();
@@ -142,7 +150,10 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.option1:
-                        //do something
+                        Fragment_modifica_dialog fragment_modifica_dialog = new Fragment_modifica_dialog();
+                      fragment_modifica_dialog.show(getSupportFragmentManager(),"DialogFragment");
+
+
                         return true;
                     case R.id.option2:
                         lista.remove(lista.get(position));
