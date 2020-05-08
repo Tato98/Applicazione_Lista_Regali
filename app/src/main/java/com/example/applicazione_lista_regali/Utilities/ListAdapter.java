@@ -23,7 +23,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     public class ListHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        TextView Titolo, Descrizione;
+        TextView Titolo, Descrizione, Budget;
         ImageView Immagine;
         Button bottone;
         OnListListener onListListener;
@@ -34,6 +34,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             Descrizione = itemView.findViewById(R.id.text_description);
             Immagine = itemView.findViewById(R.id.image_view);
             bottone = itemView.findViewById(R.id.choose_image_btn);
+            Budget = itemView.findViewById(R.id.budget);
 
             this.onListListener = onListListener;
 
@@ -70,6 +71,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         try {
             holder.Titolo.setText(lista.get(position).getNome());
             holder.Descrizione.setText(lista.get(position).getDescrizione());
+            String budget = lista.get(position).getBudget() + " €";
+            holder.Budget.setText(budget);
             holder.Immagine.setImageResource(R.drawable.ic_image_black_24dp);
         }
         catch(NullPointerException e) {

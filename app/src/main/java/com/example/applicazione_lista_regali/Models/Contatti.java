@@ -31,6 +31,7 @@ public class Contatti implements Parcelable {
     protected Contatti(Parcel in) {
         nome = in.readString();
         numero = in.readString();
+        regalo = in.readParcelable(Regalo.class.getClassLoader());
         isEnable = in.readByte() != 0;
     }
 
@@ -87,6 +88,7 @@ public class Contatti implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nome);
         dest.writeString(numero);
+        dest.writeParcelable(regalo, flags);
         dest.writeByte((byte) (isEnable ? 1 : 0));
     }
 }

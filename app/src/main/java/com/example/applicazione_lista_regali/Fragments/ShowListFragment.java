@@ -36,7 +36,7 @@ import static android.app.Activity.RESULT_OK;
 public class ShowListFragment extends Fragment {
 
     private static final int PICK_CONTACT = 102;
-    public static final int DIALOG_FRAGMENT = 1;
+    private static final int DIALOG_FRAGMENT = 1;
 
     private RecyclerView recyclerView;
     private ContactGiftAdapter contactGiftAdapter;
@@ -44,11 +44,14 @@ public class ShowListFragment extends Fragment {
     private ImageButton addPerson;
     private Tooltip hintImportContacts;
     private ArrayList<String> contactNameList;
+    private Contatti deleteContact = null;
     private Intent updateIntent = new Intent();
+    private String budget;
     private int posizione;
 
-    public ShowListFragment(ArrayList<Contatti> contatti, int posizione) {
+    public ShowListFragment(ArrayList<Contatti> contatti, String budget, int posizione) {
         this.contacts = contatti;
+        this.budget = budget;
         this.posizione = posizione;
     }
 
@@ -127,8 +130,6 @@ public class ShowListFragment extends Fragment {
         }
     }
 
-    Contatti deleteContact = null;
-
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -183,14 +184,14 @@ public class ShowListFragment extends Fragment {
         }
     };
 
-    public void initRecyclerView(View view) {
+    private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.lista_regali);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         contactGiftAdapter = new ContactGiftAdapter(contacts);
         recyclerView.setAdapter(contactGiftAdapter);
     }
 
-    public void tooltipBuild() {
+    private void tooltipBuild() {
         hintImportContacts = new Tooltip.Builder(addPerson)
                 .setText(R.string.hint_insert_contact)
                 .setCornerRadius(50f)
@@ -204,7 +205,7 @@ public class ShowListFragment extends Fragment {
                 .build();
     }
 
-    public void Update() {
+    private void Update() {
         updateIntent.putExtra("contatti_aggiornati", contacts);
         updateIntent.putExtra("posizione", posizione);
         getActivity().setResult(RESULT_OK, updateIntent);

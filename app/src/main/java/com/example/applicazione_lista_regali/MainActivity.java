@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +21,6 @@ import com.example.applicazione_lista_regali.Utilities.ListAdapter;
 import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener {
 
@@ -72,12 +70,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             case CREATE_REQUEST: {
 
                 if(resultCode == RESULT_OK) {
-                    String nome = Objects.requireNonNull(intent.getExtras()).getString("nome");
-                    String descrizione = intent.getExtras().getString("descrizione");
-                    String budget = intent.getStringExtra("budget");
-                    ArrayList<Contatti> contatti = intent.getParcelableArrayListExtra("contatti");
-
-                    listaRegali = new ListaRegali(nome, descrizione, contatti, budget);
+                    listaRegali = intent.getParcelableExtra("lista_regali");
                     lista.add(listaRegali);
 
                     listAdapter.notifyDataSetChanged();

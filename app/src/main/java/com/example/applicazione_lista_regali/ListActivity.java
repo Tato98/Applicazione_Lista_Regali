@@ -24,10 +24,10 @@ public class ListActivity extends AppCompatActivity {
         listaRegali = getIntent().getParcelableExtra("Lista");
         posizione = getIntent().getIntExtra("posizione", 0);
 
-        showListFragment = new ShowListFragment(listaRegali.getContatti(), posizione);
+        showListFragment = new ShowListFragment(listaRegali.getContatti(), listaRegali.getBudget(), posizione);
         getSupportFragmentManager().beginTransaction().replace(R.id.show_list_fragment_container, showListFragment).commit();
 
-        getSupportActionBar().setTitle(getIntent().getStringExtra("nome"));
+        getSupportActionBar().setTitle(listaRegali.getNome());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

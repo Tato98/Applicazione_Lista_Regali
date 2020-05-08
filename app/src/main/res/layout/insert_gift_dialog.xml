@@ -16,9 +16,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/gift_input_name_layout"
-        android:layout_width="100dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_text"
+        android:layout_marginTop="10dp"
         android:hint="@string/name">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/gift_input_name"
@@ -35,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_text"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
         android:hint="@string/prezzo">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/gift_input_price"
@@ -51,7 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/gift_input_name_layout"
         android:text="@string/cancella"
-        android:backgroundTint="@color/colorPrimary">
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginTop="10dp">
     </Button>
 
     <Button
@@ -61,7 +64,8 @@
         android:layout_below="@id/gift_input_name_layout"
         android:text="@string/ok"
         android:backgroundTint="@color/colorPrimary"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp">
     </Button>
 
 </RelativeLayout>

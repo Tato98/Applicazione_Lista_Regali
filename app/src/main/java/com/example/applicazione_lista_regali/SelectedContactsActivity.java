@@ -2,14 +2,10 @@ package com.example.applicazione_lista_regali;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +24,6 @@ public class SelectedContactsActivity extends AppCompatActivity {
 
     private Contatti contatti;
     private ArrayList<Contatti> listaContatti;
-    private ArrayList<String> checkedNameList = new ArrayList<>();
-    private ArrayList<String> checkedNumberList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ContactsAdapter contactsAdapter;
 
@@ -57,9 +51,9 @@ public class SelectedContactsActivity extends AppCompatActivity {
                 String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
                 if(Objects.requireNonNull(getIntent().getStringArrayListExtra("nomi")).contains(name))
-                    contatti = new Contatti(name, number, new Regalo("vuoto", "vuoto"), false);
+                    contatti = new Contatti(name, number, new Regalo("vuoto", "0.00"), false);
                 else
-                    contatti = new Contatti(name, number, new Regalo("vuoto", "vuoto"), true);
+                    contatti = new Contatti(name, number, new Regalo("vuoto", "0.00"), true);
 
                 listaContatti.add(contatti);
             }

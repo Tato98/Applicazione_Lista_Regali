@@ -9,7 +9,6 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="30dp"
         android:backgroundTint="@color/colorPrimaryTrasparent"
         android:theme="@style/Theme.MaterialComponents.Light">
 
@@ -19,46 +18,36 @@
             android:padding="20dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/contact_name"
                 android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_toLeftOf="@id/gift_image">
+                android:textSize="20sp">
             </TextView>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/contact_number"
                 android:layout_below="@id/contact_name"
-                android:textStyle="italic"
-                android:layout_toLeftOf="@id/gift_image">
+                android:textStyle="italic">
             </TextView>
-
-            <ImageView
-                android:id="@+id/gift_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:clickable="true">
-            </ImageView>
 
             <TextView
                 android:id="@+id/gift_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/gift_image"
+                android:layout_alignParentEnd="true"
                 android:textStyle="bold"
                 android:textSize="20sp">
             </TextView>
 
             <TextView
                 android:id="@+id/gift_price"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gift_name"
-                android:layout_toRightOf="@id/gift_image"
+                android:layout_alignParentEnd="true"
                 android:textStyle="italic">
             </TextView>
 

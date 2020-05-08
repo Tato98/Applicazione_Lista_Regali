@@ -17,9 +17,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
+import com.example.applicazione_lista_regali.Models.ListaRegali;
 import com.example.applicazione_lista_regali.Utilities.CheckedContactsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -34,7 +37,10 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
     private ImageButton addContactsButton;
     private RecyclerView recyclerView;
     private CheckedContactsAdapter checkedContactsAdapter;
+    private String name, description, budget;
+    private ListaRegali listaRegali;
     private ArrayList<String> contactNameList;
+    private DecimalFormat decimalFormat;
     private ArrayList<Contatti> checkedContact = new ArrayList<>();
 
     @Override
@@ -84,23 +90,32 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                         setCount(getCount() + 2);
                     } else
                         setCount(getCount() + 1);
-                    intent.putExtra("nome", "Lista" + getCount());
+                    name = "Lista" + getCount();
                 } else {
-                    intent.putExtra("nome", Objects.requireNonNull(textName.getText()).toString());
+                    name = textName.getText().toString();
                 }
 
                 //CONTROLLO SULLA DESCRIZIONE DELLA LISTA
                 if(textDescription.getText().toString().isEmpty()) {
-                    intent.putExtra("descrizione", "Nessuna Descrizione");
+                    description = "Nessuna Descrizione";
                 } else {
-                    intent.putExtra("descrizione", Objects.requireNonNull(textDescription.getText()).toString());
+                    description = textDescription.getText().toString();
                 }
 
-                intent.putExtra("contatti", checkedContact);
-                intent.putExtra("budget", textBudget.getText().toString());
+                //CONTROLLO SUL BUDGET DELLA LISTA
+                double value;
+                decimalFormat = new DecimalFormat("0.00");
+                budget = textBudget.getText().toString();
+                if(!budget.isEmpty()) {
+                    value = Double.parseDouble(budget);
+                } else {
+                    value = 0;
+                }
 
                 //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
                 if(!getIntent().getStringArrayListExtra("nomi").contains(textName.getText().toString())) {
+                    listaRegali = new ListaRegali(name, description, checkedContact, decimalFormat.format(value));
+                    intent.putExtra("lista_regali", listaRegali);
                     setResult(RESULT_OK, intent);
                     finish();
                 } else {
