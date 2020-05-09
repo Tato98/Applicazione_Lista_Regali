@@ -67,6 +67,7 @@ public class SelectedContactsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         contactsAdapter = new ContactsAdapter(listaContatti);
+        recyclerView.setItemViewCacheSize(listaContatti.size());
         recyclerView.setAdapter(contactsAdapter);
     }
 

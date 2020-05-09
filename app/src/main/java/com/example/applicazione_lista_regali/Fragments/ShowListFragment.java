@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.applicazione_lista_regali.ListActivity;
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.R;
@@ -118,10 +119,9 @@ public class ShowListFragment extends Fragment {
             }
             case DIALOG_FRAGMENT: {
                 if(resultCode == RESULT_OK) {
-                    String nomeRegalo = intent.getStringExtra("nome_regalo");
-                    String prezzoRegalo = intent.getStringExtra("prezzo");
+                    Regalo regalo = intent.getParcelableExtra("regalo");
                     int posizione = intent.getIntExtra("posizione", 0);
-                    contacts.get(posizione).setRegalo(new Regalo(nomeRegalo, prezzoRegalo));
+                    contacts.get(posizione).setRegalo(regalo);
                     contactGiftAdapter.notifyItemChanged(posizione);
                     Update();
                 }

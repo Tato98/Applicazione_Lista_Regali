@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private ListAdapter listAdapter;
     private ListaRegali listaRegali;
     private ArrayList<ListaRegali> lista = new ArrayList<>();
-    private ArrayList<String> nomiListe = new ArrayList<>();
+    private ArrayList<String> nomiListe;
     private Tooltip hintListCreation;
     private Fragment_modifica_dialog fragment_modifica_dialog;
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListCreationActivity.class);
+                nomiListe = new ArrayList<>();
                 for (ListaRegali lr: lista) {
                     nomiListe.add(lr.getNome());
                 }

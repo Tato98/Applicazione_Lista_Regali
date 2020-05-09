@@ -4,6 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,19 +59,17 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContactsAdapter.ContactsHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ContactsAdapter.ContactsHolder holder, final int position) {
         try {
             holder.nome.setText(contatti.get(position).getNome());
             holder.numero.setText(contatti.get(position).getNumero());
             holder.setOnContactListener(new OnContactListener() {
                 @Override
                 public void OnContactClick(View view, int position) {
-                    CheckBox checkBox = (CheckBox) view;
-
-                    if(checkBox.isChecked()) {
+                    if(holder.checkBox.isChecked()) {
                         checkedContact.add(contatti.get(position));
                     }
-                    else if(!checkBox.isChecked()) {
+                    else if(!holder.checkBox.isChecked()) {
                         checkedContact.remove(contatti.get(position));
                     }
                 }
