@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.applicazione_lista_regali.ListCreationActivity;
 import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.R;
 import com.google.android.material.textfield.TextInputEditText;
