@@ -128,9 +128,9 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                         bundle.putInt("posizione", position);
                         bundle.putStringArrayList("nomi_liste", nomiListe);
 
-                        ModifyDialog fragment_modifica_dialog = new ModifyDialog(MainActivity.this);
-                        fragment_modifica_dialog.setArguments(bundle);
-                        fragment_modifica_dialog.show(getSupportFragmentManager(),"DialogFragment");
+                        ModifyDialog modifyDialog = new ModifyDialog(MainActivity.this);
+                        modifyDialog.setArguments(bundle);
+                        modifyDialog.show(getSupportFragmentManager(),"ModifyDialog");
                         return true;
                     case R.id.option2:
                         lista.remove(lista.get(position));
@@ -158,8 +158,12 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
 
     @Override
     public void OnReceiveData(String newName, String newDescription, int position) {
-        lista.get(position).setNome(newName);
-        lista.get(position).setDescrizione(newDescription);
+        if(!newName.isEmpty()) {
+            lista.get(position).setNome(newName);
+        }
+        if(!newDescription.isEmpty()) {
+            lista.get(position).setDescrizione(newDescription);
+        }
         listAdapter.notifyItemChanged(position);
     }
 }

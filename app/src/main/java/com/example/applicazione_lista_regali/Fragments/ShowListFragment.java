@@ -2,10 +2,8 @@ package com.example.applicazione_lista_regali.Fragments;
 
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +17,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.applicazione_lista_regali.ListActivity;
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.R;
 import com.example.applicazione_lista_regali.SelectedContactsActivity;
 import com.example.applicazione_lista_regali.Utilities.ContactGiftAdapter;
 import com.google.android.material.snackbar.Snackbar;
-import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 
@@ -43,7 +39,6 @@ public class ShowListFragment extends Fragment {
     private ContactGiftAdapter contactGiftAdapter;
     private ArrayList<Contatti> contacts;
     private ImageButton addPerson;
-    private Tooltip hintImportContacts;
     private ArrayList<String> contactNameList;
     private Contatti deleteContact = null;
     private Intent updateIntent = new Intent();
@@ -83,12 +78,6 @@ public class ShowListFragment extends Fragment {
 
         initRecyclerView(view);
 
-        tooltipBuild();
-        if(contacts.isEmpty())
-            hintImportContacts.show();
-        else
-            hintImportContacts.dismiss();
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -109,11 +98,6 @@ public class ShowListFragment extends Fragment {
                     contactGiftAdapter.notifyDataSetChanged();
 
                     Update();
-
-                    if(contacts.isEmpty())
-                        hintImportContacts.show();
-                    else
-                        hintImportContacts.dismiss();
                 }
                 break;
             }
@@ -121,7 +105,7 @@ public class ShowListFragment extends Fragment {
                 if(resultCode == RESULT_OK) {
                     Regalo regalo = intent.getParcelableExtra("regalo");
                     int posizione = intent.getIntExtra("posizione", 0);
-                    contacts.get(posizione).setRegalo(regalo);
+                    contacts.get(posizione).getRegali().add(regalo);
                     contactGiftAdapter.notifyItemChanged(posizione);
                     Update();
                 }
@@ -187,22 +171,8 @@ public class ShowListFragment extends Fragment {
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.lista_regali);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        contactGiftAdapter = new ContactGiftAdapter(contacts);
+        contactGiftAdapter = new ContactGiftAdapter(contacts, getContext());
         recyclerView.setAdapter(contactGiftAdapter);
-    }
-
-    private void tooltipBuild() {
-        hintImportContacts = new Tooltip.Builder(addPerson)
-                .setText(R.string.hint_insert_contact)
-                .setCornerRadius(50f)
-                .setGravity(Gravity.TOP)
-                .setTextSize(15f)
-                .setArrowHeight(80f)
-                .setPadding(20f)
-                .setArrowWidth(30f)
-                .setTypeface(Typeface.DEFAULT)
-                .setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryTrasparent))
-                .build();
     }
 
     private void Update() {

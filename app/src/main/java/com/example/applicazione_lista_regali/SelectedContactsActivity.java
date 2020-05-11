@@ -51,9 +51,9 @@ public class SelectedContactsActivity extends AppCompatActivity {
                 String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
                 if(Objects.requireNonNull(getIntent().getStringArrayListExtra("nomi")).contains(name))
-                    contatti = new Contatti(name, number, new Regalo("vuoto", "0.00"), false);
+                    contatti = new Contatti(name, number, new ArrayList<Regalo>(), false);
                 else
-                    contatti = new Contatti(name, number, new Regalo("vuoto", "0.00"), true);
+                    contatti = new Contatti(name, number, new ArrayList<Regalo>(), true);
 
                 listaContatti.add(contatti);
             }

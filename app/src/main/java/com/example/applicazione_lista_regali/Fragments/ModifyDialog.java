@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public class ModifyDialog extends DialogFragment {
 
-    private static final String TAG = "DialogFragment";
+    private static final String TAG = "ModifyDialog";
 
     private Button btnOK, btnCan;
     private EditText inputName,inputDes;
@@ -55,15 +55,11 @@ public class ModifyDialog extends DialogFragment {
                  ArrayList<String> listsName = getArguments().getStringArrayList("nomi_liste");
                  final int position = getArguments().getInt("posizione");
 
-                 if(!name.isEmpty() && !description.isEmpty()) {
-                     if(!listsName.contains(name)) {
-                         onSendData.OnReceiveData(name, description, position);
-                         getDialog().dismiss();
-                     } else {
-                         Toast.makeText(getContext(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
-                     }
+                 if(!listsName.contains(name)) {
+                     onSendData.OnReceiveData(name, description, position);
+                     getDialog().dismiss();
                  } else {
-                     Toast.makeText(getContext(), getString(R.string.inforequired_3), Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getContext(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
                  }
              }
          });

@@ -3,35 +3,28 @@ package com.example.applicazione_lista_regali.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Contatti implements Parcelable {
 
     private String nome;
     private String numero;
-    private Regalo regalo;
+    private ArrayList<Regalo> regali;
     private boolean isEnable;
+    private boolean expanded;
 
-    public Contatti(String nome, String numero) {
+    public Contatti(String nome, String numero, ArrayList<Regalo> regali, boolean isEnable) {
         this.nome = nome;
         this.numero = numero;
-    }
-
-    public Contatti(String nome, String numero, boolean isEnable) {
-        this.nome = nome;
-        this.numero = numero;
+        this.regali = regali;
         this.isEnable = isEnable;
-    }
-
-    public Contatti(String nome, String numero, Regalo regalo, boolean isEnable) {
-        this.nome = nome;
-        this.numero = numero;
-        this.regalo = regalo;
-        this.isEnable = isEnable;
+        this.expanded = false;
     }
 
     protected Contatti(Parcel in) {
         nome = in.readString();
         numero = in.readString();
-        regalo = in.readParcelable(Regalo.class.getClassLoader());
+        regali = in.createTypedArrayList(Regalo.CREATOR);
         isEnable = in.readByte() != 0;
     }
 
@@ -59,8 +52,12 @@ public class Contatti implements Parcelable {
         return isEnable;
     }
 
-    public Regalo getRegalo() {
-        return regalo;
+    public ArrayList<Regalo> getRegali() {
+        return regali;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
     }
 
     public void setNome(String nome) {
@@ -75,8 +72,12 @@ public class Contatti implements Parcelable {
         isEnable = enable;
     }
 
-    public void setRegalo(Regalo regalo) {
-        this.regalo = regalo;
+    public void setRegali(ArrayList<Regalo> regali) {
+        this.regali = regali;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 
     @Override
@@ -88,7 +89,7 @@ public class Contatti implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nome);
         dest.writeString(numero);
-        dest.writeParcelable(regalo, flags);
+        dest.writeTypedList(regali);
         dest.writeByte((byte) (isEnable ? 1 : 0));
     }
 }

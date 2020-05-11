@@ -26,4 +26,6 @@
     <string name="ok">Ok</string>
     <string name="modifica_budget">modifica Budget</string>
     <string name="modifica">Modifica</string>
+    <string name="totale_regali">Totale regali:\t</string>
+    <string name="totale_prezzo">Totale prezzo:\t</string>
 </resources>

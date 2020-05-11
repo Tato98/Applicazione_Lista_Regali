@@ -22,7 +22,6 @@ public class CheckedContactsAdapter extends RecyclerView.Adapter<CheckedContacts
 
         TextView nome, numero;
         ImageButton remove;
-        RemoveContactListener removeContactListener;
 
         public CheckedContactsHolder(@NonNull View itemView) {
             super(itemView);
@@ -33,13 +32,12 @@ public class CheckedContactsAdapter extends RecyclerView.Adapter<CheckedContacts
             remove.setOnClickListener(this);
         }
 
-        public void setRemoveContactListener(RemoveContactListener removeContactListener) {
-            this.removeContactListener = removeContactListener;
-        }
-
         @Override
         public void onClick(View v) {
-            removeContactListener.removeContact(v, getAdapterPosition());
+            if(v.getId() == R.id.remove) {
+                checkedContacts.remove(getAdapterPosition());
+                notifyItemRemoved(getAdapterPosition());
+            }
         }
     }
 
@@ -59,25 +57,10 @@ public class CheckedContactsAdapter extends RecyclerView.Adapter<CheckedContacts
         holder.nome.setText(checkedContacts.get(position).getNome());
         holder.numero.setText(checkedContacts.get(position).getNumero());
         holder.remove.setImageResource(R.drawable.ic_remove);
-        holder.setRemoveContactListener(new RemoveContactListener() {
-            @Override
-            public void removeContact(View view, int position) {
-                ImageButton remove = (ImageButton) view;
-
-                if(remove.isPressed()) {
-                    checkedContacts.remove(position);
-                    notifyItemRemoved(position);
-                }
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
         return checkedContacts.size();
-    }
-
-    public interface RemoveContactListener {
-        void removeContact(View view, int position);
     }
 }
