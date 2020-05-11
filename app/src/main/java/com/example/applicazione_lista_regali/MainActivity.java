@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.applicazione_lista_regali.Fragments.Fragment_modifica_dialog;
+import com.example.applicazione_lista_regali.Fragments.ModifyDialog;
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 import com.example.applicazione_lista_regali.Utilities.ListAdapter;
@@ -22,7 +22,7 @@ import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener {
+public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData {
 
     public static final int CREATE_REQUEST = 101;
     public static final int OPEN_REQUEST = 102;
@@ -32,16 +32,13 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private ListAdapter listAdapter;
     private ListaRegali listaRegali;
     private ArrayList<ListaRegali> lista = new ArrayList<>();
-    private ArrayList<String> nomiListe = new ArrayList<>();
+    private ArrayList<String> nomiListe;
     private Tooltip hintListCreation;
-    private Fragment_modifica_dialog fragment_modifica_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        fragment_modifica_dialog = new Fragment_modifica_dialog();
 
         addList = findViewById(R.id.addList);
         tooltipBuild();
@@ -53,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListCreationActivity.class);
+                nomiListe = new ArrayList<>();
                 for (ListaRegali lr: lista) {
                     nomiListe.add(lr.getNome());
                 }
@@ -122,7 +120,16 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.option1:
-                        Fragment_modifica_dialog fragment_modifica_dialog = new Fragment_modifica_dialog();
+                        Bundle bundle = new Bundle();
+                        nomiListe = new ArrayList<>();
+                        for (ListaRegali lr: lista) {
+                            nomiListe.add(lr.getNome());
+                        }
+                        bundle.putInt("posizione", position);
+                        bundle.putStringArrayList("nomi_liste", nomiListe);
+
+                        ModifyDialog fragment_modifica_dialog = new ModifyDialog(MainActivity.this);
+                        fragment_modifica_dialog.setArguments(bundle);
                         fragment_modifica_dialog.show(getSupportFragmentManager(),"DialogFragment");
                         return true;
                     case R.id.option2:
@@ -147,5 +154,12 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 .setTypeface(Typeface.DEFAULT)
                 .setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryTrasparent))
                 .build();
+    }
+
+    @Override
+    public void OnReceiveData(String newName, String newDescription, int position) {
+        lista.get(position).setNome(newName);
+        lista.get(position).setDescrizione(newDescription);
+        listAdapter.notifyItemChanged(position);
     }
 }

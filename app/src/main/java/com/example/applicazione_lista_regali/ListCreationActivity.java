@@ -30,8 +30,6 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
     private static final int CONTACT_PICK = 102;
 
-    private static int count = 0;
-
     private TextInputEditText textName, textDescription, textBudget;
     private Button createButton, cancelButton;
     private ImageButton addContactsButton;
@@ -83,17 +81,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
             }
             case R.id.btn_create: {
                 Intent intent = new Intent();
-
-                //CONTROLLO SUL NOME DELLA LISTA
-                if(textName.getText().toString().isEmpty()) {
-                    if(getIntent().getStringArrayListExtra("nomi").contains("Lista" + (getCount() + 1))) {
-                        setCount(getCount() + 2);
-                    } else
-                        setCount(getCount() + 1);
-                    name = "Lista" + getCount();
-                } else {
-                    name = textName.getText().toString();
-                }
+                ArrayList<String> nameList = getIntent().getStringArrayListExtra("nomi");
 
                 //CONTROLLO SULLA DESCRIZIONE DELLA LISTA
                 if(textDescription.getText().toString().isEmpty()) {
@@ -112,14 +100,21 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                     value = 0;
                 }
 
-                //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
-                if(!getIntent().getStringArrayListExtra("nomi").contains(textName.getText().toString())) {
-                    listaRegali = new ListaRegali(name, description, checkedContact, decimalFormat.format(value));
-                    intent.putExtra("lista_regali", listaRegali);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                //CONTROLLO SUL NOME DELLA LISTA
+                if(!textName.getText().toString().isEmpty()) {
+                    name = textName.getText().toString();
+
+                    //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
+                    if(!nameList.contains(name)) {
+                        listaRegali = new ListaRegali(name, description, checkedContact, decimalFormat.format(value));
+                        intent.putExtra("lista_regali", listaRegali);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        Toast.makeText(ListCreationActivity.this, getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(ListCreationActivity.this, getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ListCreationActivity.this, getString(R.string.inforequired_2), Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
@@ -155,13 +150,5 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         recyclerView.setLayoutManager(linearLayoutManager);
         checkedContactsAdapter = new CheckedContactsAdapter(checkedContact);
         recyclerView.setAdapter(checkedContactsAdapter);
-    }
-
-    public static int getCount() {
-        return count;
-    }
-
-    public static void setCount(int count) {
-        ListCreationActivity.count = count;
     }
 }
