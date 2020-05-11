@@ -171,7 +171,7 @@ public class ShowListFragment extends Fragment {
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.lista_regali);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        contactGiftAdapter = new ContactGiftAdapter(contacts, getContext());
+        contactGiftAdapter = new ContactGiftAdapter(contacts, getContext(), ShowListFragment.this);
         recyclerView.setAdapter(contactGiftAdapter);
     }
 

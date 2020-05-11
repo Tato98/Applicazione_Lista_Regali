@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
     private RecyclerView subRecyclerView;
     private GiftAdapter giftAdapter;
     private Context context;
+    private Fragment fragment;
 
     public class ContactGiftHolder extends RecyclerView.ViewHolder {
 
@@ -49,9 +51,10 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
         }
     }
 
-    public ContactGiftAdapter(ArrayList<Contatti> contatti, Context context) {
+    public ContactGiftAdapter(ArrayList<Contatti> contatti, Context context, Fragment fragment) {
         this.contatti = contatti;
         this.context = context;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -68,7 +71,7 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
 
         subRecyclerView = holder.itemView.findViewById(R.id.gift_list);
         subRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        giftAdapter = new GiftAdapter(contatti.get(position).getRegali());
+        giftAdapter = new GiftAdapter(contatti.get(position).getRegali(), fragment);
         subRecyclerView.setAdapter(giftAdapter);
 
         holder.totRegali.setText(String.valueOf(giftAdapter.getItemCount()));

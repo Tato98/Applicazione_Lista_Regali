@@ -1,5 +1,6 @@
 package com.example.applicazione_lista_regali.Utilities;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,19 +8,24 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.applicazione_lista_regali.Fragments.ModifyGiftDialog;
 import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.R;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> {
+public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> implements ModifyGiftDialog.OnSendData {
+
+    private static final int DIALOG_FRAGMENT = 1;
 
     private ArrayList<Regalo> regali;
     private double totPrice;
     private DecimalFormat decimalFormat;
+    private Fragment fragment;
 
     public class GiftHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -47,14 +53,22 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> {
                     break;
                 }
                 case R.id.edit: {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("posizione", getAdapterPosition());
+                    bundle.putString("current_price", regali.get(getAdapterPosition()).getPrezzo());
+                    ModifyGiftDialog modifyGiftDialog = new ModifyGiftDialog(GiftAdapter.this);
+                    modifyGiftDialog.setTargetFragment(fragment, DIALOG_FRAGMENT);
+                    modifyGiftDialog.setArguments(bundle);
+                    modifyGiftDialog.show(fragment.getFragmentManager(), "ModifyGiftDialog");
                     break;
                 }
             }
         }
     }
 
-    public GiftAdapter(ArrayList<Regalo> regali) {
+    public GiftAdapter(ArrayList<Regalo> regali, Fragment fragment) {
         this.regali = regali;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -82,5 +96,16 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> {
             totPrice += Double.parseDouble(r.getPrezzo());
         }
         return decimalFormat.format(totPrice);
+    }
+
+    @Override
+    public void OnReceiveData(String newName, String newPrice, int position) {
+        if(!newName.isEmpty()) {
+            regali.get(position).setNome(newName);
+        }
+        if(!newPrice.isEmpty()) {
+            regali.get(position).setPrezzo(newPrice);
+        }
+        notifyItemChanged(position);
     }
 }

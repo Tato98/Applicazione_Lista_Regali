@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.applicazione_lista_regali.Fragments.Fragment_modifica_dialog;
 import com.example.applicazione_lista_regali.Fragments.Modifica_budget_frag;
 import com.example.applicazione_lista_regali.Fragments.ShowListFragment;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
