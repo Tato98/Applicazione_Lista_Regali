@@ -28,4 +28,5 @@
     <string name="modifica">Modifica</string>
     <string name="totale_regali">Totale regali:\t</string>
     <string name="totale_prezzo">Totale prezzo:\t</string>
+    <string name="elimina_dialog">Sei sicuro di voler eliminare questa lista?</string>
 </resources>

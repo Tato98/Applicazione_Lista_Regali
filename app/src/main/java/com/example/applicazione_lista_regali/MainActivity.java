@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.applicazione_lista_regali.Fragments.Elimina_Lista_dialog;
 import com.example.applicazione_lista_regali.Fragments.ModifyDialog;
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
@@ -22,7 +23,7 @@ import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData {
+public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData,Elimina_Lista_dialog.OnSendDataList {
 
     public static final int CREATE_REQUEST = 101;
     public static final int OPEN_REQUEST = 102;
@@ -133,8 +134,17 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                         modifyDialog.show(getSupportFragmentManager(),"ModifyDialog");
                         return true;
                     case R.id.option2:
-                        lista.remove(lista.get(position));
-                        listAdapter.notifyItemRemoved(position);
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putInt("posizione",position);
+                        bundle2.putBoolean("booleano",false);
+
+                        Elimina_Lista_dialog elimina = new Elimina_Lista_dialog(MainActivity.this);
+                        elimina.setArguments(bundle2);
+                        elimina.show(getSupportFragmentManager(),"DialogFragment");
+
+                       // lista.remove(lista.get(position));
+                        // listAdapter.notifyItemRemoved(position);
+
                         return true;
                 }
                 return false;
@@ -166,4 +176,13 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         }
         listAdapter.notifyItemChanged(position);
     }
+
+    @Override
+    public void OnReceiveDataList(boolean premoSi, int position) {
+        if(premoSi=true){
+            lista.remove(lista.get(position));
+            listAdapter.notifyItemRemoved(position);
+        }
+    }
+
 }
