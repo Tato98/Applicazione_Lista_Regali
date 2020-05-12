@@ -25,7 +25,11 @@ public class Modifica_budget_frag extends DialogFragment{
 
         private EditText edit_budget;
         private Button canc_btn, modifica_btn;
+    private OnSendData onSendBudget;
 
+    public Modifica_budget_frag(Modifica_budget_frag.OnSendData onSendData) { this.onSendData = onSendData;
+
+    }
 
         @Nullable
         @Override
@@ -57,6 +61,10 @@ public class Modifica_budget_frag extends DialogFragment{
             });
             return view;
         }
+
+public interface OnSendBudget {
+    void OnReceiveData(String newBudget);
+}
     }
 
 
