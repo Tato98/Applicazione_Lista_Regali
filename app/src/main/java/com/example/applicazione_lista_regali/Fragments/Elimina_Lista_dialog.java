@@ -16,11 +16,10 @@ public class Elimina_Lista_dialog extends DialogFragment {
 
     private Button buttonSi, buttonNo;
     private OnSendDataList onSendDataList;
-    private boolean premoSi;
 
-    public Elimina_Lista_dialog(OnSendDataList onSendDataList){this.onSendDataList = onSendDataList;}
-
-
+    public Elimina_Lista_dialog(OnSendDataList onSendDataList) {
+        this.onSendDataList = onSendDataList;
+    }
 
     @Nullable
     @Override
@@ -29,7 +28,6 @@ public class Elimina_Lista_dialog extends DialogFragment {
 
         buttonNo = view.findViewById(R.id.no);
         buttonSi = view.findViewById(R.id.si);
-        premoSi = false;
 
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,9 +40,8 @@ public class Elimina_Lista_dialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 final int position = getArguments().getInt("posizione");
-                final boolean premoSi = getArguments().getBoolean("booleano",true);
-                onSendDataList.OnReceiveDataList(premoSi,position);
-              getDialog().dismiss();
+                onSendDataList.OnReceiveDataList(position);
+                getDialog().dismiss();
             }
         });
 
@@ -52,6 +49,6 @@ public class Elimina_Lista_dialog extends DialogFragment {
     }
 
     public interface OnSendDataList{
-        void OnReceiveDataList(boolean premoSi,int position);
+        void OnReceiveDataList(int position);
     }
 }

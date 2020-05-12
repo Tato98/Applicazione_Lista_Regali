@@ -23,7 +23,7 @@ import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData,Elimina_Lista_dialog.OnSendDataList {
+public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData, Elimina_Lista_dialog.OnSendDataList {
 
     public static final int CREATE_REQUEST = 101;
     public static final int OPEN_REQUEST = 102;
@@ -136,15 +136,10 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                     case R.id.option2:
                         Bundle bundle2 = new Bundle();
                         bundle2.putInt("posizione",position);
-                        bundle2.putBoolean("booleano",false);
 
                         Elimina_Lista_dialog elimina = new Elimina_Lista_dialog(MainActivity.this);
                         elimina.setArguments(bundle2);
                         elimina.show(getSupportFragmentManager(),"DialogFragment");
-
-                       // lista.remove(lista.get(position));
-                        // listAdapter.notifyItemRemoved(position);
-
                         return true;
                 }
                 return false;
@@ -178,11 +173,8 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     }
 
     @Override
-    public void OnReceiveDataList(boolean premoSi, int position) {
-        if(premoSi=true){
-            lista.remove(lista.get(position));
-            listAdapter.notifyItemRemoved(position);
-        }
+    public void OnReceiveDataList(int position) {
+        lista.remove(lista.get(position));
+        listAdapter.notifyItemRemoved(position);
     }
-
 }
