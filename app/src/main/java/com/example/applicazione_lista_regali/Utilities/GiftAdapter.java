@@ -26,6 +26,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
     private double totPrice;
     private DecimalFormat decimalFormat;
     private Fragment fragment;
+    private OnUpdate onUpdate;
 
     public class GiftHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -50,6 +51,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
                 case R.id.delete: {
                     regali.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
+                    onUpdate.Update();
                     break;
                 }
                 case R.id.edit: {
@@ -66,9 +68,10 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
         }
     }
 
-    public GiftAdapter(ArrayList<Regalo> regali, Fragment fragment) {
+    public GiftAdapter(ArrayList<Regalo> regali, Fragment fragment, OnUpdate onUpdate) {
         this.regali = regali;
         this.fragment = fragment;
+        this.onUpdate = onUpdate;
     }
 
     @NonNull
@@ -107,5 +110,10 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
             regali.get(position).setPrezzo(newPrice);
         }
         notifyItemChanged(position);
+        onUpdate.Update();
+    }
+
+    public interface OnUpdate {
+        void Update();
     }
 }

@@ -17,7 +17,7 @@ import com.example.applicazione_lista_regali.R;
 
 import java.util.ArrayList;
 
-public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.ContactGiftHolder> {
+public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.ContactGiftHolder> implements GiftAdapter.OnUpdate {
 
     private ArrayList<Contatti> contatti;
     private RecyclerView subRecyclerView;
@@ -71,7 +71,7 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
 
         subRecyclerView = holder.itemView.findViewById(R.id.gift_list);
         subRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        giftAdapter = new GiftAdapter(contatti.get(position).getRegali(), fragment);
+        giftAdapter = new GiftAdapter(contatti.get(position).getRegali(), fragment, this);
         subRecyclerView.setAdapter(giftAdapter);
 
         holder.totRegali.setText(String.valueOf(giftAdapter.getItemCount()));
@@ -85,5 +85,10 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
     @Override
     public int getItemCount() {
         return contatti.size();
+    }
+
+    @Override
+    public void Update() {
+        notifyDataSetChanged();
     }
 }
