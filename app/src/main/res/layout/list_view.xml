@@ -22,7 +22,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_image_black_24dp">
+                android:background="@drawable/ic_image_gift">
             </ImageView>
 
             <TextView
@@ -55,14 +55,6 @@
                 android:layout_alignParentEnd="true">
             </TextView>
 
-            <Button
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_edit"
-                android:id="@+id/choose_image_btn"
-                android:layout_marginTop="75dp"
-                android:layout_marginStart="75dp">
-            </Button>
 
         </RelativeLayout>
 
