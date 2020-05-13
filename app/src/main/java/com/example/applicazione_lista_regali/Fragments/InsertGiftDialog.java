@@ -54,15 +54,11 @@ public class InsertGiftDialog extends DialogFragment {
 
                 double value;
                 decimalFormat = new DecimalFormat("0.00");
-                price = prezzo.getText().toString();
-                if(!price.isEmpty()) {
-                    value = Double.parseDouble(price);
-                } else {
-                    value = 0;
-                }
 
                 if(!nome.getText().toString().isEmpty() && !prezzo.getText().toString().isEmpty()) {
                     name = nome.getText().toString();
+                    price = prezzo.getText().toString();
+                    value = Double.parseDouble(price);
 
                     Regalo regalo = new Regalo(name, decimalFormat.format(value));
                     Intent intent = getActivity().getIntent();
