@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "420649509009",
+    "firebase_url": "https://applicazione-lista-regali.firebaseio.com",
+    "project_id": "applicazione-lista-regali",
+    "storage_bucket": "applicazione-lista-regali.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420649509009:android:b1d85c040d51fbfd6f5f30",
+        "android_client_info": {
+          "package_name": "com.example.applicazione_lista_regali"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420649509009-2e80utgcbolkm1s5eq6dfs1f1o1nogvg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyZAtwmMLedkQhCg_W2Vhq1xvRqYqKa-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420649509009-2e80utgcbolkm1s5eq6dfs1f1o1nogvg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

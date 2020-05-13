@@ -15,7 +15,6 @@ import com.example.applicazione_lista_regali.Fragments.Modifica_budget_frag;
 import com.example.applicazione_lista_regali.Fragments.ShowListFragment;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 
-
 public class ListActivity extends AppCompatActivity {
 
 //___ I _______________________________________________________________________________________________
