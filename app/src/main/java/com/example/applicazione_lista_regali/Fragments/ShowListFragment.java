@@ -162,7 +162,7 @@ public class ShowListFragment extends Fragment {
                     .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.remove_color))
                     .addSwipeLeftActionIcon(R.drawable.ic_delete_sweep)
                     .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.edit_color))
-                    .addSwipeRightActionIcon(R.drawable.ic_edit)
+                    .addSwipeRightActionIcon(R.drawable.ic_image_gift)
                     .create()
                     .decorate();
         }

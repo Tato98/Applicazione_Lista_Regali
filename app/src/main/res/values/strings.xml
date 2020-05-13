@@ -21,7 +21,7 @@
     <string name="hint_insert_contact">Aggiungi contatti dalla rubrica</string>
     <string name="elimina">Elimina</string>
     <string name="rinomina">Rinomina</string>
-    <string name="dialog_text">Aggiungi il nome del regalo e il relativo prezzo</string>
+    <string name="dialog_text">Aggiungi regalo</string>
     <string name="prezzo">Prezzo</string>
     <string name="ok">Ok</string>
     <string name="modifica_budget">modifica Budget</string>
@@ -29,4 +29,6 @@
     <string name="totale_regali">Totale regali:\t</string>
     <string name="totale_prezzo">Totale prezzo:\t</string>
     <string name="elimina_dialog">Sei sicuro di voler eliminare questa lista?</string>
+    <string name="no">NO</string>
+    <string name="si">SI</string>
 </resources>

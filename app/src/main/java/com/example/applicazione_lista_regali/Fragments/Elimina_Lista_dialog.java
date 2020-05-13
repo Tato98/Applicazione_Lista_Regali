@@ -48,7 +48,7 @@ public class Elimina_Lista_dialog extends DialogFragment {
         return view;
     }
 
-    public interface OnSendDataList{
+    public interface OnSendDataList {
         void OnReceiveDataList(int position);
     }
 }
