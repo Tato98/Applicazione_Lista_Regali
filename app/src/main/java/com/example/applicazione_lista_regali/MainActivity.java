@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             lista = new ArrayList<>();
         }
 
-
         tooltipBuild();
         if(lista.isEmpty()) {
             hintListCreation.show();
