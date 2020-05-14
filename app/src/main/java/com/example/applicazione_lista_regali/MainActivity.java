@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     @Override
     public void OnListClick(int position) {
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra("Lista", lista.get(position));
+        intent.putExtra("lista", lista);
         intent.putExtra("posizione", position);
         startActivityForResult(intent, OPEN_REQUEST);
     }

@@ -42,6 +42,7 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
     private RecyclerView recyclerView;
     private ContactGiftAdapter contactGiftAdapter;
     private ArrayList<Contatti> contacts;
+    private ArrayList<ListaRegali> lista;
     private ImageButton addPerson;
     private ArrayList<String> contactNameList;
     private Contatti deleteContact = null;
@@ -49,10 +50,11 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
     private String budget;
     private int posizione;
 
-    public ShowListFragment(ArrayList<Contatti> contacts, String budget, int posizione) {
-        this.contacts = contacts;
-        this.budget = budget;
+    public ShowListFragment(ArrayList<ListaRegali> lista, int posizione) {
+        this.lista = lista;
         this.posizione = posizione;
+        this.contacts = lista.get(posizione).getContatti();
+        this.budget = lista.get(posizione).getBudget();
     }
 
     @Override
@@ -187,5 +189,17 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
     @Override
     public void notifyUpdate() {
         Update();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        lista.get(posizione).setContatti(contacts);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(lista);
+        editor.putString("task list", json);
+        editor.apply();
     }
 }

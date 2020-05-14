@@ -31,22 +31,18 @@ public class ListActivity extends AppCompatActivity {
 //____ F ______________________________________________________________________________________________
 
 
-    private ShowListFragment showListFragment;
-    private int posizione;
-    private ListaRegali listaRegali;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_activity);
 
-        listaRegali = getIntent().getParcelableExtra("Lista");
-        posizione = getIntent().getIntExtra("posizione", 0);
+        ArrayList<ListaRegali> lista = getIntent().getParcelableArrayListExtra("lista");
+        int posizione = getIntent().getIntExtra("posizione", 0);
 
-        showListFragment = new ShowListFragment(listaRegali.getContatti(), listaRegali.getBudget(), posizione);
+        ShowListFragment showListFragment = new ShowListFragment(lista, posizione);
         getSupportFragmentManager().beginTransaction().replace(R.id.show_list_fragment_container, showListFragment).commit();
 
-        //getSupportActionBar().setTitle(listaRegali.getNome());
+        getSupportActionBar().setTitle(lista.get(posizione).getNome());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -60,7 +56,7 @@ public class ListActivity extends AppCompatActivity {
         modifica_btn = findViewById(R.id.modifica_btn); //dialog btn
         edit_budget = findViewById(R.id.edit_budget);
 
-        textBudget = listaRegali.getBudget();
+        textBudget = lista.get(posizione).getBudget();
        // textBudget = getIntent().getStringExtra( "budget");
         b_rimasto.setText(textBudget);
 
