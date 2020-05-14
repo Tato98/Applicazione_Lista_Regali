@@ -1,6 +1,7 @@
 package com.example.applicazione_lista_regali;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -19,8 +20,11 @@ import com.example.applicazione_lista_regali.Fragments.ModifyDialog;
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 import com.example.applicazione_lista_regali.Utilities.ListAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tooltip.Tooltip;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData, Elimina_Lista_dialog.OnSendDataList {
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private ListaRegali listaRegali;
-    private ArrayList<ListaRegali> lista = new ArrayList<>();
+    private ArrayList<ListaRegali> lista;
     private ArrayList<String> nomiListe;
     private Tooltip hintListCreation;
 
@@ -42,8 +46,21 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         setContentView(R.layout.activity_main);
 
         addList = findViewById(R.id.addList);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("task list", null);
+        Type type = new TypeToken<ArrayList<ListaRegali>>() {}.getType();
+        lista = gson.fromJson(json, type);
+
+        if(lista == null) {
+            lista = new ArrayList<>();
+        }
+
         tooltipBuild();
-        hintListCreation.show();
+        if(lista.isEmpty()) {
+            hintListCreation.show();
+        }
 
         initRecyclerView();
 
@@ -59,6 +76,17 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 startActivityForResult(intent, CREATE_REQUEST);
             }
         });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(lista);
+        editor.putString("task list", json);
+        editor.apply();
     }
 
     @Override
@@ -105,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
     @Override
     public void OnListClick(int position) {
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra("Lista", lista.get(position));
+        intent.putExtra("lista", lista);
         intent.putExtra("posizione", position);
         startActivityForResult(intent, OPEN_REQUEST);
     }

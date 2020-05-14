@@ -1,6 +1,7 @@
 package com.example.applicazione_lista_regali.Fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -18,19 +19,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
+import com.example.applicazione_lista_regali.Models.ListaRegali;
 import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.R;
 import com.example.applicazione_lista_regali.SelectedContactsActivity;
 import com.example.applicazione_lista_regali.Utilities.ContactGiftAdapter;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
-public class ShowListFragment extends Fragment {
+public class ShowListFragment extends Fragment implements ContactGiftAdapter.Notify {
 
     private static final int PICK_CONTACT = 102;
     private static final int DIALOG_FRAGMENT = 1;
@@ -38,6 +42,7 @@ public class ShowListFragment extends Fragment {
     private RecyclerView recyclerView;
     private ContactGiftAdapter contactGiftAdapter;
     private ArrayList<Contatti> contacts;
+    private ArrayList<ListaRegali> lista;
     private ImageButton addPerson;
     private ArrayList<String> contactNameList;
     private Contatti deleteContact = null;
@@ -45,10 +50,11 @@ public class ShowListFragment extends Fragment {
     private String budget;
     private int posizione;
 
-    public ShowListFragment(ArrayList<Contatti> contatti, String budget, int posizione) {
-        this.contacts = contatti;
-        this.budget = budget;
+    public ShowListFragment(ArrayList<ListaRegali> lista, int posizione) {
+        this.lista = lista;
         this.posizione = posizione;
+        this.contacts = lista.get(posizione).getContatti();
+        this.budget = lista.get(posizione).getBudget();
     }
 
     @Override
@@ -139,7 +145,6 @@ public class ShowListFragment extends Fragment {
 
                         }
                     }).show();
-
                     break;
                 }
                 case ItemTouchHelper.RIGHT: {
@@ -171,7 +176,7 @@ public class ShowListFragment extends Fragment {
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.lista_regali);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        contactGiftAdapter = new ContactGiftAdapter(contacts, getContext(), ShowListFragment.this);
+        contactGiftAdapter = new ContactGiftAdapter(contacts, getContext(), ShowListFragment.this, this);
         recyclerView.setAdapter(contactGiftAdapter);
     }
 
@@ -179,5 +184,22 @@ public class ShowListFragment extends Fragment {
         updateIntent.putExtra("contatti_aggiornati", contacts);
         updateIntent.putExtra("posizione", posizione);
         getActivity().setResult(RESULT_OK, updateIntent);
+    }
+
+    @Override
+    public void notifyUpdate() {
+        Update();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        lista.get(posizione).setContatti(contacts);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(lista);
+        editor.putString("task list", json);
+        editor.apply();
     }
 }
