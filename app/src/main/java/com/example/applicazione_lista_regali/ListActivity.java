@@ -1,6 +1,7 @@
 package com.example.applicazione_lista_regali;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.applicazione_lista_regali.Fragments.Modifica_budget_frag;
 import com.example.applicazione_lista_regali.Fragments.ShowListFragment;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
+
+import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -43,7 +46,7 @@ public class ListActivity extends AppCompatActivity {
         showListFragment = new ShowListFragment(listaRegali.getContatti(), listaRegali.getBudget(), posizione);
         getSupportFragmentManager().beginTransaction().replace(R.id.show_list_fragment_container, showListFragment).commit();
 
-        getSupportActionBar().setTitle(listaRegali.getNome());
+        //getSupportActionBar().setTitle(listaRegali.getNome());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

@@ -24,6 +24,7 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
     private GiftAdapter giftAdapter;
     private Context context;
     private Fragment fragment;
+    private Notify notify;
 
     public class ContactGiftHolder extends RecyclerView.ViewHolder {
 
@@ -51,10 +52,11 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
         }
     }
 
-    public ContactGiftAdapter(ArrayList<Contatti> contatti, Context context, Fragment fragment) {
+    public ContactGiftAdapter(ArrayList<Contatti> contatti, Context context, Fragment fragment, Notify notify) {
         this.contatti = contatti;
         this.context = context;
         this.fragment = fragment;
+        this.notify = notify;
     }
 
     @NonNull
@@ -90,5 +92,10 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
     @Override
     public void Update() {
         notifyDataSetChanged();
+        notify.notifyUpdate();
+    }
+
+    public interface Notify {
+        void notifyUpdate();
     }
 }
