@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.Models.Contatti;
+import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.R;
 
 import java.util.ArrayList;
@@ -93,6 +94,16 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
     public void Update() {
         notifyDataSetChanged();
         notify.notifyUpdate();
+    }
+
+    public double totSpent() {
+        double totSpent = 0;
+        for (Contatti cnt: contatti) {
+            for (Regalo r: cnt.getRegali()) {
+                totSpent += Double.parseDouble(r.getPrezzo());
+            }
+        }
+        return totSpent;
     }
 
     public interface Notify {
