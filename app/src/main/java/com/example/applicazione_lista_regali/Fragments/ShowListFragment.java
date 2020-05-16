@@ -27,6 +27,7 @@ import com.example.applicazione_lista_regali.Utilities.ContactGiftAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -47,19 +48,14 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
     private ArrayList<String> contactNameList;
     private Contatti deleteContact = null;
     private Intent updateIntent = new Intent();
-    private String budget;
+    private OnSendTotSpent onSendTotSpent;
     private int posizione;
 
-    public ShowListFragment(ArrayList<ListaRegali> lista, int posizione) {
+    public ShowListFragment(ArrayList<ListaRegali> lista, int posizione, OnSendTotSpent onSendTotSpent) {
         this.lista = lista;
         this.posizione = posizione;
+        this.onSendTotSpent = onSendTotSpent;
         this.contacts = lista.get(posizione).getContatti();
-        this.budget = lista.get(posizione).getBudget();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -114,6 +110,7 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
                     contacts.get(posizione).getRegali().add(regalo);
                     contactGiftAdapter.notifyItemChanged(posizione);
                     Update();
+                    onSendTotSpent.ReceiveTotSpent(contactGiftAdapter.totSpent());
                 }
                 break;
             }
@@ -189,6 +186,7 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
     @Override
     public void notifyUpdate() {
         Update();
+        onSendTotSpent.ReceiveTotSpent(contactGiftAdapter.totSpent());
     }
 
     @Override
@@ -201,5 +199,9 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
         String json = gson.toJson(lista);
         editor.putString("task list", json);
         editor.apply();
+    }
+
+    public interface OnSendTotSpent {
+        void ReceiveTotSpent(double totSpent);
     }
 }
