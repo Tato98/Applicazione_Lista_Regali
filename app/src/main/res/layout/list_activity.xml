@@ -52,9 +52,12 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/frase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hai ancora a disposizione: "
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:padding="20dp"
                 android:gravity="center"/>
 
@@ -62,7 +65,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:id="@+id/b_rimasto"/>
+                android:layout_marginEnd="15dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@android:color/darker_gray"
+                android:id="@+id/b_rimasto"         />
 
             <RelativeLayout
                 android:layout_width="match_parent"

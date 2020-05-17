@@ -3,7 +3,7 @@ package com.example.applicazione_lista_regali.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Regalo implements Parcelable {
+public class  Regalo implements Parcelable {
 
     private String nome;
     private String prezzo;

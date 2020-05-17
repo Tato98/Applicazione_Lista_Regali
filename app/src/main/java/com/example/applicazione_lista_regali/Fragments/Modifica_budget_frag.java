@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.applicazione_lista_regali.R;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class Modifica_budget_frag extends DialogFragment{
@@ -25,16 +26,17 @@ public class Modifica_budget_frag extends DialogFragment{
 
         private EditText edit_budget;
         private Button canc_btn, modifica_btn;
-    private OnSendData onSendBudget;
+        private String budget;
+        private DecimalFormat decimalFormat;
+       // private OnSendBudget onSendBudget;
 
-    public Modifica_budget_frag(Modifica_budget_frag.OnSendData onSendData) { this.onSendData = onSendData;
+//public Modifica_budget_frag(OnSendBudget onSendBudget){this.onSendBudget=onSendBudget;}
 
-    }
-
-        @Nullable
+    @Nullable
         @Override
         public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view =  inflater.inflate(R.layout.change_budget_dialog, null);
+
             canc_btn = view.findViewById(R.id.canc_btn);
             modifica_btn = view.findViewById(R.id.modifica_btn);
             edit_budget = view.findViewById(R.id.edit_budget);
@@ -56,15 +58,37 @@ public class Modifica_budget_frag extends DialogFragment{
 
                     getDialog().dismiss();
                     Toast.makeText(getContext(), " BUDGET MODIFICATO ", Toast.LENGTH_LONG).show();
+/*
+                    final int position = getArguments().getInt("posizione");
+                    String currentBudget = getArguments().getString("budget");
+
+                    double value;
+                    decimalFormat = new DecimalFormat("0.00");
+                    budget = edit_budget.getText().toString();
+                    if(!budget.isEmpty()) {
+                        value = Double.parseDouble(budget);
+                    } else {
+                        value = Double.parseDouble(currentBudget);
+                    }
+
+                    onSendBudget.OnReceiveBudget( decimalFormat.format(value), position);
+
+
+                    getDialog().dismiss();
+
+ */
 
                 }
             });
             return view;
         }
+        /*
+    public interface OnSendBudget {
+        void OnReceiveBudget( String newBudget, int position);
+    }
 
-public interface OnSendBudget {
-    void OnReceiveData(String newBudget);
-}
+         */
+
     }
 
 
