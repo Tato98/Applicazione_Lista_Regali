@@ -21,13 +21,4 @@
         android:id="@+id/add_person"    >
     </ImageButton>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:gravity="center"
-        android:hint=" press per modificare "
-        android:textColorHint="@color/colorPrimary"
-        android:layout_alignBottom="@id/lista_regali"   />
-
 </RelativeLayout>

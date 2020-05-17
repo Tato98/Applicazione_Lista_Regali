@@ -77,6 +77,7 @@ public class SelectedContactsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

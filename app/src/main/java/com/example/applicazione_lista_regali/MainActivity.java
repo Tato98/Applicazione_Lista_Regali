@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.applicazione_lista_regali.Fragments.Elimina_Lista_dialog;
 import com.example.applicazione_lista_regali.Fragments.ModifyDialog;
 import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
@@ -29,7 +28,7 @@ import com.tooltip.Tooltip;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData, Elimina_Lista_dialog.OnSendDataList {
+public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData {
 
     public static final int CREATE_REQUEST = 101;
     public static final int OPEN_REQUEST = 102;
@@ -158,18 +157,12 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                         }
                         bundle.putInt("posizione", position);
                         bundle.putStringArrayList("nomi_liste", nomiListe);
-
                         ModifyDialog modifyDialog = new ModifyDialog(MainActivity.this);
                         modifyDialog.setArguments(bundle);
                         modifyDialog.show(getSupportFragmentManager(),"ModifyDialog");
                         return true;
-                    case R.id.option2:
-                        /*Bundle bundle2 = new Bundle();
-                        bundle2.putInt("posizione",position);
 
-                        Elimina_Lista_dialog elimina = new Elimina_Lista_dialog(MainActivity.this);
-                        elimina.setArguments(bundle2);
-                        elimina.show(getSupportFragmentManager(),"DialogFragment");*/
+                    case R.id.option2:
 
                         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                         alert.setTitle("Attenzione!");
@@ -218,11 +211,5 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             lista.get(position).setDescrizione(newDescription);
         }
         listAdapter.notifyItemChanged(position);
-    }
-
-    @Override
-    public void OnReceiveDataList(int position) {
-        lista.remove(lista.get(position));
-        listAdapter.notifyItemRemoved(position);
     }
 }

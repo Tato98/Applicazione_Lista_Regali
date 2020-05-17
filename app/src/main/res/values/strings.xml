@@ -1,4 +1,6 @@
 <resources>
+    <string name="budInfo1"> Hai superato la metà del budget a disposizione </string>
+    <string name="budInfo2"> Stai per esaurire il budget a disposizione </string>
     <string name="app_name">Applicazione_Lista_Regali</string>
     <string name="name">Nome</string>
     <string name="description">Descrizione</string>
@@ -31,4 +33,6 @@
     <string name="elimina_dialog">Sei sicuro di voler eliminare questa lista?</string>
     <string name="no">NO</string>
     <string name="si">SI</string>
+    <string name="b_superato">Hai supearto il budget di:</string>
+    <string name="b_allert">Hai superato il budget.\n Puoi controllare il tuo budget nella sezione dedicata in basso.</string>
 </resources>
