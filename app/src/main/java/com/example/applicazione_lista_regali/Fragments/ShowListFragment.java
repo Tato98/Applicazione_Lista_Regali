@@ -79,6 +79,7 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
         });
 
         initRecyclerView(view);
+        onSendTotSpent.ReceiveTotSpent(contactGiftAdapter.totSpent());
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -133,13 +134,14 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
                     contacts.remove(position);
                     contactGiftAdapter.notifyItemRemoved(position);
                     Update();
+                    onSendTotSpent.ReceiveTotSpent(contactGiftAdapter.totSpent());
                     Snackbar.make(recyclerView, deleteContact.getNome(), Snackbar.LENGTH_LONG).setAction("Indietro", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             contacts.add(position, deleteContact);
                             contactGiftAdapter.notifyItemInserted(position);
                             Update();
-
+                            onSendTotSpent.ReceiveTotSpent(contactGiftAdapter.totSpent());
                         }
                     }).show();
                     break;

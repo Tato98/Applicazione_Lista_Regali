@@ -1,5 +1,6 @@
 package com.example.applicazione_lista_regali;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -162,12 +164,30 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                         modifyDialog.show(getSupportFragmentManager(),"ModifyDialog");
                         return true;
                     case R.id.option2:
-                        Bundle bundle2 = new Bundle();
+                        /*Bundle bundle2 = new Bundle();
                         bundle2.putInt("posizione",position);
 
                         Elimina_Lista_dialog elimina = new Elimina_Lista_dialog(MainActivity.this);
                         elimina.setArguments(bundle2);
-                        elimina.show(getSupportFragmentManager(),"DialogFragment");
+                        elimina.show(getSupportFragmentManager(),"DialogFragment");*/
+
+                        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                        alert.setTitle("Attenzione!");
+                        alert.setMessage("Sei sicuro di voler eliminare questa lista?");
+                        alert.setPositiveButton("si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                lista.remove(lista.get(position));
+                                listAdapter.notifyItemRemoved(position);
+                            }
+                        });
+                        alert.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        alert.create().show();
                         return true;
                 }
                 return false;
