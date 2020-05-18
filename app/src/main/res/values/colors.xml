@@ -6,6 +6,7 @@
     <color name="colorAccent">#FF5722</color>
     <color name="bottom_nav_color">#FFFFFF</color>
     <color name="remove_color">#E41212</color>
+    <color name="red">#E40000</color>
     <color name="edit_color">#FFC107</color>
-    <color name="color1">#BC4722</color>
+    <color name="color1">#8E2A0B</color>
 </resources>

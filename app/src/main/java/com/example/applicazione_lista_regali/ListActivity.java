@@ -88,7 +88,7 @@ public class ListActivity extends AppCompatActivity implements ShowListFragment.
         } else {
             String tot = decimalFormat.format(getSpentBudget() - getBudget()) + " €";
             b_rimasto.setText(tot);
-            b_rimasto.setTextColor(ContextCompat.getColor(ListActivity.this, R.color.remove_color));
+            b_rimasto.setTextColor(ContextCompat.getColor(ListActivity.this, R.color.red));
         }
         showAlertDialog();
     }
@@ -114,6 +114,7 @@ public class ListActivity extends AppCompatActivity implements ShowListFragment.
             flag1 = true;
             flag2 = false;
             frase.setText(R.string.budget_corrente);
+            b_rimasto.setTextColor(ContextCompat.getColor(ListActivity.this, R.color.edit_color));
 
         } else if(getSpentBudget() > getBudget()) {
             alert.setMessage(R.string.b_allert);
