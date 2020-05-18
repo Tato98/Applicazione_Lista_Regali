@@ -54,6 +54,7 @@
         android:layout_below="@id/gift_input_price_layout"
         android:text="@string/cancella"
         android:background="@drawable/square_button_shape"
+        android:textColor="@android:color/white"
         android:layout_marginTop="10dp">
     </Button>
 
@@ -64,6 +65,7 @@
         android:layout_below="@id/gift_input_price_layout"
         android:text="@string/ok"
         android:background="@drawable/square_button_shape"
+        android:textColor="@android:color/white"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp">
     </Button>

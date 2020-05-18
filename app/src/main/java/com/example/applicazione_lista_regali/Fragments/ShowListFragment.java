@@ -27,7 +27,6 @@ import com.example.applicazione_lista_regali.Utilities.ContactGiftAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -80,6 +79,7 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
 
         initRecyclerView(view);
         onSendTotSpent.ReceiveTotSpent(contactGiftAdapter.totSpent());
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -141,7 +141,6 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
                             contactGiftAdapter.notifyItemInserted(position);
                             Update();
                             onSendTotSpent.ReceiveTotSpent(contactGiftAdapter.totSpent());
-
                         }
                     }).show();
                     break;

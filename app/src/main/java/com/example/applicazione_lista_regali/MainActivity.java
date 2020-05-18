@@ -116,7 +116,14 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 if(resultCode == RESULT_OK) {
                     int posizione = intent.getIntExtra("posizione", 0);
                     ArrayList<Contatti> contattiAggiornati = intent.getParcelableArrayListExtra("contatti_aggiornati");
-                    lista.get(posizione).setContatti(contattiAggiornati);
+                    String budgetAggiornato = intent.getStringExtra("update_budget");
+                    if(contattiAggiornati != null) {
+                        lista.get(posizione).setContatti(contattiAggiornati);
+                    }
+                    if(budgetAggiornato != null) {
+                        lista.get(posizione).setBudget(budgetAggiornato);
+                        listAdapter.notifyDataSetChanged();
+                    }
                 }
                 break;
             }

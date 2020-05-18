@@ -18,7 +18,7 @@
         android:src="@drawable/ic_group_add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/add_person"    >
+        android:id="@+id/add_person">
     </ImageButton>
 
 </RelativeLayout>

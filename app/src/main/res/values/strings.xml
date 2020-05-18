@@ -1,6 +1,6 @@
 <resources>
-    <string name="budInfo1"> Hai superato la metà del budget a disposizione </string>
-    <string name="budInfo2"> Stai per esaurire il budget a disposizione </string>
+    <string name="budInfo1">Hai superato la metà del budget a disposizione</string>
+    <string name="budInfo2">Stai per esaurire il budget a disposizione</string>
     <string name="app_name">Applicazione_Lista_Regali</string>
     <string name="name">Nome</string>
     <string name="description">Descrizione</string>
@@ -26,7 +26,7 @@
     <string name="dialog_text">Aggiungi regalo</string>
     <string name="prezzo">Prezzo</string>
     <string name="ok">Ok</string>
-    <string name="modifica_budget">modifica Budget</string>
+    <string name="modifica_budget">Modifica Budget</string>
     <string name="modifica">Modifica</string>
     <string name="totale_regali">Totale regali:\t</string>
     <string name="totale_prezzo">Totale prezzo:\t</string>
@@ -34,5 +34,6 @@
     <string name="no">NO</string>
     <string name="si">SI</string>
     <string name="b_superato">Hai supearto il budget di:</string>
-    <string name="b_allert">Hai superato il budget.\n Puoi controllare il tuo budget nella sezione dedicata in basso.</string>
+    <string name="b_allert">Hai superato il budget.\nPuoi controllare il tuo budget nella sezione dedicata in basso.</string>
+    <string name="budget_corrente">Budget corrente:</string>
 </resources>
