@@ -1,12 +1,12 @@
 package com.example.applicazione_lista_regali.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,19 +49,18 @@ public class Modifica_budget_frag extends DialogFragment {
         modifica_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = getActivity().getIntent();
-                intent.putExtra("budget", Objects.requireNonNull(edit_budget.getText().toString()));
-
-                getDialog().dismiss();
-                Toast.makeText(getContext(), " BUDGET MODIFICATO ", Toast.LENGTH_LONG).show();*/
 
                 double value;
                 decimalFormat = new DecimalFormat("0.00");
                 budget = edit_budget.getText().toString();
-                value = Double.parseDouble(budget);
 
-                onSendBudget.OnReceiveBudget(decimalFormat.format(value));
-                getDialog().dismiss();
+                if(!budget.isEmpty()) {
+                    value = Double.parseDouble(budget);
+                    onSendBudget.OnReceiveBudget(decimalFormat.format(value));
+                    getDialog().dismiss();
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.inforequired_4), Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;

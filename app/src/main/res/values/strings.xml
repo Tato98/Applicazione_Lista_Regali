@@ -9,6 +9,7 @@
     <string name="inforequired">Il nome assegnato alla lista è già esistente</string>
     <string name="inforequired_2">Inserisci il nome della lista</string>
     <string name="inforequired_3">Riempire tutti i campi</string>
+    <string name="inforequired_4">Inserisci un budget</string>
     <string name="cancella">Cancella</string>
     <string name="lista">Lista</string>
     <string name="budgetCap">BUDGET</string>
