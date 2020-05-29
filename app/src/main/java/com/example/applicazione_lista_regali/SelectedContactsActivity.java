@@ -1,14 +1,20 @@
 package com.example.applicazione_lista_regali;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +26,12 @@ import com.example.applicazione_lista_regali.Utilities.ContactsAdapter;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static android.Manifest.permission.READ_CONTACTS;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 public class SelectedContactsActivity extends AppCompatActivity {
+
+    private static final int ALL_PERMISSION_RESULT = 107;
 
     private Contatti contatti;
     private ArrayList<Contatti> listaContatti;
@@ -32,8 +43,12 @@ public class SelectedContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_contacts_activity);
 
-        getAllContacts();
-        initRecyclerView();
+        if(checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(SelectedContactsActivity.this, new String[]{READ_CONTACTS}, ALL_PERMISSION_RESULT);
+        } else {
+            getAllContacts();
+            initRecyclerView();
+        }
 
         getSupportActionBar().setTitle(R.string.phonebook);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -77,7 +92,6 @@ public class SelectedContactsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
     // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,5 +110,28 @@ public class SelectedContactsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == ALL_PERMISSION_RESULT) {
+            if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                getAllContacts();
+                initRecyclerView();
+            } else {
+                AlertDialog.Builder alert = new AlertDialog.Builder(SelectedContactsActivity.this);
+                alert.setTitle("Attenzione!");
+                alert.setMessage("Per poter usufruire a pieno delle funzionalità di quest'app assicurati che i permessi richiesti siano garantiti.");
+                alert.setNeutralButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                alert.create().show();
+            }
+        }
     }
 }
