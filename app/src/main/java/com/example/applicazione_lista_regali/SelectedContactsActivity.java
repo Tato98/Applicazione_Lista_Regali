@@ -1,6 +1,5 @@
 package com.example.applicazione_lista_regali;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,6 +27,7 @@ import java.util.Objects;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
 public class SelectedContactsActivity extends AppCompatActivity {
 
@@ -43,7 +43,7 @@ public class SelectedContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_contacts_activity);
 
-        if(checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_DENIED) {
+        if(checkSelfPermission(READ_CONTACTS) == PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(SelectedContactsActivity.this, new String[]{READ_CONTACTS}, ALL_PERMISSION_RESULT);
         } else {
             getAllContacts();

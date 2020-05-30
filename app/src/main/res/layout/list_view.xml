@@ -22,7 +22,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_image_gift">
+                android:background="@drawable/ic_image_gift_black">
             </ImageView>
 
             <TextView

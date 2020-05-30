@@ -71,7 +71,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             holder.Descrizione.setText(lista.get(position).getDescrizione());
             String budget = lista.get(position).getBudget() + " €";
             holder.Budget.setText(budget);
-            holder.Immagine.setImageResource(R.drawable.ic_image_gift);
+            holder.Immagine.setImageResource(R.drawable.ic_image_gift_black);
         }
         catch(NullPointerException e) {
             e.printStackTrace();
