@@ -28,26 +28,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+// Activity che gestisce la creazione di una nuova lista regali permettendo l'aggiunta del nome, della
+// descrizione, del budget e della lista di contatti scelti dalla rubrica del disposotivo.
 public class ListCreationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int CONTACT_PICK = 102;
 
-    private TextInputEditText textName, textDescription, textBudget;
-    private Button createButton, cancelButton;
-    private ImageButton addContactsButton;
-    private RecyclerView recyclerView;
-    private CheckedContactsAdapter checkedContactsAdapter;
-    private String name, description, budget;
-    private ListaRegali listaRegali;
-    private ArrayList<String> contactNameList;
-    private DecimalFormat decimalFormat;
-    private ArrayList<Contatti> checkedContact = new ArrayList<>();
+    private TextInputEditText textName, textDescription, textBudget;    //TextView del nome, della descrizione e del budget della lista
+    private Button createButton, cancelButton;                          //bottoni per la creazione e l'anullamento della creazione della lista
+    private ImageButton addContactsButton;                              //bottone per l'aggiunta dei contatti
+    private RecyclerView recyclerView;                                  //recyclerView per la lista di contatti aggiunti
+    private CheckedContactsAdapter checkedContactsAdapter;              //adapter per la gestione della lista dei contatti
+    private ArrayList<String> contactNameList;                          //lista contenente i nomi dei contatti già scelti
+    private ArrayList<Contatti> checkedContact = new ArrayList<>();     //lista dei contatti scelti dalla rubrica
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_creation);
 
+        //________________________ Inizializzazione delle variabili _______________________________
         textName = findViewById(R.id.text_name);
         textDescription = findViewById(R.id.text_description);
         textBudget = findViewById(R.id.text_budget);
@@ -59,20 +59,28 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         createButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         addContactsButton.setOnClickListener(this);
+        //_________________________________________________________________________________________
 
+        //__________________ Inizializzazione del titolo e del back button arrow __________________
         getSupportActionBar().setTitle(R.string.textCreate);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //_________________________________________________________________________________________
     }
 
+    //Override del metodo che gestisce il click dei bottoni presenti nell'Activity
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
+            //Caso in cui si preme il bottone per l'aggiunta dei regali
             case R.id.addContacts: {
+                //Si crea un intent che porta all'activity che permette la scelta dei contatti
                 Intent intent = new Intent(ListCreationActivity.this, SelectedContactsActivity.class);
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
 
+                //Inizializzazione della lista dei nomi dei contatti che servirà  a precludere
+                // la scelta di contatti già selezionati.
                 contactNameList = new ArrayList<>();
                 for (Contatti cnt: checkedContact) {
                     contactNameList.add(cnt.getNome());
@@ -81,11 +89,13 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
                 startActivityForResult(intent, CONTACT_PICK);
                 break;
             }
+            //Caso in cui si preme il bottone per la creazione della lista
             case R.id.btn_create: {
                 Intent intent = new Intent();
                 ArrayList<String> nameList = getIntent().getStringArrayListExtra("nomi");
 
                 //CONTROLLO SULLA DESCRIZIONE DELLA LISTA
+                String description;
                 if(textDescription.getText().toString().isEmpty()) {
                     description = "Nessuna Descrizione";
                 } else {
@@ -94,8 +104,8 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
                 //CONTROLLO SUL BUDGET DELLA LISTA
                 double value;
-                decimalFormat = new DecimalFormat("0.00");
-                budget = textBudget.getText().toString();
+                DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                String budget = textBudget.getText().toString();
                 if(!budget.isEmpty()) {
                     value = Double.parseDouble(budget);
                 } else {
@@ -104,11 +114,11 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
                 //CONTROLLO SUL NOME DELLA LISTA
                 if(!textName.getText().toString().isEmpty()) {
-                    name = textName.getText().toString();
+                    String name = textName.getText().toString();
 
                     //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
                     if(!nameList.contains(name)) {
-                        listaRegali = new ListaRegali(name, description, checkedContact, decimalFormat.format(value));
+                        ListaRegali listaRegali = new ListaRegali(name, description, checkedContact, decimalFormat.format(value));
                         intent.putExtra("lista_regali", listaRegali);
                         setResult(RESULT_OK, intent);
                         finish();
@@ -124,10 +134,12 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    //Override del metodo che permette di gestire i risultati di determinati eventi partiti da questa activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
+        //Gestisce i contatti selezionati visualizzandoli nella pagina
         if(requestCode == CONTACT_PICK) {
             if(resultCode == RESULT_OK) {
                 ArrayList<Contatti> resultContact = intent.getParcelableArrayListExtra("contatti_scelti");
@@ -137,6 +149,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    //Override del metodo che gestisce il click del back button arrow
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -146,6 +159,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         return super.onOptionsItemSelected(item);
     }
 
+    //Metodo che effettua l'inizializzazione della recycler view
     public void initRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.contactsList);

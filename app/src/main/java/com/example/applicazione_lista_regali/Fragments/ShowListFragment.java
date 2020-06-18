@@ -104,7 +104,7 @@ public class ShowListFragment extends Fragment implements ContactGiftAdapter.Not
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        //In base al valore di requestCode vengon effettuate determinate operazioni
+        //In base al valore di requestCode vengono effettuate determinate operazioni
         switch(requestCode) {
             //In questo caso si aggiunge il contatto scelto e inviato dalla "SelectedContactActivity" alla lista
             case PICK_CONTACT: {

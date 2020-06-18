@@ -1,5 +1,6 @@
 package com.example.applicazione_lista_regali.Utilities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,15 +9,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.applicazione_lista_regali.Fragments.ModifyGiftDialog;
+import com.example.applicazione_lista_regali.MainActivity;
 import com.example.applicazione_lista_regali.Models.Regalo;
 import com.example.applicazione_lista_regali.R;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
 //classe che rappresenta l'adapter della listadi regali di un determinato contatto
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> implements ModifyGiftDialog.OnSendData {
@@ -52,9 +56,22 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
             switch(v.getId()) {
                 //Caso rimozione regalo
                 case R.id.delete: {
-                    regali.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-                    onUpdate.Update();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(Objects.requireNonNull(fragment.getContext()));
+                    alert.setTitle("Attenzione!");
+                    alert.setMessage("Sei sicuro di voler eliminare questo regalo?");
+                    alert.setPositiveButton("si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            regali.remove(getAdapterPosition());
+                            notifyItemRemoved(getAdapterPosition());
+                            onUpdate.Update();
+                        }
+                    });
+                    alert.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {}
+                    });
+                    alert.create().show();
                     break;
                 }
                 //Caso modifica regalo

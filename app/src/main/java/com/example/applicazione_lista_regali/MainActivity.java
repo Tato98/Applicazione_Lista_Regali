@@ -28,18 +28,19 @@ import com.tooltip.Tooltip;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+//Activity principale dove è possibile visualizzare o far partire la creazione di una lista regali, modificare
+// le liste già esistenti o eliminarle.
 public class MainActivity extends AppCompatActivity implements ListAdapter.OnListListener, ModifyDialog.OnSendData {
 
     public static final int CREATE_REQUEST = 101;
     public static final int OPEN_REQUEST = 102;
 
-    private Button addList;
-    private RecyclerView recyclerView;
-    private ListAdapter listAdapter;
-    private ListaRegali listaRegali;
-    private ArrayList<ListaRegali> lista;
-    private ArrayList<String> nomiListe;
-    private Tooltip hintListCreation;
+    private Button addList;                 //bottone che permette di aggiu♂0gere una nuova lista regali
+    private RecyclerView recyclerView;      //recycler view della lista di 'ListaRegali'
+    private ListAdapter listAdapter;        //adapter che gestisce la lista
+    private ArrayList<ListaRegali> lista;   //lista di 'ListaRegali'
+    private ArrayList<String> nomiListe;    //lista dei nomi delle liste regali
+    private Tooltip hintListCreation;       //tooltip del bottone per l'aggiunta di una lista
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +49,31 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
 
         addList = findViewById(R.id.addList);
 
+        //Le seguenti righe di codice permettono di caricare direttamente dalle shared preferences
+        // le liste regali che si sono salvate durante la fase di chiusura dell'app.
+        //______________________________________________________________________________________________________________
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("task list", null);
         Type type = new TypeToken<ArrayList<ListaRegali>>() {}.getType();
         lista = gson.fromJson(json, type);
+        //______________________________________________________________________________________________________________
 
+        //Se al momento del caricamento la lista è vuota, viene correttamente inizializzata
         if(lista == null) {
             lista = new ArrayList<>();
         }
 
+        //Visualizzazione del tooltip
         tooltipBuild();
         if(lista.isEmpty()) {
             hintListCreation.show();
         }
 
+        //visualizzazione della lista
         initRecyclerView();
 
+        //Gestione evento click del bottone che permette di creare una nuova lista
         addList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,30 +88,39 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         });
     }
 
+    //Ovveride del metodo che esegue le ultime righe di codice prima che l'app si fermi
     @Override
     public void onStop() {
         super.onStop();
+
+        //Le seguenti righe di codice permettono di salvare in formato json nelle shared preferences
+        // la lista di 'ListaRegali' per poi riutilizzarle al momento di riapertura dell'app.
+        //_________________________________________________________________________________________________________
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(lista);
         editor.putString("task list", json);
         editor.apply();
+        //_________________________________________________________________________________________________________
     }
 
+    //Ovveride del metodo che gestisce i risultati delle attività partite da questa activity.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
         switch(requestCode) {
+            //Caso in cui arrivano i risultati per la creazione della lista
             case CREATE_REQUEST: {
 
                 if(resultCode == RESULT_OK) {
-                    listaRegali = intent.getParcelableExtra("lista_regali");
+                    ListaRegali listaRegali = intent.getParcelableExtra("lista_regali");
                     lista.add(listaRegali);
 
                     listAdapter.notifyDataSetChanged();
 
+                    //Visualizzazione del tooltip
                     if(lista.isEmpty())
                         hintListCreation.show();
                     else
@@ -111,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 break;
             }
 
+            //Caso in cui arrivano i dati della lista regali aggiornati
             case OPEN_REQUEST: {
 
                 if(resultCode == RESULT_OK) {
@@ -130,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         }
     }
 
+    //Inizializzazione della recycler view
     private void initRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.list);
@@ -138,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         recyclerView.setAdapter(listAdapter);
     }
 
+    //Override del metodo dell'interfaccia ListAdapter.OnListListener che gestisce il click di uno degli elementi della lista
     @Override
     public void OnListClick(int position) {
         Intent intent = new Intent(this, ListActivity.class);
@@ -146,8 +167,10 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         startActivityForResult(intent, OPEN_REQUEST);
     }
 
+    //Override del metodo dell'interfaccia ListAdapter.OnListListener che gestisce il long click di uno degli elementi della lista
     @Override
     public void OnListLongClick(final int position, View view) {
+        //Viene visualizzato un menu che permette di modificare o eliminare la lista selezionata
         PopupMenu popup = new PopupMenu(this, view);
         popup.getMenuInflater().inflate(R.menu.list_option_menu, popup.getMenu());
         popup.setGravity(Gravity.END);
@@ -156,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    //Caso in cui si vuole modificare la lista
                     case R.id.option1:
                         Bundle bundle = new Bundle();
                         nomiListe = new ArrayList<>();
@@ -169,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                         modifyDialog.show(getSupportFragmentManager(),"ModifyDialog");
                         return true;
 
+                    //Caso in cui si vuole eliminare la lista
                     case R.id.option2:
 
                         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
@@ -195,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
         });
     }
 
+    //Metodo che permette di costruire il tooltip
     public void tooltipBuild() {
         hintListCreation = new Tooltip.Builder(addList)
                 .setText(R.string.hint_list_creation)
@@ -209,6 +235,8 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 .build();
     }
 
+    //Override del metodo dell'interfaccia ModifyDialog.OnSendData che permette di ricevere i nuovi valori
+    // di nome e descrizione e impostarli alla lista regali.
     @Override
     public void OnReceiveData(String newName, String newDescription, int position) {
         if(!newName.isEmpty()) {
