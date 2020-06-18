@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.DecimalFormat;
 
+//La seguente classe permette di modificare il nome e il prezzo di uno specifico regalo
 public class ModifyGiftDialog extends DialogFragment {
 
     private static final String TAG = "ModifyGiftDialog";
@@ -39,6 +40,7 @@ public class ModifyGiftDialog extends DialogFragment {
         cancellaButton = view.findViewById(R.id.cancel);
         okButton = view.findViewById(R.id.ok);
 
+        //Anulla l'operazione chiudendo il Dialog
         cancellaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,19 +48,25 @@ public class ModifyGiftDialog extends DialogFragment {
             }
         });
 
+        //Raccoglie i valori inseriti nei campi richiesti per poi inviare i dati al "ShowListFragment"
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //Si acquisisce dal bundle il valore della posizione e del prezzo corrente
                 final int position = getArguments().getInt("posizione");
                 String currentPrice = getArguments().getString("current_price");
 
                 double value;
                 decimalFormat = new DecimalFormat("0.00");
                 price = prezzo.getText().toString();
+
+                //Se viene inserito un nuovo prezzo allora salviamo tutto nella variabile value
                 if(!price.isEmpty()) {
                     value = Double.parseDouble(price);
-                } else {
+                }
+                //Altrimenti value viene inizializzata con il prezzo vecchio
+                else {
                     value = Double.parseDouble(currentPrice);
                 }
 
@@ -70,6 +78,7 @@ public class ModifyGiftDialog extends DialogFragment {
         return view;
     }
 
+    //Interfaccia che permette di inviare i dati appena modificati
     public interface OnSendData {
         void OnReceiveData(String newName, String newPrice, int position);
     }

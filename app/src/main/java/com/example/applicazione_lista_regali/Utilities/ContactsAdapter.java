@@ -16,6 +16,7 @@ import com.example.applicazione_lista_regali.R;
 
 import java.util.ArrayList;
 
+//Classe che rappresenta l'adapter relativo alla lista di contatti visualizzata nella SelectedContactActivity
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsHolder> {
 
     private ArrayList<Contatti> contatti;
@@ -41,6 +42,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             this.onContactListener = onContactListener;
         }
 
+        //Permette di richiamare il metodo dell'interfaccia della classe che gestisce la scelta del contatto
         @Override
         public void onClick(View v) {
             onContactListener.OnContactClick(v, getAdapterPosition());
@@ -63,12 +65,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         try {
             holder.nome.setText(contatti.get(position).getNome());
             holder.numero.setText(contatti.get(position).getNumero());
+
+            //Gestisce l'aggiunta o la rimozione del contatto selezionato nella checkedContact
             holder.setOnContactListener(new OnContactListener() {
                 @Override
                 public void OnContactClick(View view, int position) {
+                    //Se la checkBox è selezionata si aggiunge il contatto alla lista che verrà passata alla ListCreationActivity
                     if(holder.checkBox.isChecked()) {
                         checkedContact.add(contatti.get(position));
                     }
+                    //Altrimenti lo rimuove
                     else if(!holder.checkBox.isChecked()) {
                         checkedContact.remove(contatti.get(position));
                     }
@@ -84,6 +90,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         }
     }
 
+    //Ritorna il numero di elementi della lista
     @Override
     public int getItemCount() {
         return contatti.size();
@@ -93,6 +100,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         void OnContactClick(View view, int position);
     }
 
+    //Metodo Get della proprietà contatti
     public ArrayList<Contatti> getContatti() {
         return contatti;
     }

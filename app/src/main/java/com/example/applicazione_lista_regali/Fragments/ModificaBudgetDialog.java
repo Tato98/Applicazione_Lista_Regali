@@ -16,7 +16,8 @@ import com.example.applicazione_lista_regali.R;
 
 import java.text.DecimalFormat;
 
-public class Modifica_budget_frag extends DialogFragment {
+//Classe che permette di creare e gestire la modifica del budget di una lista
+public class ModificaBudgetDialog extends DialogFragment {
 
     private static final String TAG = " MODIFICA BUDGET ";
 
@@ -26,7 +27,7 @@ public class Modifica_budget_frag extends DialogFragment {
     private DecimalFormat decimalFormat;
     private OnSendBudget onSendBudget;
 
-    public Modifica_budget_frag(OnSendBudget onSendBudget) {
+    public ModificaBudgetDialog(OnSendBudget onSendBudget) {
         this.onSendBudget=onSendBudget;
     }
 
@@ -39,6 +40,7 @@ public class Modifica_budget_frag extends DialogFragment {
         modifica_btn = view.findViewById(R.id.modifica_btn);
         edit_budget = view.findViewById(R.id.edit_budget);
 
+        //Anulla semplicemente l'operazione di modifica del budget chiudendo il Dialog
         canc_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -54,11 +56,15 @@ public class Modifica_budget_frag extends DialogFragment {
                 decimalFormat = new DecimalFormat("0.00");
                 budget = edit_budget.getText().toString();
 
+                //Se il budget inserito non è vuoto allora si utilizza l'interfaccia "OnSendBudget"
+                //per inviare il budget nel formato deciso in "decimalFormat" alla "ListActivity"
                 if(!budget.isEmpty()) {
                     value = Double.parseDouble(budget);
                     onSendBudget.OnReceiveBudget(decimalFormat.format(value));
                     getDialog().dismiss();
-                } else {
+                }
+                //Altrimenti genera un Toast
+                else {
                     Toast.makeText(getContext(), getString(R.string.inforequired_4), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -66,6 +72,7 @@ public class Modifica_budget_frag extends DialogFragment {
         return view;
     }
 
+    //Interfaccia che permette di inviare alla "ListActivity" il nuovo budget
     public interface OnSendBudget {
         void OnReceiveBudget(String newBudget);
     }

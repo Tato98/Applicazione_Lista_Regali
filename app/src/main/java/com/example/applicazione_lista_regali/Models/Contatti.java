@@ -5,13 +5,14 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+//Modello rappresentante i Contatti
 public class Contatti implements Parcelable {
 
-    private String nome;
-    private String numero;
-    private ArrayList<Regalo> regali;
-    private boolean isEnable;
-    private boolean expanded;
+    private String nome;                //nome contatto
+    private String numero;              //descrizione contatto
+    private ArrayList<Regalo> regali;   //lista dei regali assegnati al contatto
+    private boolean isEnable;           //variabile booleana che permette al contatto di essere abilitato o meno (usata per la selezione dei conatti)
+    private boolean expanded;           //variabile booleana che gestisce l'espandibilità e la visibilità della lista regali del contatto
 
     public Contatti(String nome, String numero, ArrayList<Regalo> regali, boolean isEnable) {
         this.nome = nome;
@@ -21,6 +22,7 @@ public class Contatti implements Parcelable {
         this.expanded = false;
     }
 
+    //Costruttore Parcelable
     protected Contatti(Parcel in) {
         nome = in.readString();
         numero = in.readString();
@@ -40,6 +42,7 @@ public class Contatti implements Parcelable {
         }
     };
 
+    //________________________________ Metodi Get e Set ___________________________________________
     public String getNome() {
         return nome;
     }
@@ -79,7 +82,10 @@ public class Contatti implements Parcelable {
     public void setExpanded(boolean expanded) {
         this.expanded = expanded;
     }
+    //_____________________________________________________________________________________________
 
+
+    //___________________________ Metodi della classe Parcelable___________________________________
     @Override
     public int describeContents() {
         return 0;
@@ -92,4 +98,5 @@ public class Contatti implements Parcelable {
         dest.writeTypedList(regali);
         dest.writeByte((byte) (isEnable ? 1 : 0));
     }
+    //_____________________________________________________________________________________________
 }

@@ -18,6 +18,7 @@ import com.example.applicazione_lista_regali.R;
 
 import java.util.ArrayList;
 
+//Classe che rappresenta l'adapter della lista di contatti visualizzata nel ShowListFragment
 public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.ContactGiftHolder> implements GiftAdapter.OnUpdate {
 
     private ArrayList<Contatti> contatti;
@@ -72,6 +73,7 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
         holder.nome.setText(contatti.get(position).getNome());
         holder.numero.setText(contatti.get(position).getNumero());
 
+        //Inizializza per ogni contatto un recycler view relativo alla lista regali
         subRecyclerView = holder.itemView.findViewById(R.id.gift_list);
         subRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         giftAdapter = new GiftAdapter(contatti.get(position).getRegali(), fragment, this);
@@ -85,17 +87,22 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
         holder.expandableList.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
+    //Restituisce il numero di elementi della lista
     @Override
     public int getItemCount() {
         return contatti.size();
     }
 
+    //Override del metodo dell'interfaccia OnUpdate di GiftAdapter.
+    //Serve a lanciare il metodo dell'interfaccia di questa classe al fine di aggiornare le modifiche
+    //apportate alla lista regali
     @Override
     public void Update() {
         notifyDataSetChanged();
         notify.notifyUpdate();
     }
 
+    //Metodo che calcola il totale speso in base ai prezzi dei regali per ogni contatto
     public double totSpent() {
         double totSpent = 0;
         for (Contatti cnt: contatti) {
@@ -106,6 +113,7 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
         return totSpent;
     }
 
+    //Interfaccia che permette di notificare l'update della lista regali
     public interface Notify {
         void notifyUpdate();
     }

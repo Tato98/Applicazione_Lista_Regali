@@ -18,6 +18,7 @@ import com.example.applicazione_lista_regali.R;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+//classe che rappresenta l'adapter della listadi regali di un determinato contatto
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> implements ModifyGiftDialog.OnSendData {
 
     private static final int DIALOG_FRAGMENT = 1;
@@ -45,15 +46,18 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
             edit.setOnClickListener(this);
         }
 
+        //Gestione dei bottoni che cancellano e modificano un regalo della lista
         @Override
         public void onClick(View v) {
             switch(v.getId()) {
+                //Caso rimozione regalo
                 case R.id.delete: {
                     regali.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
                     onUpdate.Update();
                     break;
                 }
+                //Caso modifica regalo
                 case R.id.edit: {
                     Bundle bundle = new Bundle();
                     bundle.putInt("posizione", getAdapterPosition());
@@ -88,11 +92,13 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
         holder.prezzoRegalo.setText(price);
     }
 
+    //Restituisce il numero di elementi della lista
     @Override
     public int getItemCount() {
         return regali.size();
     }
 
+    //Restituisce il prezzo totale dei regali del contatto selezionato
     public String getTotPrice() {
         decimalFormat = new DecimalFormat("0.00");
         for (Regalo r: regali) {
@@ -101,6 +107,8 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
         return decimalFormat.format(totPrice);
     }
 
+    //Override del metodo dell'interfaccia della classe ModifyGiftDialog che permette di apportare
+    //tutte le modifiche effettuate sul regalo selezionato
     @Override
     public void OnReceiveData(String newName, String newPrice, int position) {
         if(!newName.isEmpty()) {
@@ -110,9 +118,12 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
             regali.get(position).setPrezzo(newPrice);
         }
         notifyItemChanged(position);
+
+        //Si notifica l'aggiornamento relativo alle modifiche effettuate al regalo
         onUpdate.Update();
     }
 
+    //Interfaccia che serve a notificare le modifiche apportate al regalo
     public interface OnUpdate {
         void Update();
     }

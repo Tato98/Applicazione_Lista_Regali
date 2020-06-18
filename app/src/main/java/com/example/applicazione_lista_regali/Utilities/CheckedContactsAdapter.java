@@ -14,9 +14,10 @@ import com.example.applicazione_lista_regali.R;
 
 import java.util.ArrayList;
 
+//La seguente classe rappresenta l'adapter relativo alla lista di contatti scelti visualizzabile nella ListCreationActivity
 public class CheckedContactsAdapter extends RecyclerView.Adapter<CheckedContactsAdapter.CheckedContactsHolder> {
 
-    private ArrayList<Contatti> checkedContacts;
+    private ArrayList<Contatti> checkedContacts; //lista di contatti selezionati dal check box
 
     public class CheckedContactsHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -32,6 +33,7 @@ public class CheckedContactsAdapter extends RecyclerView.Adapter<CheckedContacts
             remove.setOnClickListener(this);
         }
 
+        //Bottone per rimuovere il contatto dalla lista
         @Override
         public void onClick(View v) {
             if(v.getId() == R.id.remove) {
@@ -59,6 +61,7 @@ public class CheckedContactsAdapter extends RecyclerView.Adapter<CheckedContacts
         holder.remove.setImageResource(R.drawable.ic_remove);
     }
 
+    //Restituisce il numero di elementi della lista
     @Override
     public int getItemCount() {
         return checkedContacts.size();

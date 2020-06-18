@@ -3,16 +3,18 @@ package com.example.applicazione_lista_regali.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+//Modello rappresentante il regalo
 public class  Regalo implements Parcelable {
 
-    private String nome;
-    private String prezzo;
+    private String nome;    //nome regalo
+    private String prezzo;  //prezzo regalo
 
     public Regalo(String nome, String prezzo) {
         this.nome = nome;
         this.prezzo = prezzo;
     }
 
+    //Costruttore Parcelable
     protected Regalo(Parcel in) {
         nome = in.readString();
         prezzo = in.readString();
@@ -30,6 +32,7 @@ public class  Regalo implements Parcelable {
         }
     };
 
+    //_______________________________ Metodi Get e Set ____________________________________________
     public String getNome() {
         return nome;
     }
@@ -45,7 +48,10 @@ public class  Regalo implements Parcelable {
     public void setPrezzo(String prezzo) {
         this.prezzo = prezzo;
     }
+    //_____________________________________________________________________________________________
 
+
+    //________________________________ Metodi Parcelable __________________________________________
     @Override
     public int describeContents() {
         return 0;
@@ -56,4 +62,5 @@ public class  Regalo implements Parcelable {
         dest.writeString(nome);
         dest.writeString(prezzo);
     }
+    //_____________________________________________________________________________________________
 }

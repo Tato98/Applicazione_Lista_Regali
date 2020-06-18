@@ -20,6 +20,8 @@ import java.text.DecimalFormat;
 
 import static android.app.Activity.RESULT_OK;
 
+//La seguente classe permette di definire un DialogFragment che permette di inserire un regalo
+// nell' ArrayList<Regalo> Regali presente nel modello "Contatti".
 public class InsertGiftDialog extends DialogFragment {
 
     private static final String TAG = "InsertGiftDialog";
@@ -34,6 +36,7 @@ public class InsertGiftDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.insert_gift_dialog, container, false);
 
+        //Raccolglie la posizione inviata tramite un Boundle dal "ShowListFragment"
         final int position = getArguments().getInt("posizione");
 
         nome = view.findViewById(R.id.gift_input_name);
@@ -41,6 +44,7 @@ public class InsertGiftDialog extends DialogFragment {
         cancellaButton = view.findViewById(R.id.cancel);
         okButton = view.findViewById(R.id.ok);
 
+        //Anulla semplicemente l'operazione di inserimento del regalo chiudendo il Dialog
         cancellaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,18 +59,23 @@ public class InsertGiftDialog extends DialogFragment {
                 double value;
                 decimalFormat = new DecimalFormat("0.00");
 
+                //Controlla che i campi immessi non siano vuoti
                 if(!nome.getText().toString().isEmpty() && !prezzo.getText().toString().isEmpty()) {
                     name = nome.getText().toString();
                     price = prezzo.getText().toString();
                     value = Double.parseDouble(price);
 
+                    //Si definisce un ogetto di tipo regalo e lo si inizializza con i valori immessi nel Dialog
                     Regalo regalo = new Regalo(name, decimalFormat.format(value));
+
+                    //In seguito ritorniamo il regalo cosi creato tramite un intent
                     Intent intent = getActivity().getIntent();
                     intent.putExtra("regalo", regalo);
                     intent.putExtra("posizione", position);
                     getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
                     getDialog().dismiss();
                 }
+                //Altrimenti genera un Toast
                 else {
                     Toast.makeText(getContext(), getString(R.string.inforequired_3), Toast.LENGTH_SHORT).show();
                 }

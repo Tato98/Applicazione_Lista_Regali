@@ -3,7 +3,6 @@ package com.example.applicazione_lista_regali.Utilities;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 
+//Classe che rappresenta l'adapter relativo alla lista di 'lista regali' presente nella MainActivity
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     private ArrayList<ListaRegali> lista;
@@ -40,6 +40,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             itemView.setOnLongClickListener(this);
         }
 
+        //_______ Metodi che gestiscono il click e il long click di un elemento della lista _______
         @Override
         public void onClick(View v) {
             onListListener.OnListClick(getAdapterPosition());
@@ -50,6 +51,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             onListListener.OnListLongClick(getAdapterPosition(), v);
             return false;
         }
+        //_________________________________________________________________________________________
     }
 
     public ListAdapter(ArrayList<ListaRegali> lista, OnListListener onListListener) {
@@ -78,12 +80,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         }
     }
 
+    //Restituisce il numero di elementi della lista
     @Override
     public int getItemCount() {
         return lista.size();
     }
 
-    //Serve a determinare quale lista si è cliccato
+    //Interfaccia che serve a determinare quale lista si è cliccata
     public interface OnListListener {
         void OnListClick(int position);
         void OnListLongClick(int position, View view);

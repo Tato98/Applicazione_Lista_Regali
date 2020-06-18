@@ -15,36 +15,42 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.applicazione_lista_regali.Fragments.Modifica_budget_frag;
+import com.example.applicazione_lista_regali.Fragments.ModificaBudgetDialog;
 import com.example.applicazione_lista_regali.Fragments.ShowListFragment;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ListActivity extends AppCompatActivity implements ShowListFragment.OnSendTotSpent, Modifica_budget_frag.OnSendBudget {
+/*  Activity che gestisce la visualizzazione e la modifica del budget, della lista dei contatti
+    e della lista dei regali.
+    Frammento: ShowListFragment   */
+public class ListActivity extends AppCompatActivity implements ShowListFragment.OnSendTotSpent, ModificaBudgetDialog.OnSendBudget {
 
-    private TextView b_rimasto;
-    private double budget, spentBudget;
-    private Button btnChange;
-    boolean flag1, flag2;
-    private TextView frase;
-    private DecimalFormat decimalFormat;
-    private ArrayList<ListaRegali> lista;
-    private int posizione;
+    private TextView b_rimasto;                 //TextView che visualizza il budget rimanente
+    private double budget, spentBudget;         //valori che indicano rispettivamente il budget e il totale speso
+    private Button btnChange;                   //bottone che permette di modificare il budget
+    boolean flag1, flag2;                       //variabili booleane utilizzate nel metodo 'showAlertDialog' (il loro utilizzo è spiegato nel metodo)
+    private TextView frase;                     //TextView che visualizza la frase 'Hai ancora a disposizione:' o 'Hai superato il budget di:' al variare del totale speso
+    private DecimalFormat decimalFormat;        //variabile utilizzata per effettuare un'approssimazione a due cifre decimali del budget
+    private ArrayList<ListaRegali> lista;       //contiene la lista di 'ListaRegali'
+    private int posizione;                      //contiene la posizione della 'ListaRegali' selezionata
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_activity);
 
+        //______________________________ Inizializzazione delle variabili utilizzate _______________________________________
         flag1 = true;
         flag2 = true;
         decimalFormat = new DecimalFormat("0.00");
 
+        //La lista e la posizione sono passate direttamente dalla MainActivity
         lista = getIntent().getParcelableArrayListExtra("lista");
         posizione = getIntent().getIntExtra("posizione", 0);
 
+        //Transazione verso il frammento
         ShowListFragment showListFragment = new ShowListFragment(lista, posizione, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.show_list_fragment_container, showListFragment).commit();
 
@@ -54,10 +60,12 @@ public class ListActivity extends AppCompatActivity implements ShowListFragment.
 
         setBudget(Double.parseDouble(lista.get(posizione).getBudget()));
 
+        //Inizializzazione del bottone che permette di modificare il budget corrente
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Modifica_budget_frag modifica_budget_frag = new Modifica_budget_frag(ListActivity.this);
+                //Fa partire
+                ModificaBudgetDialog modifica_budget_frag = new ModificaBudgetDialog(ListActivity.this);
                 modifica_budget_frag.show(getSupportFragmentManager(),"MODIFICA BUDGET");
             }
         });

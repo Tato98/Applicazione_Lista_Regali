@@ -5,11 +5,12 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+//Modello rappresentante la lista regali
 public class ListaRegali implements Parcelable {
-    private String nome;
-    private String descrizione;
-    private String budget;
-    private ArrayList<Contatti> contatti;
+    private String nome;                        //nome lista
+    private String descrizione;                 //descrizione lista
+    private String budget;                      //budget lista
+    private ArrayList<Contatti> contatti;       //lista contatti
 
     public ListaRegali(String nome, String descrizione, ArrayList<Contatti> contatti, String budget) {
         this.nome = nome;
@@ -18,6 +19,7 @@ public class ListaRegali implements Parcelable {
         this.budget = budget;
     }
 
+    //Costruttore Parcelable
     protected ListaRegali(Parcel in) {
         nome = in.readString();
         descrizione = in.readString();
@@ -37,6 +39,7 @@ public class ListaRegali implements Parcelable {
         }
     };
 
+    //______________________________ Metodi Get e Set _____________________________________________
     public String getNome() {
         return nome;
     }
@@ -68,7 +71,10 @@ public class ListaRegali implements Parcelable {
     public void setBudget(String budget) {
         this.budget = budget;
     }
+//_________________________________________________________________________________________________
 
+
+    //______________________________ Metodi Parcelable ____________________________________________
     @Override
     public int describeContents() {
         return 0;
@@ -81,4 +87,5 @@ public class ListaRegali implements Parcelable {
         dest.writeString(budget);
         dest.writeTypedList(contatti);
     }
+    //_____________________________________________________________________________________________
 }
