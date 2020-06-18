@@ -10,6 +10,7 @@
     android:paddingStart="20dp"
     tools:context=".ListCreationActivity">
 
+    <!--nome della lista-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
             android:id="@+id/text_name"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!--descrizione della lista-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/description_container"
         android:layout_width="match_parent"
@@ -50,6 +52,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="5dp">
 
+        <!--bottone apertura lista contatti-->
         <ImageButton
             android:id="@+id/addContacts"
             android:layout_width="60dp"
@@ -61,6 +64,7 @@
             android:layout_alignParentEnd="true">
         </ImageButton>
 
+        <!--budget della lista-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/budeget_container"
             android:layout_width="200dp"
@@ -76,6 +80,7 @@
                 android:id="@+id/text_budget"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!--lista dei contatti scelti-->
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -92,6 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
+        <!--bottone annullamento creazione della lista-->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,6 +106,7 @@
             android:text="@string/cancella">
         </Button>
 
+        <!--bottone creazione della lista-->
         <Button
             android:id="@+id/btn_create"
             android:layout_width="wrap_content"

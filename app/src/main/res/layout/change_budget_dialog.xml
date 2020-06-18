@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
+    <!--Testo modifica budget-->
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         android:textStyle="bold">
     </TextView>
 
+    <!--budget-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/budeget_container"
         android:layout_width="match_parent"
@@ -31,6 +33,7 @@
             android:id="@+id/edit_budget"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!--bottone cancella-->
     <Button
         android:id="@+id/canc_btn"
         android:layout_width="wrap_content"
@@ -42,6 +45,7 @@
         android:layout_marginTop="10dp">
     </Button>
 
+    <!--bottone ok-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

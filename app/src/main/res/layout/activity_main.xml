@@ -8,12 +8,14 @@
     android:padding="15dp"
     tools:context=".MainActivity">
 
+    <!--lista di 'lista regali'-->
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/list">
     </androidx.recyclerview.widget.RecyclerView>
 
+    <!--bottone per la creazione di una nuova lista regali-->
     <Button
         android:layout_width="60dp"
         android:layout_height="60dp"
