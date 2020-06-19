@@ -17,7 +17,8 @@
         <activity android:name=".SelectedContactsActivity"/>
         <activity android:name=".ListCreationActivity"/>
         <activity android:name=".ListActivity"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
