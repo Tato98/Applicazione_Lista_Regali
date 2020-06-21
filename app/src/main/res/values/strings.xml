@@ -37,4 +37,8 @@
     <string name="b_superato">Hai superato il budget di :</string>
     <string name="b_allert">Hai superato il budget.\nPuoi controllare il tuo budget nella sezione dedicata in basso.</string>
     <string name="budget_corrente">Hai ancora a disposizione:</string>
+    <string name="gifty">Gifty</string>
+    <string name="euro">€</string>
+    <string name="b_esaurito">Budget esaurito:</string>
+    <string name="b_allert2">Budget esaurito.\nPuoi controllare il tuo budget nella sezione dedicata in basso.</string>
 </resources>

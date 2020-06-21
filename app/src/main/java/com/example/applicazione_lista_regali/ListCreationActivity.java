@@ -20,10 +20,6 @@ import com.example.applicazione_lista_regali.Models.Contatti;
 import com.example.applicazione_lista_regali.Models.ListaRegali;
 import com.example.applicazione_lista_regali.Utilities.CheckedContactsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

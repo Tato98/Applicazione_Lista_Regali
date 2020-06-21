@@ -107,7 +107,9 @@ public class ContactGiftAdapter extends RecyclerView.Adapter<ContactGiftAdapter.
         double totSpent = 0;
         for (Contatti cnt: contatti) {
             for (Regalo r: cnt.getRegali()) {
-                totSpent += Double.parseDouble(r.getPrezzo());
+                if(r.isComprato()) {
+                    totSpent += Double.parseDouble(r.getPrezzo());
+                }
             }
         }
         return totSpent;

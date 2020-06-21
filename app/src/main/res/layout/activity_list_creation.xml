@@ -80,6 +80,16 @@
                 android:id="@+id/text_budget"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:text="@string/euro"
+            android:textSize="25sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/budeget_container"
+            android:layout_alignBottom="@id/budeget_container">
+
+        </TextView>
+
         <!--lista dei contatti scelti-->
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -103,6 +113,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_cancel"
             android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/design_default_color_background"
             android:text="@string/cancella">
         </Button>
 
@@ -112,6 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/design_default_color_background"
             android:layout_alignParentEnd='true'
             android:text="@string/create">
         </Button>

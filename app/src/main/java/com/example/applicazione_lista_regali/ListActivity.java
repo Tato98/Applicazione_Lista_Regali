@@ -2,9 +2,13 @@ package com.example.applicazione_lista_regali;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,13 +81,30 @@ public class ListActivity extends AppCompatActivity implements ShowListFragment.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.open_webpage_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     //Override del metodo che gestisce il click della back arrow
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if(item.getItemId() == android.R.id.home) {
-            this.finish();
+        switch(item.getItemId()) {
+            //Caso in cui si preme il bottone 'search'
+            case R.id.search: {
+                //Crea un intent che permette di collegarsi al sito web specificato dall'url indicato
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.amazon.it"));
+                startActivity(browserIntent);
+                break;
+            }
+            //Caso in cui si preme il back button arrow
+            case android.R.id.home: {
+                this.finish();
+            }
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -146,13 +167,22 @@ public class ListActivity extends AppCompatActivity implements ShowListFragment.
            allora viene visualizzato un messaggio che avverte l'utente che il budget sta per
            esaurirsi. Si hanno considerazioni analoghe alle precedenti per la variabile flag2. */
 
-        else if(flag2 && (getSpentBudget() >= 0.9 * getBudget() && getSpentBudget() <= getBudget())) {
+        else if(flag2 && (getSpentBudget() >= 0.9 * getBudget() && getSpentBudget() < getBudget())) {
             Toast.makeText(ListActivity.this, getString(R.string.budInfo2), Toast.LENGTH_LONG).show();
             flag1 = true;
             flag2 = false;
             frase.setText(R.string.budget_corrente);
             b_rimasto.setTextColor(ContextCompat.getColor(ListActivity.this, R.color.edit_color));
 
+        }
+        /* Se il totale è uguale al budget allora viene visualizzato un Alert che notifica tale situazione.
+           Le variabili flag1 e flag2 sono riportate entrambe a true. */
+        else if(getSpentBudget() == getBudget()){
+            alert.setMessage(R.string.b_allert2);
+            alert.create().show();
+            flag1 = true;
+            flag2 = true;
+            frase.setText(R.string.b_esaurito);
         }
 
         /* Se invece il totale speso supera il budget allora viene visualizzato un Alert che

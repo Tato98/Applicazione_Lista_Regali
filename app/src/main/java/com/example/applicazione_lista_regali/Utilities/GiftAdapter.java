@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -37,6 +39,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
 
         TextView nomeRegalo, prezzoRegalo;
         ImageButton delete, edit;
+        ImageView shoppingCart;
 
 
         public GiftHolder(@NonNull View itemView) {
@@ -45,9 +48,11 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
             prezzoRegalo = itemView.findViewById(R.id.gift_price);
             delete = itemView.findViewById(R.id.delete);
             edit = itemView.findViewById(R.id.edit);
+            shoppingCart = itemView.findViewById(R.id.cart);
 
             delete.setOnClickListener(this);
             edit.setOnClickListener(this);
+            shoppingCart.setOnClickListener(this);
         }
 
         //Gestione dei bottoni che cancellano e modificano un regalo della lista
@@ -85,6 +90,21 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
                     modifyGiftDialog.show(fragment.getFragmentManager(), "ModifyGiftDialog");
                     break;
                 }
+                //Caso regalo acquistato
+                case R.id.cart: {
+                    if(!regali.get(getAdapterPosition()).isComprato()) {
+                        shoppingCart.setImageResource(R.drawable.ic_shopping_cart);
+                        regali.get(getAdapterPosition()).setComprato(true);
+                        Toast.makeText(fragment.getContext(), "Regalo contrassegnato come comprato", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        shoppingCart.setImageResource(R.drawable.ic_remove_shopping);
+                        regali.get(getAdapterPosition()).setComprato(false);
+                        Toast.makeText(fragment.getContext(), "Regalo contrassegnato come non comprato", Toast.LENGTH_SHORT).show();
+                    }
+                    onUpdate.Update();
+                    break;
+                }
             }
         }
     }
@@ -107,6 +127,10 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
         holder.nomeRegalo.setText(regali.get(position).getNome());
         String price = regali.get(position).getPrezzo() + " €";
         holder.prezzoRegalo.setText(price);
+        if(regali.get(position).isComprato())
+            holder.shoppingCart.setImageResource(R.drawable.ic_shopping_cart);
+        else
+            holder.shoppingCart.setImageResource(R.drawable.ic_remove_shopping);
     }
 
     //Restituisce il numero di elementi della lista

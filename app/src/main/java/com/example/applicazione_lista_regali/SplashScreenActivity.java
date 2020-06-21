@@ -7,6 +7,8 @@ import android.os.Handler;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 //Classe che gestisce la visualizzazione dello splash screen
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -27,5 +29,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         },SPLASH_TIME_OUT);
         //__________________________________________________________________________________________________________________
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.gifty);
     }
 }

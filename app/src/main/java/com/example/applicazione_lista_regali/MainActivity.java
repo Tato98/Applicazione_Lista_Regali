@@ -28,6 +28,7 @@ import com.tooltip.Tooltip;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
 //Activity principale dove è possibile visualizzare o far partire la creazione di una lista regali, modificare
 // le liste già esistenti o eliminarle.
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.OnLis
                 startActivityForResult(intent, CREATE_REQUEST);
             }
         });
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.gifty);
     }
 
     //Ovveride del metodo che esegue le ultime righe di codice prima che l'app si fermi

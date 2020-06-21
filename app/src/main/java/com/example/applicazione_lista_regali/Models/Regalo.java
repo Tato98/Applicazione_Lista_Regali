@@ -4,20 +4,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 //Modello rappresentante il regalo
-public class  Regalo implements Parcelable {
+public class  Regalo implements Parcelable{
 
-    private String nome;    //nome regalo
-    private String prezzo;  //prezzo regalo
+    private String nome;        //nome regalo
+    private String prezzo;      //prezzo regalo
+    private boolean comprato;    //mi dice se il regalo è stato acquistato o meno
 
-    public Regalo(String nome, String prezzo) {
+    public Regalo(String nome, String prezzo, boolean comprato) {
         this.nome = nome;
         this.prezzo = prezzo;
+        this.comprato = comprato;
     }
 
     //Costruttore Parcelable
     protected Regalo(Parcel in) {
         nome = in.readString();
         prezzo = in.readString();
+        comprato = in.readByte() != 0;
     }
 
     public static final Creator<Regalo> CREATOR = new Creator<Regalo>() {
@@ -48,6 +51,14 @@ public class  Regalo implements Parcelable {
     public void setPrezzo(String prezzo) {
         this.prezzo = prezzo;
     }
+
+    public boolean isComprato() {
+        return comprato;
+    }
+
+    public void setComprato(boolean comprato) {
+        this.comprato = comprato;
+    }
     //_____________________________________________________________________________________________
 
 
@@ -61,6 +72,7 @@ public class  Regalo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nome);
         dest.writeString(prezzo);
+        dest.writeByte((byte) (comprato ? 1 : 0));
     }
     //_____________________________________________________________________________________________
 }

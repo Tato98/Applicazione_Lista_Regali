@@ -9,7 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryTrasparent"
+        android:backgroundTint="#FFF4F1"
         android:theme="@style/Theme.MaterialComponents.Light">
 
         <RelativeLayout

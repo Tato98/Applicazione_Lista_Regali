@@ -66,7 +66,7 @@ public class InsertGiftDialog extends DialogFragment {
                     value = Double.parseDouble(price);
 
                     //Si definisce un ogetto di tipo regalo e lo si inizializza con i valori immessi nel Dialog
-                    Regalo regalo = new Regalo(name, decimalFormat.format(value));
+                    Regalo regalo = new Regalo(name, decimalFormat.format(value), false);
 
                     //In seguito ritorniamo il regalo cosi creato tramite un intent
                     Intent intent = getActivity().getIntent();

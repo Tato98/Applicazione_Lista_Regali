@@ -6,11 +6,24 @@
     android:background="@color/colorPrimary">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/gift"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="100dp"
         android:src="@drawable/ic_image_gift">
     </ImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gift"
+        android:text="@string/gifty"
+        android:textColor="@color/design_default_color_background"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_marginTop="70dp">
+    </TextView>
 
 </RelativeLayout>
