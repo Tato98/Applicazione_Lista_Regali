@@ -127,8 +127,13 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
         holder.nomeRegalo.setText(regali.get(position).getNome());
         String price = regali.get(position).getPrezzo() + " €";
         holder.prezzoRegalo.setText(price);
-        if(regali.get(position).isComprato())
+        if(regali.get(position).isComprato()) {
             holder.shoppingCart.setImageResource(R.drawable.ic_shopping_cart);
+            holder.nomeRegalo.setEnabled(false);
+            holder.prezzoRegalo.setEnabled(false);
+            holder.edit.setVisibility(View.INVISIBLE);
+            holder.delete.setVisibility(View.INVISIBLE);
+        }
         else
             holder.shoppingCart.setImageResource(R.drawable.ic_remove_shopping);
     }
