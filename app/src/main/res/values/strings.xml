@@ -1,7 +1,7 @@
 <resources>
     <string name="budInfo1">Hai superato la metà del budget a disposizione</string>
     <string name="budInfo2">Stai per esaurire il budget a disposizione</string>
-    <string name="app_name">Applicazione_Lista_Regali</string>
+    <string name="app_name">Gifty</string>
     <string name="name">Nome</string>
     <string name="description">Descrizione</string>
     <string name="create">Crea</string>
