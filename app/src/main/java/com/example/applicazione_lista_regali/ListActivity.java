@@ -117,7 +117,7 @@ public class ListActivity extends AppCompatActivity implements ShowListFragment.
         //Se la differenza tra il budget e il totale speso è superiore o uguale a zero allora
         // si inizializza il budget rimasto a quella differenza
         if(getBudget() - getSpentBudget() >= 0) {
-            String tot = decimalFormat.format(getBudget() - getSpentBudget()) + " €";
+            String tot = ControlFormat(decimalFormat.format(getBudget() - getSpentBudget()) + " €");
             b_rimasto.setText(tot);
             b_rimasto.setTextColor(ContextCompat.getColor(ListActivity.this, R.color.bottom_nav_color));
 
@@ -125,7 +125,7 @@ public class ListActivity extends AppCompatActivity implements ShowListFragment.
         //Altrimenti lo si inizializza alla differenza inversa al fine di indicare la quantità con
         // la quale si è superato il budget
         else {
-            String tot = decimalFormat.format(getSpentBudget() - getBudget()) + " €";
+            String tot = ControlFormat(decimalFormat.format(getSpentBudget() - getBudget()) + " €");
             b_rimasto.setText(tot);
             b_rimasto.setTextColor(ContextCompat.getColor(ListActivity.this, R.color.red));
         }
@@ -234,7 +234,17 @@ public class ListActivity extends AppCompatActivity implements ShowListFragment.
     private void Update() {
         Intent updateIntent = new Intent();
         updateIntent.putExtra("posizione", posizione);
-        updateIntent.putExtra("update_budget", decimalFormat.format(getBudget()));
+        updateIntent.putExtra("update_budget", ControlFormat(decimalFormat.format(getBudget())));
         setResult(RESULT_OK, updateIntent);
+    }
+
+    //Controlla se il formato del budget è corretto
+    public String ControlFormat(String budget) {
+        if(budget.contains(",")) {
+            return budget.replace(",", ".");
+        }
+        else {
+            return budget;
+        }
     }
 }
