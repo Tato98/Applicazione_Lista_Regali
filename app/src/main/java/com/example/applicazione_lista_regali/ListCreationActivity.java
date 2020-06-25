@@ -114,7 +114,7 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
 
                     //CONTROLLA SE IL NOME DELLA LISTA ESISTE GIÀ
                     if(!nameList.contains(name)) {
-                        ListaRegali listaRegali = new ListaRegali(name, description, checkedContact, decimalFormat.format(value));
+                        ListaRegali listaRegali = new ListaRegali(name, description, checkedContact, ControlFormat(decimalFormat.format(value)));
                         intent.putExtra("lista_regali", listaRegali);
                         setResult(RESULT_OK, intent);
                         finish();
@@ -162,5 +162,15 @@ public class ListCreationActivity extends AppCompatActivity implements View.OnCl
         recyclerView.setLayoutManager(linearLayoutManager);
         checkedContactsAdapter = new CheckedContactsAdapter(checkedContact);
         recyclerView.setAdapter(checkedContactsAdapter);
+    }
+
+    //Controlla se il formato del budget è corretto
+    public String ControlFormat(String budget) {
+        if(budget.contains(",")) {
+            return budget.replace(",", ".");
+        }
+        else {
+            return budget;
+        }
     }
 }
