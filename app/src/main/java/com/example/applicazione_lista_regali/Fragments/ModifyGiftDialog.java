@@ -70,7 +70,7 @@ public class ModifyGiftDialog extends DialogFragment {
                     value = Double.parseDouble(currentPrice);
                 }
 
-                onSendData.OnReceiveData(nome.getText().toString(), decimalFormat.format(value), position);
+                onSendData.OnReceiveData(nome.getText().toString(), ControlFormat(decimalFormat.format(value)), position);
 
                 getDialog().dismiss();
             }
@@ -81,5 +81,15 @@ public class ModifyGiftDialog extends DialogFragment {
     //Interfaccia che permette di inviare i dati appena modificati
     public interface OnSendData {
         void OnReceiveData(String newName, String newPrice, int position);
+    }
+
+    //Controlla se il formato del budget è corretto
+    public String ControlFormat(String budget) {
+        if(budget.contains(",")) {
+            return budget.replace(",", ".");
+        }
+        else {
+            return budget;
+        }
     }
 }

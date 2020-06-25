@@ -150,7 +150,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
         for (Regalo r: regali) {
             totPrice += Double.parseDouble(r.getPrezzo());
         }
-        return decimalFormat.format(totPrice);
+        return ControlFormat(decimalFormat.format(totPrice));
     }
 
     //Override del metodo dell'interfaccia della classe ModifyGiftDialog che permette di apportare
@@ -172,5 +172,15 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftHolder> im
     //Interfaccia che serve a notificare le modifiche apportate al regalo
     public interface OnUpdate {
         void Update();
+    }
+
+    //Controlla se il formato del budget è corretto
+    public String ControlFormat(String budget) {
+        if(budget.contains(",")) {
+            return budget.replace(",", ".");
+        }
+        else {
+            return budget;
+        }
     }
 }

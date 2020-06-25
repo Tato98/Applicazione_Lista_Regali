@@ -60,7 +60,7 @@ public class ModificaBudgetDialog extends DialogFragment {
                 //per inviare il budget nel formato deciso in "decimalFormat" alla "ListActivity"
                 if(!budget.isEmpty()) {
                     value = Double.parseDouble(budget);
-                    onSendBudget.OnReceiveBudget(decimalFormat.format(value));
+                    onSendBudget.OnReceiveBudget(ControlFormat(decimalFormat.format(value)));
                     getDialog().dismiss();
                 }
                 //Altrimenti genera un Toast
@@ -75,6 +75,16 @@ public class ModificaBudgetDialog extends DialogFragment {
     //Interfaccia che permette di inviare alla "ListActivity" il nuovo budget
     public interface OnSendBudget {
         void OnReceiveBudget(String newBudget);
+    }
+
+    //Controlla se il formato del budget è corretto
+    public String ControlFormat(String budget) {
+        if(budget.contains(",")) {
+            return budget.replace(",", ".");
+        }
+        else {
+            return budget;
+        }
     }
 }
 
